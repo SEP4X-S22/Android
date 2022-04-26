@@ -2,6 +2,11 @@ package com.example.apharma.repositories;
 
 import android.app.Application;
 
+import androidx.lifecycle.LiveData;
+
+import com.firebase.ui.auth.AuthUI;
+import com.google.firebase.auth.FirebaseUser;
+
 public class UserRepository {
     private final UserLiveData currentUser;
     private final Application app;
@@ -16,5 +21,14 @@ public class UserRepository {
         if (instance == null)
             instance = new UserRepository(app);
         return instance;
+    }
+
+    public LiveData<FirebaseUser> getCurrentUser() {
+        return currentUser;
+    }
+
+    public void signOut() {
+        AuthUI.getInstance()
+                .signOut(app.getApplicationContext());
     }
 }
