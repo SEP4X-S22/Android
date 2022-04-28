@@ -1,13 +1,16 @@
 package com.example.apharma.models;
 
-public class Device {
+import java.util.List;
+
+public class Room {
 
     private String name;
     private int id;
+    private List<MeasurementData> sensorData;
 
-    public Device(String name, int id){
-        this.name=name;
-        this.id=id;
+    public Room(String name, int id) {
+        this.name = name;
+        this.id = id;
     }
 
     public int getId() {
@@ -26,11 +29,20 @@ public class Device {
         this.name = name;
     }
 
+    public List<MeasurementData> getSensors() {
+        return sensorData;
+    }
+
+    public void setSensors(List<MeasurementData> sensors) {
+        this.sensorData = sensors;
+    }
+
     @Override
     public String toString() {
-        return "Device{" +
+        return "Room{" +
                 "name='" + name + '\'' +
                 ", id=" + id +
+                ", sensorData=" + sensorData +
                 '}';
     }
 }

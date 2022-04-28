@@ -4,16 +4,16 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ServiceGenerator {
-    private static MeasurementDataApi measurementDataApi;
+    private static RoomApi roomApi;
 
-    public static MeasurementDataApi getMeasurementDataApi() {
-        if (measurementDataApi == null) {
-            measurementDataApi = new Retrofit.Builder()
+    public static RoomApi getRoomApi() {
+        if (roomApi == null) {
+            roomApi = new Retrofit.Builder()
                     .baseUrl("someUrl")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build()
-                    .create(MeasurementDataApi.class);
+                    .create(RoomApi.class);
         }
-        return measurementDataApi;
+        return roomApi;
     }
 }
