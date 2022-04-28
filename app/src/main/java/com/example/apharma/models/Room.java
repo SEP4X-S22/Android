@@ -39,9 +39,10 @@ public class Room {
 
     @Override
     public String toString() {
-        return "Device{" +
+        return "Room{" +
                 "name='" + name + '\'' +
                 ", id=" + id +
+                ", sensorData=" + sensorData +
                 '}';
     }
 }
