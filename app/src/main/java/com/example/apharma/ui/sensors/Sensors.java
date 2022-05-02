@@ -1,19 +1,35 @@
-package com.example.apharma;
+package com.example.apharma.ui.sensors;
 
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.apharma.R;
+import com.example.apharma.adapters.RoomAdapter;
+import com.example.apharma.adapters.SensorAdapter;
+import com.example.apharma.models.MeasurementData;
+import com.example.apharma.models.Room;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link Sensors#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Sensors extends Fragment {
+public class Sensors extends Fragment implements SensorAdapter.OnListItemClickListener {
+
+    private RecyclerView recyclerView;
+    private SensorAdapter sensorAdapter;
+    ArrayList<MeasurementData> sensors;
+    private ArrayList<Room> rooms;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -59,6 +75,29 @@ public class Sensors extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_sensors, container, false);
+        View view = inflater.inflate(R.layout.fragment_sensors, container, false);
+        sensors = new ArrayList<>();
+        recyclerView = view.findViewById(R.id.rv);
+        ConfigureRecyclerView();
+        return view;
+    }
+
+    private void ConfigureRecyclerView() {
+
+        sensorAdapter = new SensorAdapter(sensors, this);
+        recyclerView.setAdapter(sensorAdapter);
+
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getContext(), 2);
+
+        recyclerView.setLayoutManager(gridLayoutManager);
+        recyclerView.setHasFixedSize(true);
+
+
+    }
+
+
+    @Override
+    public void onListItemClick(int clickedItemIndex) {
+
     }
 }

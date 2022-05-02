@@ -1,6 +1,8 @@
 package com.example.apharma.models;
 
-public class MeasurementData {
+import java.io.Serializable;
+
+public class MeasurementData implements Serializable     {
     private int sensorId;
     private double value;
     private double minValue;

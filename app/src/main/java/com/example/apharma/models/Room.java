@@ -1,8 +1,10 @@
 package com.example.apharma.models;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-public class Room {
+public class Room implements Serializable {
 
     private String name;
     private int id;
@@ -11,6 +13,7 @@ public class Room {
     public Room(String name, int id) {
         this.name = name;
         this.id = id;
+        sensorData = new ArrayList<>();
     }
 
     public int getId() {
@@ -35,6 +38,9 @@ public class Room {
 
     public void setSensors(List<MeasurementData> sensors) {
         this.sensorData = sensors;
+    }
+    public boolean isEmpty() {
+        return sensorData.isEmpty();
     }
 
     @Override

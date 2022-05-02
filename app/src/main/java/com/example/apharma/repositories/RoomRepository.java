@@ -1,12 +1,17 @@
 package com.example.apharma.repositories;
 
-public class RoomRepository {
-    private static RoomRepository instance;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
-    public static RoomRepository getInstance() {
-        if (instance == null) {
-            instance = new RoomRepository();
-        }
-        return instance;
-    }
+import com.example.apharma.network.RoomApi;
+import com.example.apharma.network.ServiceGenerator;
+
+import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class RoomRepository {
+
 }

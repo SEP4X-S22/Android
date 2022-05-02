@@ -2,6 +2,7 @@ package com.example.apharma;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import com.example.apharma.viewmodels.MainActivityViewModel;
@@ -49,7 +50,8 @@ public class MainActivity extends AppCompatActivity {
         viewModel.getCurrentUser().observe(this, user -> {
             if (user != null) {
                 String message = "Welcome " + user.getEmail();
-                welcomeMsg.setText(message);
+//                welcomeMsg.setText(message);
+                welcomeMsg.setVisibility(View.INVISIBLE);
             } else
                 startLoginActivity();
         });

@@ -3,6 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Lia Cicati/SEP4/Android/app/src/main/res/layout/activity_main.xml" value="0.115625" />
+        <entry key="..\:/Users/Lia Cicati/SEP4/Android/app/src/main/res/layout/activity_room_details.xml" value="0.16770833333333332" />
+        <entry key="..\:/Users/Lia Cicati/SEP4/Android/app/src/main/res/layout/fragment_home.xml" value="0.115625" />
+        <entry key="..\:/Users/Lia Cicati/SEP4/Android/app/src/main/res/layout/fragment_notifications.xml" value="0.115625" />
+        <entry key="..\:/Users/Lia Cicati/SEP4/Android/app/src/main/res/layout/fragment_selected_room.xml" value="0.1203125" />
+        <entry key="..\:/Users/Lia Cicati/SEP4/Android/app/src/main/res/layout/fragment_sensors.xml" value="0.22735507246376813" />
+        <entry key="..\:/Users/Lia Cicati/SEP4/Android/app/src/main/res/layout/room__item.xml" value="0.2" />
+        <entry key="..\:/Users/Lia Cicati/SEP4/Android/app/src/main/res/layout/sensor_item.xml" value="0.22735507246376813" />
         <entry key="..\:/Users/sarks/AndroidStudioProjects/Android/app/src/main/res/drawable/gradient.xml" value="0.137" />
         <entry key="..\:/Users/sarks/AndroidStudioProjects/Android/app/src/main/res/layout/activity_main.xml" value="0.1265625" />
         <entry key="..\:/Users/sarks/AndroidStudioProjects/Android/app/src/main/res/layout/fragment_dashboard.xml" value="0.1265625" />

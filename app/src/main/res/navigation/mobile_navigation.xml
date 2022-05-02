@@ -28,7 +28,7 @@
         tools:layout="@layout/fragment_notifications" />
     <fragment
         android:id="@+id/sensors"
-        android:name="com.example.apharma.Sensors"
+        android:name="com.example.apharma.ui.sensors.Sensors"
         android:label="fragment_sensors"
         tools:layout="@layout/fragment_sensors" />
 </navigation>
