@@ -2,6 +2,7 @@ package com.example.apharma;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.example.apharma.viewmodels.MainActivityViewModel;
@@ -20,8 +21,6 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private MainActivityViewModel viewModel;
-    private TextView welcomeMsg;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        welcomeMsg = findViewById(R.id.welcome_message);
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
@@ -48,8 +46,7 @@ public class MainActivity extends AppCompatActivity {
     private void checkIfSignedIn() {
         viewModel.getCurrentUser().observe(this, user -> {
             if (user != null) {
-                String message = "Welcome " + user.getEmail();
-                welcomeMsg.setText(message);
+                Log.v("Logging", "HELLO!!!" + viewModel.getCurrentUser().getValue().getEmail());
             } else
                 startLoginActivity();
         });

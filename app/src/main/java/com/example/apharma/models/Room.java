@@ -1,5 +1,6 @@
 package com.example.apharma.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Room {
@@ -11,6 +12,7 @@ public class Room {
     public Room(String name, int id) {
         this.name = name;
         this.id = id;
+        this.sensorData = new ArrayList<>();
     }
 
     public int getId() {
@@ -35,6 +37,10 @@ public class Room {
 
     public void setSensors(List<MeasurementData> sensors) {
         this.sensorData = sensors;
+    }
+
+    public boolean isEmpty() {
+        return sensorData.isEmpty();
     }
 
     @Override

@@ -1,19 +1,35 @@
-package com.example.apharma;
+package com.example.apharma.ui.sensors;
 
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.apharma.R;
+import com.example.apharma.adapters.SensorAdapter;
+import com.example.apharma.models.MeasurementData;
+import com.example.apharma.models.Room;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link Sensors#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Sensors extends Fragment {
+public class Sensors extends Fragment implements SensorAdapter.OnListItemClickListener {
+
+    private RecyclerView recyclerView;
+    private SensorAdapter sensorAdapter;
+    ArrayList<MeasurementData> sensors;
+    ArrayList<Room> rooms;
+    ArrayList<MeasurementData> sensorList;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -59,6 +75,40 @@ public class Sensors extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_sensors, container, false);
+        View view = inflater.inflate(R.layout.fragment_sensors, container, false);
+        sensors = new ArrayList<>();
+        recyclerView = view.findViewById(R.id.rv);
+
+        rooms = new ArrayList<>();
+        rooms.add(new Room("Storage room", 1));
+        rooms.add(new Room("Main room", 2));
+        rooms.add(new Room("room", 3));
+
+
+        sensorList =  new ArrayList<>();
+        MeasurementData temp = new MeasurementData(1, 40, 10, 60, "4/29/22", "Temp");
+        sensorList.add(temp);
+        rooms.get(0).setSensors(sensorList);
+        ConfigureRecyclerView();
+
+        return view;
+    }
+
+    private void ConfigureRecyclerView() {
+
+        sensorAdapter = new SensorAdapter(sensorList, this);
+        recyclerView.setAdapter(sensorAdapter);
+
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getContext(), 2);
+
+        recyclerView.setLayoutManager(gridLayoutManager);
+        recyclerView.setHasFixedSize(true);
+
+
+    }
+
+    @Override
+    public void onListItemClick(int clickedItemIndex) {
+
     }
 }
