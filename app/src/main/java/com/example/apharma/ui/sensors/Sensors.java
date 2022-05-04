@@ -79,16 +79,16 @@ public class Sensors extends Fragment implements SensorAdapter.OnListItemClickLi
         sensors = new ArrayList<>();
         recyclerView = view.findViewById(R.id.rv);
 
-        rooms = new ArrayList<>();
-        rooms.add(new Room("Storage room", 1));
-        rooms.add(new Room("Main room", 2));
-        rooms.add(new Room("room", 3));
-
-
-        sensorList =  new ArrayList<>();
-        MeasurementData temp = new MeasurementData(1, 40, 10, 60, "4/29/22", "Temp");
-        sensorList.add(temp);
-        rooms.get(0).setSensors(sensorList);
+//        rooms = new ArrayList<>();
+//        rooms.add(new Room("Storage room", 1));
+//        rooms.add(new Room("Main room", 2));
+//        rooms.add(new Room("room", 3));
+//
+//
+//        sensorList =  new ArrayList<>();
+//        MeasurementData temp = new MeasurementData(1, 40, 10, 60, "4/29/22", "Temp");
+//        sensorList.add(temp);
+//        rooms.get(0).setSensors(sensorList);
         ConfigureRecyclerView();
 
         return view;

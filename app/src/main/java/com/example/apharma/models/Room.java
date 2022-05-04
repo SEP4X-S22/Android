@@ -7,7 +7,7 @@ public class Room {
 
     private String name;
     private int id;
-    private List<MeasurementData> sensorData;
+    private List<Sensor> sensorData;
 
     public Room(String name, int id) {
         this.name = name;
@@ -31,11 +31,11 @@ public class Room {
         this.name = name;
     }
 
-    public List<MeasurementData> getSensors() {
+    public List<Sensor> getSensors() {
         return sensorData;
     }
 
-    public void setSensors(List<MeasurementData> sensors) {
+    public void setSensors(List<Sensor> sensors) {
         this.sensorData = sensors;
     }
 

@@ -50,10 +50,10 @@ public class HomeFragment extends Fragment  implements RoomAdapter.OnListItemCli
         rooms.add(new Room("Main room", 2));
         rooms.add(new Room("room", 3));
 
-        List<MeasurementData> sensorData = new ArrayList<>();
-        MeasurementData temp = new MeasurementData(1, 40, 10, 60, "4/29/22", "Temp");
-        sensorData.add(temp);
-        rooms.get(0).setSensors(sensorData);
+//        List<MeasurementData> sensorData = new ArrayList<>();
+//        MeasurementData temp = new MeasurementData(1, 40, 10, 60, "4/29/22", "Temp");
+//        sensorData.add(temp);
+//        rooms.get(0).setSensors(sensorData);
 
 
         roomList = root.findViewById(R.id.recycleView);
