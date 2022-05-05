@@ -12,16 +12,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.apharma.R;
 import com.example.apharma.models.MeasurementData;
+import com.example.apharma.models.Sensor;
 
 import java.util.ArrayList;
 
 public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder> {
 
-    private ArrayList<MeasurementData> list;
+    private ArrayList<Sensor> list;
     private Context context;
     final private SensorAdapter.OnListItemClickListener mOnListItemClickListener;
 
-    public SensorAdapter( ArrayList<MeasurementData> list, SensorAdapter.OnListItemClickListener mOnListItemClickListener) {
+    public SensorAdapter( ArrayList<Sensor> list, SensorAdapter.OnListItemClickListener mOnListItemClickListener) {
         this.list = list;
         this.context = context;
         this.mOnListItemClickListener = mOnListItemClickListener;
@@ -41,8 +42,9 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull SensorAdapter.ViewHolder holder, int position) {
-        holder.name.setText(list.get(position).getType());
-        holder.measurement.setText(list.get(position).getValue() + "°C");
+        holder.name.setText(list.get(position).getSensor().toString());
+//        holder.measurement.setText(list.get(position).getId() + "°C");
+        holder.measurement.setText("SensorId "+list.get(position).getId() );
     }
 
     @Override
@@ -50,7 +52,7 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
         return list.size();
     }
 
-    public MeasurementData getSelectedSensor(int position) {
+    public Sensor getSelectedSensor(int position) {
         if (list != null) {
             if (list.size() > 0) {
                 return list.get(position);
