@@ -1,11 +1,14 @@
 package com.example.apharma.models;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Sensor {
     private int id;
     private SensorType sensor;
+    @SerializedName("readings")
     private List<Reading> readings;
 
     public Sensor(int id, SensorType sensor) {

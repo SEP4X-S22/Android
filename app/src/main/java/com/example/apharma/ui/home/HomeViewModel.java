@@ -13,6 +13,7 @@ import java.util.ArrayList;
 public class HomeViewModel extends ViewModel {
 
     private final MutableLiveData<String> mText;
+    private Room rooms;
 
     RoomRepository repository;
 
@@ -20,6 +21,13 @@ public class HomeViewModel extends ViewModel {
         mText = new MutableLiveData<>();
         mText.setValue("This is home fragment");
         repository = RoomRepository.getInstance();
+    }
+public Room getRoooms()
+{
+    return rooms;
+}
+    public void setRooms(Room rooms) {
+        this.rooms = rooms;
     }
 
     public LiveData<String> getText() {
@@ -30,7 +38,10 @@ public class HomeViewModel extends ViewModel {
         return repository.getRooms();
     }
 
+
+
     public void fetchRooms( ) {
         repository.fetchRooms();
     }
+
 }

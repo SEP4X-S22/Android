@@ -91,7 +91,9 @@ rooms = new ArrayList<>();
 //        if (rooms.get(clickedItemIndex).isEmpty()) {
 //            Toast.makeText(getActivity(), "Nothing here yet", Toast.LENGTH_SHORT).show();
 //        } else {
+//homeViewModel.setRooms(rooms.get(clickedItemIndex));
             Navigation.findNavController(getView()).navigate(R.id.action_navigation_home_to_sensors);
+
         }
 
 

@@ -1,5 +1,7 @@
 package com.example.apharma.models;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,12 +9,13 @@ public class Room {
 
     private String name;
     private int id;
-    private List<Sensor> sensorData;
+    @SerializedName("sensorsList")
+    private List<Sensor> sensorsList;
 
     public Room(String name, int id) {
         this.name = name;
         this.id = id;
-        this.sensorData = new ArrayList<>();
+        this.sensorsList = new ArrayList<>();
     }
 
     public int getId() {
@@ -32,15 +35,15 @@ public class Room {
     }
 
     public List<Sensor> getSensors() {
-        return sensorData;
+        return sensorsList;
     }
 
     public void setSensors(List<Sensor> sensors) {
-        this.sensorData = sensors;
+        this.sensorsList = sensors;
     }
 
     public boolean isEmpty() {
-        return sensorData.isEmpty();
+        return sensorsList.isEmpty();
     }
 
     @Override
@@ -48,7 +51,7 @@ public class Room {
         return "Room{" +
                 "name='" + name + '\'' +
                 ", id=" + id +
-                ", sensorData=" + sensorData +
+                ", sensorData=" + sensorsList +
                 '}';
     }
 }

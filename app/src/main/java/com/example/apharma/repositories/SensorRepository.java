@@ -47,7 +47,7 @@ public class SensorRepository
             @Override
             public void onResponse(Call<ArrayList<Sensor>>  call, Response<ArrayList<Sensor>> response) {
                 if (response.isSuccessful()) {
-                    System.out.println("############"+response.body().size());
+                    System.out.println("############ SIZE"+response.body().size());
 
                     sensors.setValue(response.body());
 

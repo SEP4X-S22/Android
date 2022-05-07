@@ -34,8 +34,11 @@ public class Sensors extends Fragment implements SensorAdapter.OnListItemClickLi
 //    ArrayList<Room> rooms;
 //    ArrayList<MeasurementData> sensorList;
     private SensorsViewModel sensorsViewModel;
+    private HomeViewModel homeViewModel;
+    ArrayList<Room> rooms;
 
     ArrayList<Sensor> sensors;
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -82,10 +85,11 @@ public class Sensors extends Fragment implements SensorAdapter.OnListItemClickLi
                              Bundle savedInstanceState) {
         SensorsViewModel sensorsViewModel =
                 new ViewModelProvider(this).get(SensorsViewModel.class);
+         homeViewModel =
+                new ViewModelProvider(this).get(HomeViewModel.class);
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_sensors, container, false);
-        sensors = new ArrayList<>();
         recyclerView = view.findViewById(R.id.rv);
 
 //        rooms = new ArrayList<>();
@@ -100,11 +104,28 @@ public class Sensors extends Fragment implements SensorAdapter.OnListItemClickLi
 //        rooms.get(0).setSensors(sensorList);
 
         sensors = new ArrayList<>();
+        rooms = new ArrayList<>();
         recyclerView = view.findViewById(R.id.rv);
-        sensorsViewModel.getSensors().observe(getViewLifecycleOwner(),sensor -> {
-            sensors.addAll(sensor);
+//        sensorsViewModel.getSensors().observe(getViewLifecycleOwner(),sensor -> {
+//            sensors.addAll(sensor);
+//        });
+//        sensorsViewModel.fetchSensors(1);
+
+
+        homeViewModel.getRooms().observe(getViewLifecycleOwner(),room -> {
+            rooms.addAll(room);
+            for (int i =0; i < rooms.size(); i++) {
+
+                    sensors.addAll(rooms.get(0).getSensors());
+
+                }
+
+            System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +rooms.get(0).getSensors().size());
+
+
         });
-        sensorsViewModel.fetchSensors(1);
+        homeViewModel.fetchRooms();
+
         ConfigureRecyclerView();
 
         return view;
@@ -112,7 +133,8 @@ public class Sensors extends Fragment implements SensorAdapter.OnListItemClickLi
 
     private void ConfigureRecyclerView() {
 
-        sensorAdapter = new SensorAdapter(sensors, this);
+    sensorAdapter = new SensorAdapter(sensors, this);
+
         recyclerView.setAdapter(sensorAdapter);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getContext(), 2);
