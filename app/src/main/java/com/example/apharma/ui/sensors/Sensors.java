@@ -16,6 +16,7 @@ import com.example.apharma.adapters.SensorAdapter;
 import com.example.apharma.models.MeasurementData;
 import com.example.apharma.models.Room;
 import com.example.apharma.models.Sensor;
+import com.example.apharma.ui.home.HomeFragmentDirections;
 import com.example.apharma.ui.home.HomeViewModel;
 
 import java.util.ArrayList;
@@ -113,14 +114,21 @@ public class Sensors extends Fragment implements SensorAdapter.OnListItemClickLi
 
 
         homeViewModel.getRooms().observe(getViewLifecycleOwner(),room -> {
-            rooms.addAll(room);
+
+
+            int id = SensorsArgs.fromBundle(getArguments()).getRoomId();
+            rooms.addAll(sensorsViewModel.getRoomsById(room,id));
+
+
+
+
             for (int i =0; i < rooms.size(); i++) {
 
                     sensors.addAll(rooms.get(0).getSensors());
 
                 }
-
-            System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +rooms.get(0).getSensors().size());
+//
+//            System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +rooms.get(0).getSensors().size());
 
 
         });
