@@ -35,5 +35,10 @@
         android:id="@+id/sensors"
         android:name="com.example.apharma.ui.sensors.Sensors"
         android:label="Sensors"
-        tools:layout="@layout/fragment_sensors" />
+        tools:layout="@layout/fragment_sensors" >
+        <argument
+            android:name="RoomId"
+            app:argType="integer"
+            android:defaultValue="1" />
+    </fragment>
 </navigation>
