@@ -18,10 +18,11 @@ import com.example.apharma.R;
 import com.example.apharma.adapters.RoomAdapter;
 import com.example.apharma.databinding.FragmentHomeBinding;
 import com.example.apharma.models.Room;
+import com.example.apharma.ui.sensors.SensorsArgs;
 
 import java.util.ArrayList;
 
-public class HomeFragment extends Fragment  implements RoomAdapter.OnListItemClickListener {
+public class HomeFragment extends Fragment  {
 
     private FragmentHomeBinding binding;
     private NavController navController;
@@ -51,16 +52,24 @@ public class HomeFragment extends Fragment  implements RoomAdapter.OnListItemCli
 //        rooms.get(0).setSensors(sensorData);
 
 
-rooms = new ArrayList<>();
+        rooms = new ArrayList<>();
 
         roomList = root.findViewById(R.id.recycleView);
         name = root.findViewById(R.id.room_title);
-        homeViewModel.getRooms().observe(getViewLifecycleOwner(),room -> {
-            rooms.addAll(room);
-                });
+        homeViewModel.getRooms().observe(getViewLifecycleOwner(), room -> {
+
+
+            rooms.addAll(getActualRooms(room));
+        });
         homeViewModel.fetchRooms();
 
         ConfigureRecyclerView();
+
+        roomAdapter.setOnClickListener(view ->{
+            HomeFragmentDirections.ActionNavigationHomeToSensors actionNavigationHomeToSensors = HomeFragmentDirections.actionNavigationHomeToSensors();
+            actionNavigationHomeToSensors.setRoomId(view.getId());
+            Navigation.findNavController(getView()).navigate(actionNavigationHomeToSensors);
+        });
 
 
         return root;
@@ -72,10 +81,22 @@ rooms = new ArrayList<>();
         binding = null;
     }
 
+    public ArrayList<Room> getActualRooms(ArrayList<Room> rooms){
+        ArrayList<Room> roomsToReturn = new ArrayList<>();
+
+        for (int i = 0; i < rooms.size(); i++){
+            if (rooms.get(i).getId() == 1 || rooms.get(i).getId() == 2){
+                roomsToReturn.add(rooms.get(i));
+            }
+        }
+        return roomsToReturn;
+
+    }
+
 
     private void ConfigureRecyclerView() {
 
-        roomAdapter = new RoomAdapter(rooms, this);
+        roomAdapter = new RoomAdapter(rooms);
         roomList.setAdapter(roomAdapter);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getContext(), 2);
@@ -84,17 +105,22 @@ rooms = new ArrayList<>();
         roomList.setHasFixedSize(true);
 
 
+
     }
 
-    @Override
-    public void onListItemClick(int clickedItemIndex) {
-//        if (rooms.get(clickedItemIndex).isEmpty()) {
-//            Toast.makeText(getActivity(), "Nothing here yet", Toast.LENGTH_SHORT).show();
-//        } else {
-//homeViewModel.setRooms(rooms.get(clickedItemIndex));
-            Navigation.findNavController(getView()).navigate(R.id.action_navigation_home_to_sensors);
-
-        }
+//    @Override
+//    public void onListItemClick(int clickedItemIndex) {
+////        if (rooms.get(clickedItemIndex).isEmpty()) {
+////            Toast.makeText(getActivity(), "Nothing here yet", Toast.LENGTH_SHORT).show();
+////        } else {
+////homeViewModel.setRooms(rooms.get(clickedItemIndex));
+//
+//
+//        HomeFragmentDirections.ActionNavigationHomeToSensors actionNavigationHomeToSensors = HomeFragmentDirections.actionNavigationHomeToSensors();
+//        actionNavigationHomeToSensors.setRoomId(clickedItemIndex);
+//        Navigation.findNavController(getView()).navigate(actionNavigationHomeToSensors);
+//
+//    }
 
 
 }

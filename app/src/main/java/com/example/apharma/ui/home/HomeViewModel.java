@@ -22,10 +22,11 @@ public class HomeViewModel extends ViewModel {
         mText.setValue("This is home fragment");
         repository = RoomRepository.getInstance();
     }
-public Room getRoooms()
-{
-    return rooms;
-}
+
+    public Room getRoooms() {
+        return rooms;
+    }
+
     public void setRooms(Room rooms) {
         this.rooms = rooms;
     }
@@ -34,13 +35,12 @@ public Room getRoooms()
         return mText;
     }
 
-    public LiveData <ArrayList<Room> > getRooms() {
+    public LiveData<ArrayList<Room>> getRooms() {
         return repository.getRooms();
     }
 
 
-
-    public void fetchRooms( ) {
+    public void fetchRooms() {
         repository.fetchRooms();
     }
 

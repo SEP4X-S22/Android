@@ -17,16 +17,20 @@ import java.util.ArrayList;
 public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
 
     private ArrayList<Room> rooms;
-    final private OnListItemClickListener mOnListItemClickListener;
+    private OnListItemClickListener mOnListItemClickListener;
 
-    public RoomAdapter(ArrayList<Room> rooms, OnListItemClickListener mOnListItemClickListener) {
+    public RoomAdapter(ArrayList<Room> rooms) {
         this.rooms = rooms;
-        this.mOnListItemClickListener = mOnListItemClickListener;
     }
 
     public interface OnListItemClickListener {
-        void onListItemClick(int clickedItemIndex);
+        void onClick(Room room);
     }
+
+    public void setOnClickListener(OnListItemClickListener listener) {
+        mOnListItemClickListener = listener;
+    }
+
 
     @NonNull
     @Override
@@ -63,7 +67,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
         return null;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView name;
         ImageView src;
@@ -73,12 +77,11 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
             super(itemView);
             name = itemView.findViewById(R.id.room_title);
             nrOfSensors = itemView.findViewById(R.id.room_sensors);
-            itemView.setOnClickListener(this);
+            itemView.setOnClickListener(view -> {
+                mOnListItemClickListener.onClick(rooms.get(getAdapterPosition()));
+            });
         }
 
-        @Override
-        public void onClick(View v) {
-            mOnListItemClickListener.onListItemClick(getAdapterPosition());
-        }
+
     }
 }
