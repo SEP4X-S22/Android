@@ -19,6 +19,7 @@ import com.example.apharma.adapters.RoomAdapter;
 import com.example.apharma.databinding.FragmentHomeBinding;
 import com.example.apharma.models.Room;
 import com.example.apharma.ui.sensors.SensorsArgs;
+import com.example.apharma.ui.sensors.SensorsViewModel;
 
 import java.util.ArrayList;
 
@@ -29,6 +30,8 @@ public class HomeFragment extends Fragment  {
     private RecyclerView roomList;
     private RoomAdapter roomAdapter;
     private HomeViewModel homeViewModel;
+    private SensorsViewModel sensorsViewModel;
+    private Fragment send;
     private TextView name;
     ArrayList<Room> rooms;
 
@@ -60,6 +63,12 @@ public class HomeFragment extends Fragment  {
 
 
             rooms.addAll(getActualRooms(room));
+            for (int i=0; i>rooms.size(); i++){
+                sensorsViewModel.fetchSensors(rooms.get(i).getId());
+
+                rooms.get(i).setSensors(sensorsViewModel.getSensors().getValue());
+
+            }
         });
         homeViewModel.fetchRooms();
 
@@ -68,6 +77,15 @@ public class HomeFragment extends Fragment  {
         roomAdapter.setOnClickListener(view ->{
             HomeFragmentDirections.ActionNavigationHomeToSensors actionNavigationHomeToSensors = HomeFragmentDirections.actionNavigationHomeToSensors();
             actionNavigationHomeToSensors.setRoomId(view.getId());
+
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("Room",view);  // Key, value
+            send.setArguments(bundle);
+            getChildFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.container, send)
+                    .commit();
+
             Navigation.findNavController(getView()).navigate(actionNavigationHomeToSensors);
         });
 

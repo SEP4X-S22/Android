@@ -37,6 +37,7 @@ public class Sensors extends Fragment implements SensorAdapter.OnListItemClickLi
     private SensorsViewModel sensorsViewModel;
     private HomeViewModel homeViewModel;
     ArrayList<Room> rooms;
+    private Room receivedRoom;
 
     ArrayList<Sensor> sensors;
 
@@ -118,7 +119,11 @@ public class Sensors extends Fragment implements SensorAdapter.OnListItemClickLi
 
             String id = SensorsArgs.fromBundle(getArguments()).getRoomId();
             rooms.addAll(sensorsViewModel.getRoomsById(room,id));
-            sensorsViewModel.fetchSensors(1);
+            Bundle bundle = this.getArguments();
+            if (bundle != null) {
+                receivedRoom = bundle.getParcelable("Room"); // Key
+            }
+            sensorsViewModel.fetchSensors(receivedRoom.getId());
 
 
 

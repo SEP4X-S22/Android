@@ -22,7 +22,7 @@ public class SensorsViewModel extends ViewModel {
         return sensorRepository.getSensors();
     }
 
-    public void fetchSensors(int room){
+    public void fetchSensors(String room){
         sensorRepository.fetchSensors(room);
     }
 
