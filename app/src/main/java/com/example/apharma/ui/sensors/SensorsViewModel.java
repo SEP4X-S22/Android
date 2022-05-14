@@ -26,7 +26,7 @@ public class SensorsViewModel extends ViewModel {
         sensorRepository.fetchSensors(room);
     }
 
-    public ArrayList<Room> getRoomsById(ArrayList<Room> rooms, int id){
+    public ArrayList<Room> getRoomsById(ArrayList<Room> rooms, String id){
         ArrayList<Room> roomsToReturn = new ArrayList<>();
 
         for (int i = 0; i < rooms.size(); i++){

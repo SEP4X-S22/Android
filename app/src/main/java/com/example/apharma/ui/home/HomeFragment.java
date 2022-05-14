@@ -85,8 +85,8 @@ public class HomeFragment extends Fragment  {
         ArrayList<Room> roomsToReturn = new ArrayList<>();
 
         for (int i = 0; i < rooms.size(); i++){
-            if (rooms.get(i).getId() == 1 || rooms.get(i).getId() == 2){
-                roomsToReturn.add(rooms.get(i));
+//            if (rooms.get(i).getId() == 1 || rooms.get(i).getId() == 2){
+            {  roomsToReturn.add(rooms.get(i));
             }
         }
         return roomsToReturn;

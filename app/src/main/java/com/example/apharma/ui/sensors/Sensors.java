@@ -116,15 +116,15 @@ public class Sensors extends Fragment implements SensorAdapter.OnListItemClickLi
         homeViewModel.getRooms().observe(getViewLifecycleOwner(),room -> {
 
 
-            int id = SensorsArgs.fromBundle(getArguments()).getRoomId();
+            String id = SensorsArgs.fromBundle(getArguments()).getRoomId();
             rooms.addAll(sensorsViewModel.getRoomsById(room,id));
-
+            sensorsViewModel.fetchSensors(1);
 
 
 
             for (int i =0; i < rooms.size(); i++) {
 
-                    sensors.addAll(rooms.get(0).getSensors());
+//                  sensorsViewModel.fetchSensors(1);
 
                 }
 //

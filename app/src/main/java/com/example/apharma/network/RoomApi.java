@@ -11,6 +11,9 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 
 public interface RoomApi {
+//    @GET("/rooms")
+//    Call<ArrayList<Room>> getRooms();
+
     @GET("/rooms")
     Call<ArrayList<Room>> getRooms();
 

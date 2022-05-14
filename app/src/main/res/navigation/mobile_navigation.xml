@@ -38,7 +38,7 @@
         tools:layout="@layout/fragment_sensors" >
         <argument
             android:name="RoomId"
-            app:argType="integer"
+            app:argType="string"
             android:defaultValue="1" />
     </fragment>
 </navigation>
