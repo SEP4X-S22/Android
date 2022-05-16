@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -47,10 +48,11 @@ public class HomeFragment extends Fragment  {
 
         roomList = root.findViewById(R.id.recycleView);
         name = root.findViewById(R.id.room_title);
-        homeViewModel.getRooms().observe(getViewLifecycleOwner(), room -> {
+        homeViewModel.getRooms().observe(getViewLifecycleOwner(), rooms -> {
 
-
-            rooms.addAll(room);
+            this.rooms.clear();
+            this.rooms.addAll(rooms);
+            roomAdapter.notifyDataSetChanged();
 //            for (int i=0; i<rooms.size(); i++){
 //                sensorsViewModel.fetchSensors(rooms.get(i).getId());
 //
@@ -68,7 +70,7 @@ public class HomeFragment extends Fragment  {
         roomAdapter.setOnClickListener(view ->{
             HomeFragmentDirections.ActionNavigationHomeToSensors actionNavigationHomeToSensors = HomeFragmentDirections.actionNavigationHomeToSensors();
             actionNavigationHomeToSensors.setRoomId(view.getId());
-            Navigation.findNavController(getView()).navigate(actionNavigationHomeToSensors);
+            NavHostFragment.findNavController(this).navigate(actionNavigationHomeToSensors);
         });
 
 

@@ -30,7 +30,6 @@ public class Sensors extends Fragment implements SensorAdapter.OnListItemClickLi
 //    ArrayList<Room> rooms;
 //    ArrayList<MeasurementData> sensorList;
     private SensorsViewModel sensorsViewModel;
-    private HomeViewModel homeViewModel;
     ArrayList<Room> rooms;
     ArrayList<Sensor> sensors;
 
@@ -60,8 +59,7 @@ public class Sensors extends Fragment implements SensorAdapter.OnListItemClickLi
                              Bundle savedInstanceState) {
         SensorsViewModel sensorsViewModel =
                 new ViewModelProvider(this).get(SensorsViewModel.class);
-         homeViewModel =
-                new ViewModelProvider(this).get(HomeViewModel.class);
+
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_sensors, container, false);
@@ -81,14 +79,13 @@ public class Sensors extends Fragment implements SensorAdapter.OnListItemClickLi
         });
 
 
-//        homeViewModel.fetchRooms();
 
-        ConfigureRecyclerView();
+        ConfigureRecyclerView(sensors);
 
         return view;
     }
 
-    private void ConfigureRecyclerView() {
+    private void ConfigureRecyclerView(ArrayList<Sensor> sensors) {
 
     sensorAdapter = new SensorAdapter(sensors, this);
 
