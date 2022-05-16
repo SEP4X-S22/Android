@@ -39,7 +39,7 @@ public class SensorRepository
         return sensors;
     }
 
-    public void fetchSensors(int room) {
+    public void fetchSensors(String room) {
         RoomApi roomApi = ServiceGenerator.getRoomApi();
         Call<ArrayList<Sensor>>  call = roomApi.getSensors(room);
         call.enqueue(new Callback<ArrayList<Sensor>>() {

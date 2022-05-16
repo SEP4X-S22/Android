@@ -22,15 +22,16 @@ public class SensorsViewModel extends ViewModel {
         return sensorRepository.getSensors();
     }
 
-    public void fetchSensors(int room){
+    public void fetchSensors(String room){
         sensorRepository.fetchSensors(room);
     }
 
-    public ArrayList<Room> getRoomsById(ArrayList<Room> rooms, int id){
+
+    public ArrayList<Room> getRoomsById(ArrayList<Room> rooms, String id){
         ArrayList<Room> roomsToReturn = new ArrayList<>();
 
         for (int i = 0; i < rooms.size(); i++){
-            if (rooms.get(i).getId() == id){
+            if (rooms.get(i).getId().equals(id)){
                 roomsToReturn.add(rooms.get(i));
             }
         }

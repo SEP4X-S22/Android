@@ -9,7 +9,7 @@ public class ServiceGenerator {
     public static RoomApi getRoomApi() {
         if (roomApi == null) {
             roomApi = new Retrofit.Builder()
-                    .baseUrl("http://sep4datawebapi-env.eba-2upbcveh.eu-central-1.elasticbeanstalk.com")
+                    .baseUrl("http://sep4data-env-1.eba-9xg2hdtz.eu-central-1.elasticbeanstalk.com")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build()
                     .create(RoomApi.class);

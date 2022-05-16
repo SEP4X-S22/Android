@@ -8,17 +8,18 @@ import java.util.List;
 public class Room {
 
     private String name;
-    private int id;
+    @SerializedName("id")
+    private String id;
     @SerializedName("sensorsList")
     private List<Sensor> sensorsList;
 
-    public Room(String name, int id) {
+    public Room(String name, String id) {
         this.name = name;
         this.id = id;
         this.sensorsList = new ArrayList<>();
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
@@ -26,7 +27,7 @@ public class Room {
         return name;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

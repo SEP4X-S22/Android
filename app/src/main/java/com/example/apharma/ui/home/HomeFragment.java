@@ -19,6 +19,7 @@ import com.example.apharma.adapters.RoomAdapter;
 import com.example.apharma.databinding.FragmentHomeBinding;
 import com.example.apharma.models.Room;
 import com.example.apharma.ui.sensors.SensorsArgs;
+import com.example.apharma.ui.sensors.SensorsViewModel;
 
 import java.util.ArrayList;
 
@@ -29,6 +30,7 @@ public class HomeFragment extends Fragment  {
     private RecyclerView roomList;
     private RoomAdapter roomAdapter;
     private HomeViewModel homeViewModel;
+    private SensorsViewModel sensorsViewModel;
     private TextView name;
     ArrayList<Room> rooms;
 
@@ -41,17 +43,6 @@ public class HomeFragment extends Fragment  {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-//        rooms = new ArrayList<>();
-//        rooms.add(new Room("Storage room", 1));
-//        rooms.add(new Room("Main room", 2));
-//        rooms.add(new Room("room", 3));
-
-//        List<MeasurementData> sensorData = new ArrayList<>();
-//        MeasurementData temp = new MeasurementData(1, 40, 10, 60, "4/29/22", "Temp");
-//        sensorData.add(temp);
-//        rooms.get(0).setSensors(sensorData);
-
-
         rooms = new ArrayList<>();
 
         roomList = root.findViewById(R.id.recycleView);
@@ -59,9 +50,18 @@ public class HomeFragment extends Fragment  {
         homeViewModel.getRooms().observe(getViewLifecycleOwner(), room -> {
 
 
-            rooms.addAll(getActualRooms(room));
+            rooms.addAll(room);
+//            for (int i=0; i<rooms.size(); i++){
+//                sensorsViewModel.fetchSensors(rooms.get(i).getId());
+//
+//                rooms.get(i).setSensors(sensorsViewModel.getSensors().getValue());
+//
+//            }
         });
+
         homeViewModel.fetchRooms();
+
+
 
         ConfigureRecyclerView();
 
@@ -81,17 +81,13 @@ public class HomeFragment extends Fragment  {
         binding = null;
     }
 
-    public ArrayList<Room> getActualRooms(ArrayList<Room> rooms){
-        ArrayList<Room> roomsToReturn = new ArrayList<>();
-
-        for (int i = 0; i < rooms.size(); i++){
-            if (rooms.get(i).getId() == 1 || rooms.get(i).getId() == 2){
-                roomsToReturn.add(rooms.get(i));
-            }
-        }
-        return roomsToReturn;
-
-    }
+//    public ArrayList<Room> getActualRooms(ArrayList<Room> rooms){
+//        ArrayList<Room> roomsToReturn = new ArrayList<>();
+//
+//        roomsToReturn.addAll(rooms);
+//        return roomsToReturn;
+//
+//    }
 
 
     private void ConfigureRecyclerView() {

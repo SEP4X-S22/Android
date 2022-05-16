@@ -15,7 +15,7 @@ public interface RoomApi {
     Call<ArrayList<Room>> getRooms();
 
     @GET("/rooms/{roomId}/sensors")
-    Call<ArrayList<Sensor>> getSensors(@Path("roomId") int room);
+    Call<ArrayList<Sensor>> getSensors(@Path("roomId") String room);
 
     @GET("/{room}/{sensorType}")
     Call<ArrayList<Reading>>getSensorData(@Path("room") int room, @Path("sensorType") String sensorType);

@@ -7,6 +7,7 @@ import java.util.List;
 
 public class Sensor {
     private int id;
+    @SerializedName("sensorType")
     private SensorType sensor;
     @SerializedName("readings")
     private List<Reading> readings;

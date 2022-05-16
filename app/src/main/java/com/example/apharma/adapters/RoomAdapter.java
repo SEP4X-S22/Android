@@ -45,12 +45,12 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
         holder.name.setText("Room " + rooms.get(position).getId());
         String s = holder.nrOfSensors.getText().toString();
 
-        if (rooms.get(position).getSensors().size() == 1)
-        {
-            holder.nrOfSensors.setText(rooms.get(position).getSensors().size() + " sensor" );
-        } else {
-            holder.nrOfSensors.setText(rooms.get(position).getSensors().size() + " sensors");
-        }
+//        if (rooms.get(position).getSensors().size() == 1)
+//        {
+//            holder.nrOfSensors.setText(rooms.get(position).getSensors().size() + " sensor" );
+//        } else {
+//            holder.nrOfSensors.setText(rooms.get(position).getSensors().size() + " sensors");
+//        }
     }
 
     @Override

@@ -44,7 +44,8 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
     public void onBindViewHolder(@NonNull SensorAdapter.ViewHolder holder, int position) {
         holder.name.setText(list.get(position).getSensor().toString());
 //        holder.measurement.setText(list.get(position).getId() + "°C");
-        holder.measurement.setText("Current value "+list.get(position).getReadings().get(0).getReadingValue() );
+//        holder.measurement.setText("Current value "+list.get(position).getReadings().get(0).getReadingValue() );
+        holder.measurement.setText(""+list.get(position).getId());
     }
 
     @Override
