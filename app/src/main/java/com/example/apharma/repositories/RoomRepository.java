@@ -11,6 +11,7 @@ import com.example.apharma.network.RoomApi;
 import com.example.apharma.network.ServiceGenerator;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.internal.annotations.EverythingIsNonNull;
 import retrofit2.Call;
@@ -46,8 +47,7 @@ public class RoomRepository {
                 if (response.isSuccessful()) {
                     System.out.println("############"+response.body());
 
-                        rooms.setValue(response.body());
-
+                    rooms.setValue(response.body());
                     }else {
                     System.out.println("Failure ###");
                     System.out.println("########"+response.message());

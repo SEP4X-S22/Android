@@ -20,7 +20,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
     private OnListItemClickListener mOnListItemClickListener;
 
     public RoomAdapter(ArrayList<Room> rooms) {
-        this.rooms = rooms;
+        this.rooms = new ArrayList<>();
     }
 
     public interface OnListItemClickListener {
@@ -38,6 +38,12 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.room_item, parent, false);
         return new RoomAdapter.ViewHolder(view);
+    }
+
+
+    public void update(ArrayList<Room> list) {
+        rooms = list;
+        notifyDataSetChanged();
     }
 
     @Override

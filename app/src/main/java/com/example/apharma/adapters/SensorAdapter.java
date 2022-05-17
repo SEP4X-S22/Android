@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.apharma.R;
 import com.example.apharma.models.MeasurementData;
+import com.example.apharma.models.Room;
 import com.example.apharma.models.Sensor;
 
 import java.util.ArrayList;
@@ -22,8 +23,8 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
     private Context context;
     final private SensorAdapter.OnListItemClickListener mOnListItemClickListener;
 
-    public SensorAdapter( ArrayList<Sensor> list, SensorAdapter.OnListItemClickListener mOnListItemClickListener) {
-        this.list = list;
+    public SensorAdapter(ArrayList<Sensor> list, SensorAdapter.OnListItemClickListener mOnListItemClickListener) {
+        this.list = new ArrayList<>();
         this.context = context;
         this.mOnListItemClickListener = mOnListItemClickListener;
     }
@@ -45,7 +46,12 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
         holder.name.setText(list.get(position).getSensor().toString());
 //        holder.measurement.setText(list.get(position).getId() + "°C");
 //        holder.measurement.setText("Current value "+list.get(position).getReadings().get(0).getReadingValue() );
-        holder.measurement.setText(""+list.get(position).getId());
+        holder.measurement.setText("" + list.get(position).getId());
+    }
+
+    public void update(ArrayList<Sensor> sensors) {
+        list = sensors;
+        notifyDataSetChanged();
     }
 
     @Override

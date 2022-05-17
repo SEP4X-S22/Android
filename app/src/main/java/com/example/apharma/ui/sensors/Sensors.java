@@ -26,12 +26,8 @@ public class Sensors extends Fragment implements SensorAdapter.OnListItemClickLi
 
     private RecyclerView recyclerView;
     private SensorAdapter sensorAdapter;
-//    ArrayList<MeasurementData> sensors;
-//    ArrayList<Room> rooms;
-//    ArrayList<MeasurementData> sensorList;
     private SensorsViewModel sensorsViewModel;
-    ArrayList<Room> rooms;
-    ArrayList<Sensor> sensors;
+    ArrayList<Sensor> sensorsList;
 
     public Sensors() {
         // Required empty public constructor
@@ -65,29 +61,26 @@ public class Sensors extends Fragment implements SensorAdapter.OnListItemClickLi
         View view = inflater.inflate(R.layout.fragment_sensors, container, false);
         recyclerView = view.findViewById(R.id.rv);
 
-        sensors = new ArrayList<>();
-        rooms = new ArrayList<>();
-
 
         String id = SensorsArgs.fromBundle(getArguments()).getRoomId();
 
-        sensorsViewModel.fetchSensors(id);
 
-        sensorsViewModel.getSensors().observe(getViewLifecycleOwner(),sensors1 -> {
+        sensorsViewModel.getSensors().observe(getViewLifecycleOwner(), sensors -> {
 
-            sensors.addAll(sensors1);
+            sensorAdapter.update(sensors);
+
         });
 
+        sensorsViewModel.fetchSensors(id);
 
-
-        ConfigureRecyclerView(sensors);
+        ConfigureRecyclerView();
 
         return view;
     }
 
-    private void ConfigureRecyclerView(ArrayList<Sensor> sensors) {
+    private void ConfigureRecyclerView() {
 
-    sensorAdapter = new SensorAdapter(sensors, this);
+        sensorAdapter = new SensorAdapter(sensorsList, this);
 
         recyclerView.setAdapter(sensorAdapter);
 
