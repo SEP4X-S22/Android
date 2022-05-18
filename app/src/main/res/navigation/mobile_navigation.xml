@@ -40,5 +40,22 @@
             android:name="RoomId"
             app:argType="string"
             android:defaultValue="unknown" />
+        <action
+            android:id="@+id/action_sensors_to_readingFragment"
+            app:destination="@id/readingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/readingFragment"
+        android:name="com.example.apharma.ui.readings.ReadingFragment"
+        android:label="Readings"
+        tools:layout="@layout/fragment_reading" >
+    <argument
+        android:name="RoomId"
+        app:argType="string"
+        android:defaultValue="unknown" />
+    <argument
+        android:name="sensorType"
+        app:argType="string"
+        android:defaultValue="unknown" />
     </fragment>
 </navigation>
