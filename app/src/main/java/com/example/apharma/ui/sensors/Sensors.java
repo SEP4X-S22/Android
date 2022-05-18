@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -94,6 +95,6 @@ public class Sensors extends Fragment implements SensorAdapter.OnListItemClickLi
 
     @Override
     public void onListItemClick(int clickedItemIndex) {
-
+        Navigation.findNavController(getView()).navigate(SensorsDirections.actionSensorsToReadingFragment());
     }
 }
