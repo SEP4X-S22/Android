@@ -74,20 +74,20 @@ public class ReadingFragment extends Fragment {
         View view= inflater.inflate(R.layout.fragment_reading, container, false);
 
 
-//        String id = ReadingFragmentArgs.fromBundle(getArguments()).getRoomId();
-//        String sensorType = ReadingFragmentArgs.fromBundle(getArguments()).getSensorType();
+        String id = ReadingFragmentArgs.fromBundle(getArguments()).getRoomId();
+        String sensorType = ReadingFragmentArgs.fromBundle(getArguments()).getSensorType();
 
         measurementDataViewModel.getReadings().observe(getViewLifecycleOwner(),values -> {
             readings = values;
             System.out.println("@@@@@@@@"+values);
             textView = view.findViewById(R.id.value);
-            textView.setText("Reading: " +readings.get(0).getReadingValue());
+            textView.setText("Reading: " +readings.get(readings.size()-1).getReadingValue());
 
         });
 
 //        measurementDataViewModel.fetchReadings(id,sensorType);
 //
-        measurementDataViewModel.fetchReadings("0004A30B00E7E072","Temperature");
+        measurementDataViewModel.fetchReadings(id,sensorType);
 
         return view;
     }

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,7 +24,7 @@ import com.example.apharma.ui.home.HomeViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Sensors extends Fragment implements SensorAdapter.OnListItemClickListener {
+public class Sensors extends Fragment  {
 
     private RecyclerView recyclerView;
     private SensorAdapter sensorAdapter;
@@ -63,7 +64,7 @@ public class Sensors extends Fragment implements SensorAdapter.OnListItemClickLi
         recyclerView = view.findViewById(R.id.rv);
 
 
-        String id = SensorsArgs.fromBundle(getArguments()).getRoomId();
+        String roomId = SensorsArgs.fromBundle(getArguments()).getRoomId();
 
 
         sensorsViewModel.getSensors().observe(getViewLifecycleOwner(), sensors -> {
@@ -72,16 +73,25 @@ public class Sensors extends Fragment implements SensorAdapter.OnListItemClickLi
 
         });
 
-        sensorsViewModel.fetchSensors(id);
+        sensorsViewModel.fetchSensors(roomId);
 
         ConfigureRecyclerView();
+
+        sensorAdapter.setOnClickListener(v ->{
+            SensorsDirections.ActionSensorsToReadingFragment actionSensorsToReadingFragment = SensorsDirections.actionSensorsToReadingFragment();
+            actionSensorsToReadingFragment.setRoomId(roomId);
+            actionSensorsToReadingFragment.setSensorType(v.getSensor().toString());
+            Navigation.findNavController(view).navigate(actionSensorsToReadingFragment);
+
+
+        });
 
         return view;
     }
 
     private void ConfigureRecyclerView() {
 
-        sensorAdapter = new SensorAdapter( this);
+        sensorAdapter = new SensorAdapter( getContext());
 
         recyclerView.setAdapter(sensorAdapter);
 
@@ -91,10 +101,9 @@ public class Sensors extends Fragment implements SensorAdapter.OnListItemClickLi
         recyclerView.setHasFixedSize(true);
 
 
+
+
     }
 
-    @Override
-    public void onListItemClick(int clickedItemIndex) {
-        Navigation.findNavController(getView()).navigate(SensorsDirections.actionSensorsToReadingFragment());
-    }
+
 }
