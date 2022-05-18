@@ -1,4 +1,4 @@
-package com.example.apharma.viewmodels;
+package com.example.apharma.ui.signIn;
 
 import android.app.Application;
 

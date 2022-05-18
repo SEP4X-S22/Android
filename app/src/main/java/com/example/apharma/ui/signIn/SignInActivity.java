@@ -18,7 +18,6 @@ import android.widget.Toast;
 import com.example.apharma.MainActivity;
 import com.example.apharma.R;
 import com.example.apharma.ui.signUp.SignUpActivity;
-import com.example.apharma.viewmodels.SignInViewModel;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
