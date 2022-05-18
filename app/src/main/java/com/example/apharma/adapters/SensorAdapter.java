@@ -23,7 +23,7 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
     private Context context;
     final private SensorAdapter.OnListItemClickListener mOnListItemClickListener;
 
-    public SensorAdapter(ArrayList<Sensor> list, SensorAdapter.OnListItemClickListener mOnListItemClickListener) {
+    public SensorAdapter( SensorAdapter.OnListItemClickListener mOnListItemClickListener) {
         this.list = new ArrayList<>();
         this.context = context;
         this.mOnListItemClickListener = mOnListItemClickListener;

@@ -19,7 +19,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
     private ArrayList<Room> rooms;
     private OnListItemClickListener mOnListItemClickListener;
 
-    public RoomAdapter(ArrayList<Room> rooms) {
+    public RoomAdapter() {
         this.rooms = new ArrayList<>();
     }
 

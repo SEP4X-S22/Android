@@ -73,7 +73,7 @@ public class HomeFragment extends Fragment {
 
     private void ConfigureRecyclerView() {
 
-        roomAdapter = new RoomAdapter(roomsData);
+        roomAdapter = new RoomAdapter();
         roomList.setAdapter(roomAdapter);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getContext(), 2);

@@ -80,7 +80,7 @@ public class Sensors extends Fragment implements SensorAdapter.OnListItemClickLi
 
     private void ConfigureRecyclerView() {
 
-        sensorAdapter = new SensorAdapter(sensorsList, this);
+        sensorAdapter = new SensorAdapter( this);
 
         recyclerView.setAdapter(sensorAdapter);
 
