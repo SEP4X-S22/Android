@@ -12,13 +12,18 @@ public class Room {
     private String id;
     @SerializedName("sensorsList")
     private List<Sensor> sensorsList;
+    private int sensorsCount;
 
-    public Room(String name, String id) {
+    public Room(String name, String id,int size) {
         this.name = name;
         this.id = id;
         this.sensorsList = new ArrayList<>();
+        this.sensorsCount = size;
     }
-
+public int getSize()
+{
+    return sensorsCount;
+}
     public String getId() {
         return id;
     }

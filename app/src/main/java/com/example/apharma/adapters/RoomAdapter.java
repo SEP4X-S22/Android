@@ -49,7 +49,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.name.setText("Room " + rooms.get(position).getId());
-        String s = holder.nrOfSensors.getText().toString();
+        holder.nrOfSensors.setText("Sensors: " + rooms.get(position).getSize());
 
 //        if (rooms.get(position).getSensors().size() == 1)
 //        {

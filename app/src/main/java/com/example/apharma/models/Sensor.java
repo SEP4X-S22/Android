@@ -11,11 +11,16 @@ public class Sensor {
     private SensorType sensor;
     @SerializedName("readings")
     private List<Reading> readings;
+    private double readingValue;
 
-    public Sensor(int id, SensorType sensor) {
+    public Sensor(int id, SensorType sensor, double readingValue) {
         this.id = id;
         this.sensor = sensor;
-        this.readings = new ArrayList<>();
+this.readingValue = readingValue;
+    }
+
+    public double getReadingValue() {
+        return readingValue;
     }
 
     public int getId() {
