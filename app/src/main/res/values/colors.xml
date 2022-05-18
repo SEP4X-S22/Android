@@ -9,4 +9,13 @@
     <color name="white">#FFFFFFFF</color>
     <color name="greylighter">#5C6767</color>
     <color name="grey">#72707677</color>
+
+    <color name="blueblue1">#13848E</color>
+    <color name="blueblue2">#08656E</color>
+    <color name="coral1">#F95148</color>
+    <color name="coral2">#FF736C</color>
+    <color name="gold1">#F9BF48</color>
+    <color name="gold2">#F9ED48</color>
+    <color name="someKindOfMagenta">#E84363</color>
+
 </resources>
