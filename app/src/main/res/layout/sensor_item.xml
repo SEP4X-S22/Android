@@ -2,13 +2,14 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="260dp">
 
 
     <androidx.cardview.widget.CardView
-        android:layout_width="0dp"
+        android:id="@+id/sensorCardView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
+        android:layout_margin="2dp"
         android:background="@drawable/gradient"
         app:cardCornerRadius="30dp"
         app:cardPreventCornerOverlap="true"
@@ -35,9 +36,10 @@
 
             <ImageView
                 android:id="@+id/sensor_image"
-                android:layout_width="match_parent"
-                android:layout_height="130dp"
-                android:src="@drawable/measuring_tool_for_the_time_being" />
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_gravity="center"
+                />
 
             <TextView
                 android:id="@+id/sensor_measurement"

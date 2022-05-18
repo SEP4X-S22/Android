@@ -42,7 +42,8 @@
             android:defaultValue="unknown" />
         <action
             android:id="@+id/action_sensors_to_readingFragment"
-            app:destination="@id/readingFragment" />
+            app:destination="@id/readingFragment"
+            app:popUpTo="@id/sensors" />
     </fragment>
     <fragment
         android:id="@+id/readingFragment"

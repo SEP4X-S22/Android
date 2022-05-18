@@ -21,16 +21,20 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
 
     private ArrayList<Sensor> list;
     private Context context;
-    final private SensorAdapter.OnListItemClickListener mOnListItemClickListener;
+    private OnListItemClickListener mOnListItemClickListener;
 
-    public SensorAdapter( SensorAdapter.OnListItemClickListener mOnListItemClickListener) {
+
+    public SensorAdapter(  Context context) {
         this.list = new ArrayList<>();
         this.context = context;
-        this.mOnListItemClickListener = mOnListItemClickListener;
     }
 
     public interface OnListItemClickListener {
-        void onListItemClick(int clickedItemIndex);
+        void onClick(Sensor sensor);
+    }
+
+    public void setOnClickListener(OnListItemClickListener listener) {
+        mOnListItemClickListener = listener;
     }
 
     @NonNull
@@ -47,6 +51,9 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
 //        holder.measurement.setText(list.get(position).getId() + "°C");
 //        holder.measurement.setText("Current value "+list.get(position).getReadings().get(0).getReadingValue() );
         holder.measurement.setText("" + list.get(position).getReadingValue());
+        if (list.get(position).getSensor().toString().equalsIgnoreCase("Temperature")){
+            holder.image.setBackground(context.getDrawable(R.drawable.ic_baseline_wb_sunny_24));
+        }
     }
 
     public void update(ArrayList<Sensor> sensors) {
@@ -68,22 +75,20 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
         return null;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder  {
 
         TextView name;
-        ImageView src;
+        ImageView image;
         TextView measurement;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.sensor_title);
             measurement = itemView.findViewById(R.id.sensor_measurement);
-            itemView.setOnClickListener(this);
-        }
+            image = itemView.findViewById(R.id.sensor_image);
+            itemView.setOnClickListener(view -> mOnListItemClickListener.onClick(list.get(getAdapterPosition())));
+                  }
 
-        @Override
-        public void onClick(View v) {
-            mOnListItemClickListener.onListItemClick(getAdapterPosition());
-        }
+
     }
 }
