@@ -5,7 +5,7 @@ import java.util.Date;
 public class Reading {
 
     private int id;
-    private int readingValue;
+    private double readingValue;
 
     private Date timeStamp;
 
@@ -46,7 +46,7 @@ public class Reading {
         this.id = id;
     }
 
-    public int getReadingValue()
+    public double getReadingValue()
     {
         return readingValue;
     }
