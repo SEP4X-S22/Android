@@ -1,9 +1,12 @@
 package com.example.apharma.adapters;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -47,6 +50,20 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull SensorAdapter.ViewHolder holder, int position) {
+        Dialog dialog = new Dialog(context);
+        dialog.setContentView(R.layout.dialog);
+
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        dialog.setCancelable(true);
+
+        Button submit = dialog.findViewById(R.id.setConstraints);
+        EditText sensorIdText = dialog.findViewById(R.id.sensorsId);
+
+
+        sensorIdText.setText(list.get(position).getId() + "");
+
+
         holder.name.setText(list.get(position).getSensor().toString());
 //        holder.measurement.setText(list.get(position).getId() + "°C");
 //        holder.measurement.setText("Current value "+list.get(position).getReadings().get(0).getReadingValue() );
@@ -54,6 +71,12 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
         if (list.get(position).getSensor().toString().equalsIgnoreCase("Temperature")){
             holder.image.setBackground(context.getDrawable(R.drawable.ic_baseline_wb_sunny_24));
         }
+        holder.settingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.show();
+            }
+        });
     }
 
     public void update(ArrayList<Sensor> sensors) {
@@ -80,12 +103,14 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
         TextView name;
         ImageView image;
         TextView measurement;
+        ImageView settingsButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.sensor_title);
             measurement = itemView.findViewById(R.id.sensor_measurement);
             image = itemView.findViewById(R.id.sensor_image);
+            settingsButton = itemView.findViewById(R.id.settings);
             itemView.setOnClickListener(view -> mOnListItemClickListener.onClick(list.get(getAdapterPosition())));
                   }
 
