@@ -1,5 +1,7 @@
 package com.example.apharma.adapters;
 
+import static com.firebase.ui.auth.AuthUI.getApplicationContext;
+
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
@@ -11,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -89,6 +92,13 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
         if (list.get(position).getSensor().toString().equalsIgnoreCase("Humidity")) {
             holder.image.setBackground(context.getDrawable(R.drawable.ic_baseline_waves_24));
         }
+
+        if (list.get(position).getReadingValue() > list.get(position).getConstraintMaxValue()) {
+            holder.measurement.setBackground(context.getDrawable(R.color.red));
+            holder.measurement.setText(list.get(position).getReadingValue() + " DANGER!");
+            Toast.makeText(context, list.get(position).getSensor() + " measurement should be less than " + list.get(position).getConstraintMaxValue(), Toast.LENGTH_SHORT).show();
+        }
+
         holder.settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
