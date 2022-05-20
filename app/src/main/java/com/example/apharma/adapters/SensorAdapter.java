@@ -59,9 +59,13 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
 
         Button submit = dialog.findViewById(R.id.setConstraints);
         EditText sensorIdText = dialog.findViewById(R.id.sensorsId);
+        EditText sensorMinVal = dialog.findViewById(R.id.minVal);
+        EditText sensorMaxVal = dialog.findViewById(R.id.maxVal);
 
 
         sensorIdText.setText(list.get(position).getId() + "");
+        sensorMinVal.setText(list.get(position).getConstraintMinValue() + "");
+        sensorMaxVal.setText(list.get(position).getConstraintMaxValue() + "");
 
 
         holder.name.setText(list.get(position).getSensor().toString());
