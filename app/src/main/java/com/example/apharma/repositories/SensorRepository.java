@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.apharma.models.Room;
 import com.example.apharma.models.Sensor;
+import com.example.apharma.models.SensorConstraintsDTO;
 import com.example.apharma.network.RoomApi;
 import com.example.apharma.network.ServiceGenerator;
 
@@ -18,8 +19,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SensorRepository
-{
+public class SensorRepository {
     private static SensorRepository instance;
     private MutableLiveData<ArrayList<Sensor>> sensors;
 
@@ -41,19 +41,19 @@ public class SensorRepository
 
     public void fetchSensors(String room) {
         RoomApi roomApi = ServiceGenerator.getRoomApi();
-        Call<ArrayList<Sensor>>  call = roomApi.getSensors(room);
+        Call<ArrayList<Sensor>> call = roomApi.getSensors(room);
         call.enqueue(new Callback<ArrayList<Sensor>>() {
             @EverythingIsNonNull
             @Override
-            public void onResponse(Call<ArrayList<Sensor>>  call, Response<ArrayList<Sensor>> response) {
+            public void onResponse(Call<ArrayList<Sensor>> call, Response<ArrayList<Sensor>> response) {
                 if (response.isSuccessful()) {
-                    System.out.println("############ SIZE"+response.body().size());
+                    System.out.println("############ SIZE" + response.body().size());
 
                     sensors.setValue(response.body());
 
-                }else {
+                } else {
                     System.out.println("Failure ###");
-                    System.out.println("########"+response.message());
+                    System.out.println("########" + response.message());
                 }
             }
 
@@ -61,6 +61,30 @@ public class SensorRepository
             @Override
             public void onFailure(@NonNull Call<ArrayList<Sensor>> call, Throwable t) {
                 Log.i("Retrofit", "#######Something went wrong :(");
+            }
+        });
+    }
+
+    public void updateConstraints(int id, double minValue, double maxValue) {
+        RoomApi roomApi = ServiceGenerator.getRoomApi();
+        Call<Void> call = roomApi.setConstraints(id, minValue, maxValue);
+
+
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    System.out.println("success");
+                } else {
+                    System.out.println("Failure ======");
+                    System.out.println(response.message() + "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                System.out.println("!!! Failure");
+                t.printStackTrace();
             }
         });
     }

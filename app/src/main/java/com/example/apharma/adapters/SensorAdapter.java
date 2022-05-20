@@ -1,7 +1,9 @@
 package com.example.apharma.adapters;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
+import android.text.SpannableStringBuilder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,7 @@ import com.example.apharma.R;
 import com.example.apharma.models.MeasurementData;
 import com.example.apharma.models.Room;
 import com.example.apharma.models.Sensor;
+import com.example.apharma.ui.sensors.SensorsViewModel;
 
 import java.util.ArrayList;
 
@@ -25,11 +28,13 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
     private ArrayList<Sensor> list;
     private Context context;
     private OnListItemClickListener mOnListItemClickListener;
+    private SensorsViewModel sensorsViewModel;
 
 
-    public SensorAdapter(  Context context) {
+    public SensorAdapter(Context context) {
         this.list = new ArrayList<>();
         this.context = context;
+        sensorsViewModel = SensorsViewModel.getInstance();
     }
 
     public interface OnListItemClickListener {
@@ -49,7 +54,7 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SensorAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull SensorAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.dialog);
 
@@ -72,7 +77,7 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
 //        holder.measurement.setText(list.get(position).getId() + "°C");
 //        holder.measurement.setText("Current value "+list.get(position).getReadings().get(0).getReadingValue() );
         holder.measurement.setText("" + list.get(position).getReadingValue());
-        if (list.get(position).getSensor().toString().equalsIgnoreCase("Temperature")){
+        if (list.get(position).getSensor().toString().equalsIgnoreCase("Temperature")) {
             holder.image.setBackground(context.getDrawable(R.drawable.ic_baseline_wb_sunny_24));
         }
         if (list.get(position).getSensor().toString().equalsIgnoreCase("CO2")) {
@@ -88,6 +93,17 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
             @Override
             public void onClick(View view) {
                 dialog.show();
+
+                submit.setOnClickListener(v1 -> {
+                    double min = Double.parseDouble(sensorMinVal.getText().toString());
+                    double max = Double.parseDouble(sensorMaxVal.getText().toString());
+
+                        list.get(position).setConstraintMinValue(min);
+                        list.get(position).setConstraintMaxValue(max);
+                        sensorsViewModel.updateConstraints(list.get(position).getId(), list.get(position).getConstraintMinValue(), list.get(position).getConstraintMaxValue());
+                        notifyDataSetChanged();
+                    dialog.dismiss();
+                });
             }
         });
     }
@@ -111,7 +127,7 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
         return null;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder  {
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView name;
         ImageView image;
@@ -125,7 +141,7 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
             image = itemView.findViewById(R.id.sensor_image);
             settingsButton = itemView.findViewById(R.id.settings);
             itemView.setOnClickListener(view -> mOnListItemClickListener.onClick(list.get(getAdapterPosition())));
-                  }
+        }
 
 
     }
