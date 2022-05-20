@@ -16,7 +16,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="Add constraints"
+        android:text="Change constraints"
         android:textAlignment="center"
         android:textSize="26sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -41,38 +41,54 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="137dp"
-        android:layout_height="174dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4">
 
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sensor id:" />
+
         <EditText
             android:id="@+id/sensorsId"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:textColor="#000"
-            android:enabled="false"
             android:clickable="false"
-            android:inputType="none" />
+            android:ems="10"
+            android:enabled="false"
+            android:inputType="none"
+            android:textColor="#000" />
+
+        <TextView
+            android:id="@+id/textView13"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Min value:" />
 
         <EditText
             android:id="@+id/minVal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:inputType="number"
-            android:hint="min value" />
+            android:hint="min value"
+            android:inputType="number" />
+
+        <TextView
+            android:id="@+id/textView14"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Max value:" />
 
         <EditText
             android:id="@+id/maxVal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:inputType="number"
-            android:hint="max value" />
+            android:hint="max value"
+            android:inputType="number" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
