@@ -54,7 +54,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="number" />
+            android:textColor="#000"
+            android:enabled="false"
+            android:clickable="false"
+            android:inputType="none" />
 
         <EditText
             android:id="@+id/minVal"

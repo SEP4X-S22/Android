@@ -71,6 +71,15 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
         if (list.get(position).getSensor().toString().equalsIgnoreCase("Temperature")){
             holder.image.setBackground(context.getDrawable(R.drawable.ic_baseline_wb_sunny_24));
         }
+        if (list.get(position).getSensor().toString().equalsIgnoreCase("CO2")) {
+            holder.image.setBackground(context.getDrawable(R.drawable.ic_baseline_co2_24));
+        }
+        if (list.get(position).getSensor().toString().equalsIgnoreCase("Light")) {
+            holder.image.setBackground(context.getDrawable(R.drawable.ic_baseline_lightbulb_24));
+        }
+        if (list.get(position).getSensor().toString().equalsIgnoreCase("Humidity")) {
+            holder.image.setBackground(context.getDrawable(R.drawable.ic_baseline_waves_24));
+        }
         holder.settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
