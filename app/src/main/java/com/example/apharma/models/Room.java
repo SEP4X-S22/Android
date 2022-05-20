@@ -10,20 +10,18 @@ public class Room {
     private String name;
     @SerializedName("id")
     private String id;
-    @SerializedName("sensorsList")
-    private List<Sensor> sensorsList;
     private int sensorsCount;
 
-    public Room(String name, String id,int size) {
+    public Room(String name, String id, int size) {
         this.name = name;
         this.id = id;
-        this.sensorsList = new ArrayList<>();
         this.sensorsCount = size;
     }
-public int getSize()
-{
-    return sensorsCount;
-}
+
+    public int getSize() {
+        return sensorsCount;
+    }
+
     public String getId() {
         return id;
     }
@@ -40,24 +38,12 @@ public int getSize()
         this.name = name;
     }
 
-    public List<Sensor> getSensors() {
-        return sensorsList;
-    }
-
-    public void setSensors(List<Sensor> sensors) {
-        this.sensorsList = sensors;
-    }
-
-    public boolean isEmpty() {
-        return sensorsList.isEmpty();
-    }
 
     @Override
     public String toString() {
         return "Room{" +
                 "name='" + name + '\'' +
                 ", id=" + id +
-                ", sensorData=" + sensorsList +
                 '}';
     }
 }

@@ -9,14 +9,12 @@ public class Sensor {
     private int id;
     @SerializedName("sensorType")
     private SensorType sensor;
-    @SerializedName("readings")
-    private List<Reading> readings;
     private double readingValue;
 
     public Sensor(int id, SensorType sensor, double readingValue) {
         this.id = id;
         this.sensor = sensor;
-this.readingValue = readingValue;
+        this.readingValue = readingValue;
     }
 
     public double getReadingValue() {
@@ -31,9 +29,6 @@ this.readingValue = readingValue;
         return sensor;
     }
 
-    public List<Reading> getReadings() {
-        return readings;
-    }
 
     public void setId(int id) {
         this.id = id;
@@ -41,10 +36,6 @@ this.readingValue = readingValue;
 
     public void setSensor(SensorType sensor) {
         this.sensor = sensor;
-    }
-
-    public void setReadings(List<Reading> readings) {
-        this.readings = readings;
     }
 
     public enum SensorType {
