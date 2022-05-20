@@ -1,5 +1,6 @@
 package com.example.apharma.adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +18,11 @@ import java.util.ArrayList;
 public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
 
     private ArrayList<Room> rooms;
+    Context context;
     private OnListItemClickListener mOnListItemClickListener;
 
-    public RoomAdapter() {
+    public RoomAdapter(Context context) {
+        this.context = context;
         this.rooms = new ArrayList<>();
     }
 
@@ -48,15 +51,15 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.name.setText("Room " + rooms.get(position).getId());
+        if (rooms.get(position).getId().equalsIgnoreCase("0004A30B00E7E072")) {
+            holder.name.setText("Room 1");
+        } else {
+            holder.name.setText("Room 2");
+        }
+
         holder.nrOfSensors.setText("Sensors: " + rooms.get(position).getSize());
 
-//        if (rooms.get(position).getSensors().size() == 1)
-//        {
-//            holder.nrOfSensors.setText(rooms.get(position).getSensors().size() + " sensor" );
-//        } else {
-//            holder.nrOfSensors.setText(rooms.get(position).getSensors().size() + " sensors");
-//        }
+
     }
 
     @Override
@@ -83,6 +86,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
             super(itemView);
             name = itemView.findViewById(R.id.room_title);
             nrOfSensors = itemView.findViewById(R.id.room_sensors);
+            src = itemView.findViewById(R.id.room_image);
             itemView.setOnClickListener(view -> {
                 mOnListItemClickListener.onClick(rooms.get(getAdapterPosition()));
             });
