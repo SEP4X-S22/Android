@@ -5,7 +5,6 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,14 +14,9 @@ import android.view.ViewGroup;
 
 import com.example.apharma.R;
 import com.example.apharma.adapters.SensorAdapter;
-import com.example.apharma.models.MeasurementData;
-import com.example.apharma.models.Room;
 import com.example.apharma.models.Sensor;
-import com.example.apharma.ui.home.HomeFragmentDirections;
-import com.example.apharma.ui.home.HomeViewModel;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Sensors extends Fragment  {
 

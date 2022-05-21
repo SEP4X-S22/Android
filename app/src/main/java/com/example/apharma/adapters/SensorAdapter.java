@@ -1,11 +1,8 @@
 package com.example.apharma.adapters;
 
-import static com.firebase.ui.auth.AuthUI.getApplicationContext;
-
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
-import android.text.SpannableStringBuilder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +16,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.apharma.R;
-import com.example.apharma.models.MeasurementData;
-import com.example.apharma.models.Room;
 import com.example.apharma.models.Sensor;
 import com.example.apharma.ui.sensors.SensorsViewModel;
 

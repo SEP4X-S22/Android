@@ -6,9 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.apharma.models.Room;
 import com.example.apharma.models.Sensor;
-import com.example.apharma.models.SensorConstraintsDTO;
 import com.example.apharma.network.RoomApi;
 import com.example.apharma.network.ServiceGenerator;
 
