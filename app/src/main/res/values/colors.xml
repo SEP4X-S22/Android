@@ -18,5 +18,8 @@
     <color name="gold1">#F9BF48</color>
     <color name="gold2">#F9ED48</color>
     <color name="someKindOfMagenta">#E84363</color>
+    <color name="brown">#C4A484</color>
+    <color name="cadet_blue">#5F9EA0</color>
+    <color name="light_green">#FBFDF7</color>
 
 </resources>

@@ -89,7 +89,7 @@ public class Sensors extends Fragment  {
 
         recyclerView.setAdapter(sensorAdapter);
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getContext(), 1);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getContext(), 2);
 
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setHasFixedSize(true);

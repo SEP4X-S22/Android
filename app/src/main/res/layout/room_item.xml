@@ -37,7 +37,7 @@
                 android:id="@+id/room_image"
                 android:layout_width="match_parent"
                 android:layout_height="130dp"
-                android:src="@drawable/ic_room" />
+                android:src="@drawable/pharmacy_icon" />
 
             <TextView
                 android:id="@+id/room_sensors"

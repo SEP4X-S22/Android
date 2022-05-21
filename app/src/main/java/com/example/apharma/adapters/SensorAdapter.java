@@ -1,8 +1,10 @@
 package com.example.apharma.adapters;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.apharma.R;
 import com.example.apharma.models.Sensor;
+import com.example.apharma.ui.sensors.Sensors;
 import com.example.apharma.ui.sensors.SensorsViewModel;
 
 import java.util.ArrayList;
@@ -103,10 +106,33 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
                     double min = Double.parseDouble(sensorMinVal.getText().toString());
                     double max = Double.parseDouble(sensorMaxVal.getText().toString());
 
+//                        list.get(position).setConstraintMinValue(min);
+//                        list.get(position).setConstraintMaxValue(max);
+//                        sensorsViewModel.updateConstraints(list.get(position).getId(), list.get(position).getConstraintMinValue(), list.get(position).getConstraintMaxValue());
+
+                    //Setting message manually and performing action on button click
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setMessage("Are you sure you want to set new constraints?").setPositiveButton("Yes", (dialogInterface, i) -> {
                         list.get(position).setConstraintMinValue(min);
                         list.get(position).setConstraintMaxValue(max);
                         sensorsViewModel.updateConstraints(list.get(position).getId(), list.get(position).getConstraintMinValue(), list.get(position).getConstraintMaxValue());
                         notifyDataSetChanged();
+
+                    });
+                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            //  Action for 'Cancel' Button
+                            dialogInterface.cancel();
+                            notifyDataSetChanged();
+                        }
+                    });
+                    //Creating dialog box
+                    AlertDialog alertDialog = builder.create();
+
+                    //Setting the title
+                    alertDialog.setTitle("Confirmation");
+                    alertDialog.show();
                     dialog.dismiss();
                 });
             }
