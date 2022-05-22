@@ -10,6 +10,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -153,28 +154,29 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
         });
     }
     private void addNotification() {
+        if (Build.VERSION.SDK_INT >= 26) {
+            final String CHANNEL_ID = "HEADS_UP_NOTIFICATION";
+            NotificationChannel channel = new NotificationChannel(
+                    CHANNEL_ID,
+                    "Heads Up Notification",
+                    NotificationManager.IMPORTANCE_HIGH
+            );
+            context.getSystemService(NotificationManager.class).createNotificationChannel(channel);
+            Notification.Builder notification = new Notification.Builder(context, CHANNEL_ID).setContentTitle("aPharma")
+                    .setContentText("DANGER, check conditions").setSmallIcon(R.drawable.pharmacy_icon)
+                    .setAutoCancel(true);
 
-        final String CHANNEL_ID = "HEADS_UP_NOTIFICATION";
-        NotificationChannel channel= new NotificationChannel(
-                CHANNEL_ID,
-                "Heads Up Notification",
-                NotificationManager.IMPORTANCE_HIGH
-        );
-        context.getSystemService(NotificationManager.class).createNotificationChannel(channel);
-        Notification.Builder notification = new Notification.Builder(context,CHANNEL_ID).setContentTitle("aPharma")
-                .setContentText("DANGER, check conditions").setSmallIcon(R.drawable.pharmacy_icon)
-                .setAutoCancel(true);
+            Intent notificationIntent = new Intent(context, Sensors.class);
+            PendingIntent contentIntent = PendingIntent.getActivity(context
+                    , 0, notificationIntent,
+                    PendingIntent.FLAG_IMMUTABLE);
+            notification.setContentIntent(contentIntent);
 
-        Intent notificationIntent = new Intent(context, Sensors.class);
-        PendingIntent contentIntent = PendingIntent.getActivity(context
-                , 0, notificationIntent,
-                PendingIntent.FLAG_IMMUTABLE);
-        notification.setContentIntent(contentIntent);
-
-        // Add as notification
-        NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        manager.notify(0, notification.build());
+            // Add as notification
+            NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            manager.notify(0, notification.build());
 //        NotificationManagerCompat.from(context).notify(1,notification.build());
+        }
     }
     public void update(ArrayList<Sensor> sensors) {
         list = sensors;
