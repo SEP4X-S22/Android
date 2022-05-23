@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.RecyclerView;
@@ -65,7 +66,7 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SensorAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.dialog);
 
@@ -101,9 +102,11 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
             holder.image.setBackground(context.getDrawable(R.drawable.ic_baseline_waves_24));
         }
 
-        if (list.get(position).getReadingValue() > list.get(position).getConstraintMaxValue()) {
+        if (list.get(position).getReadingValue() > list.get(position).getConstraintMaxValue()||list.get(position).getReadingValue() < list.get(position).getConstraintMinValue()) {
             addNotification();
-            holder.measurement.setBackground(context.getDrawable(R.color.red));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                holder.cardView.setCardBackgroundColor(context.getColor(R.color.red));
+            }
             holder.measurement.setText(list.get(position).getReadingValue() + " DANGER!");
 //            Toast.makeText(context, list.get(position).getSensor() + " measurement should be less than " + list.get(position).getConstraintMaxValue(), Toast.LENGTH_SHORT).show();
 //        }
@@ -203,6 +206,7 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
         ImageView image;
         TextView measurement;
         ImageView settingsButton;
+        CardView cardView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -210,6 +214,7 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
             measurement = itemView.findViewById(R.id.sensor_measurement);
             image = itemView.findViewById(R.id.sensor_image);
             settingsButton = itemView.findViewById(R.id.settings);
+            cardView = itemView.findViewById(R.id.sensorCardView);
             itemView.setOnClickListener(view -> mOnListItemClickListener.onClick(list.get(getAdapterPosition())));
         }
 
