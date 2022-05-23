@@ -45,7 +45,7 @@ public class SensorsViewModel extends ViewModel {
 
     }
 
-    public void updateConstraints(int id, double min, double max) {
+    public void updateConstraints(int id, int min, int max) {
         sensorRepository.updateConstraints(id, min, max);
     }
 }

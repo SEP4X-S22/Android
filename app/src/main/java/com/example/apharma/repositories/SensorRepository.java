@@ -63,7 +63,7 @@ public class SensorRepository {
         });
     }
 
-    public void updateConstraints(int id, double minValue, double maxValue) {
+    public void updateConstraints(int id, int minValue, int maxValue) {
         RoomApi roomApi = ServiceGenerator.getRoomApi();
         Call<Void> call = roomApi.setConstraints(id, minValue, maxValue);
 

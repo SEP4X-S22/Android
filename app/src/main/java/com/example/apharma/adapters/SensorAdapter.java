@@ -121,8 +121,8 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
                 dialog.show();
 
                 submit.setOnClickListener(v1 -> {
-                    double min = Double.parseDouble(sensorMinVal.getText().toString());
-                    double max = Double.parseDouble(sensorMaxVal.getText().toString());
+                    int min = Integer.parseInt(sensorMinVal.getText().toString());
+                    int max = Integer.parseInt(sensorMaxVal.getText().toString());
 
 //                        list.get(position).setConstraintMinValue(min);
 //                        list.get(position).setConstraintMaxValue(max);

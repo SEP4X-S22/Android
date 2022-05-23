@@ -9,11 +9,11 @@ public class Sensor {
     private int id;
     @SerializedName("sensorType")
     private SensorType sensor;
-    private double constraintMinValue;
-    private double constraintMaxValue;
+    private int constraintMinValue;
+    private int constraintMaxValue;
     private double readingValue;
 
-    public Sensor(int id, SensorType sensor, double constraintMinValue, double constraintMaxValue, double readingValue) {
+    public Sensor(int id, SensorType sensor, int constraintMinValue, int constraintMaxValue, double readingValue) {
         this.id = id;
         this.sensor = sensor;
         this.constraintMinValue = constraintMinValue;
@@ -29,11 +29,11 @@ public class Sensor {
         return id;
     }
 
-    public double getConstraintMinValue() {
+    public int getConstraintMinValue() {
         return constraintMinValue;
     }
 
-    public double getConstraintMaxValue() {
+    public int getConstraintMaxValue() {
         return constraintMaxValue;
     }
 
@@ -50,11 +50,11 @@ public class Sensor {
         this.sensor = sensor;
     }
 
-    public void setConstraintMinValue(double constraintMinValue) {
+    public void setConstraintMinValue(int constraintMinValue) {
         this.constraintMinValue = constraintMinValue;
     }
 
-    public void setConstraintMaxValue(double constraintMaxValue) {
+    public void setConstraintMaxValue(int constraintMaxValue) {
         this.constraintMaxValue = constraintMaxValue;
     }
 
