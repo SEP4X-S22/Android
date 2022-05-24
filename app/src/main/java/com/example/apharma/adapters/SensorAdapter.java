@@ -18,19 +18,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.apharma.MainActivity;
 import com.example.apharma.R;
 import com.example.apharma.models.Sensor;
-import com.example.apharma.ui.home.HomeFragment;
-import com.example.apharma.ui.sensors.Sensors;
+import com.example.apharma.ui.sensors.SensorsFragment;
 import com.example.apharma.ui.sensors.SensorsViewModel;
 
 import java.util.ArrayList;
@@ -169,7 +164,7 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
                     .setContentText("DANGER, check conditions").setSmallIcon(R.drawable.pharmacy_icon)
                     .setAutoCancel(true);
 
-            Intent notificationIntent = new Intent(context, Sensors.class);
+            Intent notificationIntent = new Intent(context, SensorsFragment.class);
             PendingIntent contentIntent = PendingIntent.getActivity(context
                     , 0, notificationIntent,
                     PendingIntent.FLAG_IMMUTABLE);

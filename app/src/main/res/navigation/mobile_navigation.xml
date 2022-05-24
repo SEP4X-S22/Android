@@ -33,7 +33,7 @@
         tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/sensors"
-        android:name="com.example.apharma.ui.sensors.Sensors"
+        android:name="com.example.apharma.ui.sensors.SensorsFragment"
         android:label="Sensors"
         tools:layout="@layout/fragment_sensors" >
         <argument

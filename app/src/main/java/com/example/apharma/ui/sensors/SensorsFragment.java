@@ -18,21 +18,21 @@ import com.example.apharma.models.Sensor;
 
 import java.util.ArrayList;
 
-public class Sensors extends Fragment  {
+public class SensorsFragment extends Fragment  {
 
     private RecyclerView recyclerView;
     private SensorAdapter sensorAdapter;
     private SensorsViewModel sensorsViewModel;
     ArrayList<Sensor> sensorsList;
 
-    public Sensors() {
+    public SensorsFragment() {
         // Required empty public constructor
     }
 
 
 //    // TODO: Rename and change types and number of parameters
-//    public static Sensors newInstance(String param1, String param2) {
-//        Sensors fragment = new Sensors();
+//    public static SensorsFragment newInstance(String param1, String param2) {
+//        SensorsFragment fragment = new SensorsFragment();
 //        Bundle args = new Bundle();
 //        args.putString(ARG_PARAM1, param1);
 //        args.putString(ARG_PARAM2, param2);
@@ -58,7 +58,7 @@ public class Sensors extends Fragment  {
         recyclerView = view.findViewById(R.id.rv);
 
 
-        String roomId = SensorsArgs.fromBundle(getArguments()).getRoomId();
+        String roomId = SensorsFragmentArgs.fromBundle(getArguments()).getRoomId();
 
 
         sensorsViewModel.getSensors().observe(getViewLifecycleOwner(), sensors -> {
@@ -72,7 +72,7 @@ public class Sensors extends Fragment  {
         ConfigureRecyclerView();
 
         sensorAdapter.setOnClickListener(v ->{
-            SensorsDirections.ActionSensorsToReadingFragment actionSensorsToReadingFragment = SensorsDirections.actionSensorsToReadingFragment();
+            SensorsFragmentDirections.ActionSensorsToReadingFragment actionSensorsToReadingFragment = SensorsFragmentDirections.actionSensorsToReadingFragment();
             actionSensorsToReadingFragment.setRoomId(roomId);
             actionSensorsToReadingFragment.setSensorType(v.getSensor().toString());
             Navigation.findNavController(view).navigate(actionSensorsToReadingFragment);

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     style="@style/Theme.Background"
-    tools:context=".ui.sensors.Sensors">
+    tools:context=".ui.sensors.SensorsFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv"

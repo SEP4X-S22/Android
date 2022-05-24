@@ -57,7 +57,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
             holder.name.setText("Room 2");
         }
 
-        holder.nrOfSensors.setText("Sensors: " + rooms.get(position).getSize());
+        holder.nrOfSensors.setText( rooms.get(position).getSize() + " sensors");
 
 
     }
