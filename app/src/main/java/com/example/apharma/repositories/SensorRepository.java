@@ -62,7 +62,7 @@ Application application;
             @Override
             public void onResponse(Call<ArrayList<Sensor>> call, Response<ArrayList<Sensor>> response) {
                 if (response.isSuccessful()) {
-//                    insert(response.body());
+                    insert(response.body());
                     System.out.println("############ SIZE" + response.body().size());
 
 
