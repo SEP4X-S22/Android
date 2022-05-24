@@ -75,15 +75,15 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
         EditText sensorMaxVal = dialog.findViewById(R.id.maxVal);
 
 
-        sensorIdText.setText(list.get(position).getId() + "");
-        sensorMinVal.setText(list.get(position).getConstraintMinValue() + "");
-        sensorMaxVal.setText(list.get(position).getConstraintMaxValue() + "");
+        sensorIdText.setText(String.valueOf(list.get(position).getId() ));
+        sensorMinVal.setText(String.valueOf(list.get(position).getConstraintMinValue()));
+        sensorMaxVal.setText(String.valueOf(list.get(position).getConstraintMaxValue()));
 
 
         holder.name.setText(list.get(position).getSensor().toString());
 //        holder.measurement.setText(list.get(position).getId() + "°C");
 //        holder.measurement.setText("Current value "+list.get(position).getReadings().get(0).getReadingValue() );
-        holder.measurement.setText("" + list.get(position).getReadingValue());
+        holder.measurement.setText(String.valueOf(list.get(position).getReadingValue()));
         if (list.get(position).getSensor().toString().equalsIgnoreCase("Temperature")) {
             holder.image.setBackground(context.getDrawable(R.drawable.ic_baseline_wb_sunny_24));
         }
@@ -108,7 +108,12 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
 
 
 
+        } else    {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                holder.cardView.setCardBackgroundColor(context.getColor(R.color.cadet_blue));
+            }
         }
+
 
         holder.settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,7 +134,7 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
                         list.get(position).setConstraintMinValue(min);
                         list.get(position).setConstraintMaxValue(max);
                         sensorsViewModel.updateConstraints(list.get(position).getId(), list.get(position).getConstraintMinValue(), list.get(position).getConstraintMaxValue());
-                        notifyDataSetChanged();
+                        notifyItemChanged(position);
 
                     });
                     builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -137,7 +142,7 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
                         public void onClick(DialogInterface dialogInterface, int i) {
                             //  Action for 'Cancel' Button
                             dialogInterface.cancel();
-                            notifyDataSetChanged();
+                            notifyItemChanged(position);
                         }
                     });
                     //Creating dialog box

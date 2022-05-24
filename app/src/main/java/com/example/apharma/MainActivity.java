@@ -1,9 +1,13 @@
 package com.example.apharma;
 
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.example.apharma.notifications.NotificationJobService;
 import com.example.apharma.ui.signIn.SignInActivity;
 import com.example.apharma.viewmodels.MainActivityViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -23,6 +27,10 @@ public class MainActivity extends AppCompatActivity {
     private MainActivityViewModel viewModel;
     NavController navController;
     AppBarConfiguration appBarConfiguration;
+    private static final int JOB_ID = 0;
+    private JobScheduler mScheduler;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +41,16 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        mScheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+
+        ComponentName serviceName = new ComponentName(getPackageName(),
+                NotificationJobService.class.getName());
+        JobInfo.Builder builder = new JobInfo.Builder(JOB_ID, serviceName)
+                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY);
+        JobInfo myJobInfo = builder.build();
+        mScheduler.schedule(myJobInfo);
+
 
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
