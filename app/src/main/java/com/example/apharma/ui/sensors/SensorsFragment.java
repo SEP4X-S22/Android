@@ -86,7 +86,7 @@ public class SensorsFragment extends Fragment  {
 
     private void ConfigureRecyclerView() {
 
-        sensorAdapter = SensorAdapter.getInstance();
+        sensorAdapter = new SensorAdapter(getContext());
         sensorAdapter.setContext(getContext());
 
         recyclerView.setAdapter(sensorAdapter);

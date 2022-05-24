@@ -1,5 +1,8 @@
 package com.example.apharma.ui.sensors;
 
+import android.app.Application;
+
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -8,12 +11,14 @@ import com.example.apharma.models.Sensor;
 import com.example.apharma.repositories.SensorRepository;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SensorsViewModel extends ViewModel {
     SensorRepository sensorRepository;
     private static SensorsViewModel instance;
 
     public SensorsViewModel() {
+
         sensorRepository = SensorRepository.getInstance();
     }
 
@@ -24,7 +29,7 @@ public class SensorsViewModel extends ViewModel {
         return instance;
     }
 
-    public LiveData<ArrayList<Sensor>> getSensors() {
+    public LiveData<List<Sensor>> getSensors() {
         return sensorRepository.getSensors();
     }
 

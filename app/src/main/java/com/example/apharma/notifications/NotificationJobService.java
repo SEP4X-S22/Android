@@ -20,7 +20,7 @@ public class NotificationJobService extends JobService {
 
     NotificationManager mNotifyManager;
     JobScheduler jobScheduler;
-    private SensorAdapter sensorAdapter = SensorAdapter.getInstance();
+//    private SensorAdapter sensorAdapter = SensorAdapter.getInstance();
 
     // Notification channel ID.
     private static final String PRIMARY_CHANNEL_ID =

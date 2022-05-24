@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private MainActivityViewModel viewModel;
     NavController navController;
     AppBarConfiguration appBarConfiguration;
-    public SensorAdapter sensorAdapter = SensorAdapter.getInstance();
+//    public SensorAdapter sensorAdapter = SensorAdapter.getInstance();
     private static final int JOB_ID = 0;
     private int refreshInterval = 5 * 60 * 1000;
     private JobScheduler mScheduler;
@@ -55,11 +55,11 @@ public class MainActivity extends AppCompatActivity {
 //        mScheduler.schedule(myJobInfo);
 
 
-        sensorAdapter.isConditionsSurpassConstraints().observe(this, condition ->{
-            if (condition){
-                mScheduler.schedule(myJobInfo);
-            }
-        });
+//        sensorAdapter.isConditionsSurpassConstraints().observe(this, condition ->{
+//            if (condition){
+//                mScheduler.schedule(myJobInfo);
+//            }
+//        });
 
 
 

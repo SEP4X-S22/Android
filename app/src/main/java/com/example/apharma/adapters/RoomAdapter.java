@@ -14,10 +14,11 @@ import com.example.apharma.R;
 import com.example.apharma.models.Room;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
 
-    private ArrayList<Room> rooms;
+    private List<Room> rooms;
     Context context;
     private OnListItemClickListener mOnListItemClickListener;
 
@@ -44,7 +45,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
     }
 
 
-    public void update(ArrayList<Room> list) {
+    public void update(List<Room> list) {
         rooms = list;
         notifyDataSetChanged();
     }
@@ -57,7 +58,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
             holder.name.setText("Room 2");
         }
 
-        holder.nrOfSensors.setText( rooms.get(position).getSize() + " sensors");
+        holder.nrOfSensors.setText( rooms.get(position).getSensorsCount() + " sensors");
 
 
     }

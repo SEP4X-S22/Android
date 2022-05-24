@@ -2,6 +2,7 @@ package com.example.apharma.adapters;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.Application;
 import android.app.Dialog;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -31,23 +32,25 @@ import com.example.apharma.ui.sensors.SensorsFragment;
 import com.example.apharma.ui.sensors.SensorsViewModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder> {
 
-    private ArrayList<Sensor> list;
+    private List<Sensor> list;
     private Context context;
     private OnListItemClickListener mOnListItemClickListener;
     private SensorsViewModel sensorsViewModel;
     private static SensorAdapter instance;
     private MutableLiveData<Boolean> conditionsSurpassConstraints = new MutableLiveData<>();
 
+
     public LiveData<Boolean> isConditionsSurpassConstraints() {
         return conditionsSurpassConstraints;
     }
 
-    public SensorAdapter() {
+    public SensorAdapter(Context context) {
         this.list = new ArrayList<>();
-        this.context = null;
+        this.context = context;
 //        conditionsSurpassConstraints.setValue(false);
         sensorsViewModel = SensorsViewModel.getInstance();
     }
@@ -57,12 +60,12 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
     }
 
 
-    public static synchronized SensorAdapter getInstance() {
-        if (instance == null) {
-            instance = new SensorAdapter();
-        }
-        return instance;
-    }
+//    public static synchronized SensorAdapter getInstance() {
+//        if (instance == null) {
+//            instance = new SensorAdapter();
+//        }
+//        return instance;
+//    }
 
     public interface OnListItemClickListener {
         void onClick(Sensor sensor);
@@ -203,7 +206,7 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
 //        NotificationManagerCompat.from(context).notify(1,notification.build());
         }
     }
-    public void update(ArrayList<Sensor> sensors) {
+    public void update(List<Sensor> sensors) {
         list = sensors;
         notifyDataSetChanged();
     }

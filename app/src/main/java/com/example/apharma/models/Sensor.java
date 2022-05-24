@@ -1,11 +1,17 @@
 package com.example.apharma.models;
 
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@Entity(tableName = "sensors")
 public class Sensor {
+    @PrimaryKey
+    @NonNull
     private int id;
     @SerializedName("sensorType")
     private SensorType sensor;
