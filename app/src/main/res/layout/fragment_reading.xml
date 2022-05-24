@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     style="@style/Theme.Background"
     tools:context=".ui.readings.ReadingFragment">
 
@@ -15,5 +16,10 @@
         android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="24sp" />
+    <com.jjoe64.graphview.GraphView
+        android:id="@+id/idGraphView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true" />
 
 </LinearLayout>

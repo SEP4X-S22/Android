@@ -65,4 +65,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:20.2.0'
     implementation 'com.google.firebase:firebase-messaging'
 
+    // Graph
+    implementation 'com.jjoe64:graphview:4.2.2'
+
 }

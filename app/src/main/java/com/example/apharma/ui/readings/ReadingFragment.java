@@ -1,5 +1,6 @@
 package com.example.apharma.ui.readings;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,6 +13,11 @@ import android.widget.TextView;
 
 import com.example.apharma.R;
 import com.example.apharma.models.Reading;
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.ValueDependentColor;
+import com.jjoe64.graphview.series.BarGraphSeries;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.ArrayList;
 
@@ -29,6 +35,7 @@ public class ReadingFragment extends Fragment {
     private ReadingViewModel measurementDataViewModel;
     ArrayList<Reading> readings;
     TextView textView;
+    private GraphView graphView;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -83,7 +90,32 @@ public class ReadingFragment extends Fragment {
             textView = view.findViewById(R.id.value);
             textView.setText("Reading: " +readings.get(readings.size()-1).getReadingValue());
 
+            graphView = view.findViewById(R.id.idGraphView);
+
+            if (readings.size() > 0) {
+                LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
+                for (int i = 0; i < readings.size(); i++) {
+                    DataPoint point = new DataPoint( i,readings.get(i).getReadingValue());
+                    series.appendData(point, true, readings.size());
+                }
+                graphView.addSeries(series);
+            }
+            graphView.setTitle("Readings overview");
+
+            graphView.setTitleTextSize(50);
+
+
         });
+
+//            BarGraphSeries<DataPoint> series = new BarGraphSeries<>();
+//            {
+//                for (int i = 0; i < readings.size(); i++) {
+//                    DataPoint point = new DataPoint(i, readings.get(i).getReadingValue());
+//                    series.appendData(point, true, readings.size());
+//                }
+//                graphView.addSeries(series);
+//                series.setSpacing(50);
+//            }});
 
 //        measurementDataViewModel.fetchReadings(id,sensorType);
 //
