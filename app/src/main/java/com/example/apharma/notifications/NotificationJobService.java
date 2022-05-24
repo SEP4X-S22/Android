@@ -62,7 +62,7 @@ public class NotificationJobService extends JobService {
             Notification.Builder notification = new Notification.Builder(this, PRIMARY_CHANNEL_ID).setContentTitle("aPharma")
                     .setContentText("DANGER, check conditions").setSmallIcon(R.drawable.pharmacy_icon)
                     .setAutoCancel(true);
-
+            notification.setContentIntent(contentPendingIntent);
             mNotifyManager.notify(0, notification.build());
         }
         return false;
