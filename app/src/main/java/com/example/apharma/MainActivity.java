@@ -50,16 +50,18 @@ public class MainActivity extends AppCompatActivity {
         ComponentName serviceName = new ComponentName(getPackageName(),
                 NotificationJobService.class.getName());
         JobInfo.Builder builder = new JobInfo.Builder(JOB_ID, serviceName)
-                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
-                .setPeriodic(refreshInterval);
+                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY);
         JobInfo myJobInfo = builder.build();
-        mScheduler.schedule(myJobInfo);
+//        mScheduler.schedule(myJobInfo);
 
 
+        sensorAdapter.isConditionsSurpassConstraints().observe(this, condition ->{
+            if (condition){
+                mScheduler.schedule(myJobInfo);
+            }
+        });
 
-//        if (sensorAdapter.isConditionsSurpassConstraints()){
-//            mScheduler.schedule(myJobInfo);
-//        }
+
 
 
 

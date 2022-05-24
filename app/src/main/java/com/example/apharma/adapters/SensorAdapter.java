@@ -21,6 +21,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.apharma.R;
@@ -37,15 +39,16 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
     private OnListItemClickListener mOnListItemClickListener;
     private SensorsViewModel sensorsViewModel;
     private static SensorAdapter instance;
-    private boolean conditionsSurpassConstraints = false;
+    private MutableLiveData<Boolean> conditionsSurpassConstraints = new MutableLiveData<>();
 
-    public boolean isConditionsSurpassConstraints() {
+    public LiveData<Boolean> isConditionsSurpassConstraints() {
         return conditionsSurpassConstraints;
     }
 
     public SensorAdapter() {
         this.list = new ArrayList<>();
         this.context = null;
+//        conditionsSurpassConstraints.setValue(false);
         sensorsViewModel = SensorsViewModel.getInstance();
     }
 
@@ -115,7 +118,7 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
         }
 
         if (checkForCurrentConditions(position)) {
-            conditionsSurpassConstraints = true;
+            conditionsSurpassConstraints.setValue(true);
             //addNotification();
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 holder.cardView.setCardBackgroundColor(context.getColor(R.color.red));
@@ -129,7 +132,7 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
         } else    {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 holder.cardView.setCardBackgroundColor(context.getColor(R.color.cadet_blue));
-                conditionsSurpassConstraints = false;
+                conditionsSurpassConstraints.setValue(false);
             }
         }
 
