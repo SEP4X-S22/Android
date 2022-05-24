@@ -61,6 +61,8 @@ public class SensorsFragment extends Fragment  {
         String roomId = SensorsFragmentArgs.fromBundle(getArguments()).getRoomId();
 
 
+        ConfigureRecyclerView();
+
         sensorsViewModel.getSensors().observe(getViewLifecycleOwner(), sensors -> {
 
             sensorAdapter.update(sensors);
@@ -69,7 +71,6 @@ public class SensorsFragment extends Fragment  {
 
         sensorsViewModel.fetchSensors(roomId);
 
-        ConfigureRecyclerView();
 
         sensorAdapter.setOnClickListener(v ->{
             SensorsFragmentDirections.ActionSensorsToReadingFragment actionSensorsToReadingFragment = SensorsFragmentDirections.actionSensorsToReadingFragment();
@@ -85,7 +86,8 @@ public class SensorsFragment extends Fragment  {
 
     private void ConfigureRecyclerView() {
 
-        sensorAdapter = new SensorAdapter( getContext());
+        sensorAdapter = SensorAdapter.getInstance();
+        sensorAdapter.setContext(getContext());
 
         recyclerView.setAdapter(sensorAdapter);
 

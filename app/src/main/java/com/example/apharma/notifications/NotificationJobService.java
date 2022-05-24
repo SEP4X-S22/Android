@@ -4,17 +4,23 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.job.JobInfo;
 import android.app.job.JobParameters;
+import android.app.job.JobScheduler;
 import android.app.job.JobService;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.graphics.Color;
 
 import com.example.apharma.MainActivity;
 import com.example.apharma.R;
+import com.example.apharma.adapters.SensorAdapter;
 
 public class NotificationJobService extends JobService {
 
     NotificationManager mNotifyManager;
+    JobScheduler jobScheduler;
+    private SensorAdapter sensorAdapter = SensorAdapter.getInstance();
 
     // Notification channel ID.
     private static final String PRIMARY_CHANNEL_ID =
@@ -52,6 +58,7 @@ public class NotificationJobService extends JobService {
     public boolean onStartJob(JobParameters jobParameters) {
 //Create the notification channel
         createNotificationChannel();
+        jobScheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
 
 
 //Set up the notification content intent to launch the app when clicked
@@ -64,6 +71,14 @@ public class NotificationJobService extends JobService {
                     .setAutoCancel(true);
             notification.setContentIntent(contentPendingIntent);
             mNotifyManager.notify(0, notification.build());
+
+
+//            ComponentName serviceName = new ComponentName(getPackageName(),
+//                    NotificationJobService.class.getName());
+//            JobInfo.Builder builder = new JobInfo.Builder(0, serviceName)
+//                    .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY);
+//            JobInfo myJobInfo = builder.build();
+//            jobScheduler.schedule(myJobInfo);
         }
         return false;
     }

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.example.apharma.adapters.SensorAdapter;
 import com.example.apharma.notifications.NotificationJobService;
 import com.example.apharma.ui.signIn.SignInActivity;
 import com.example.apharma.viewmodels.MainActivityViewModel;
@@ -27,7 +28,9 @@ public class MainActivity extends AppCompatActivity {
     private MainActivityViewModel viewModel;
     NavController navController;
     AppBarConfiguration appBarConfiguration;
+    public SensorAdapter sensorAdapter = SensorAdapter.getInstance();
     private static final int JOB_ID = 0;
+    private int refreshInterval = 5 * 60 * 1000;
     private JobScheduler mScheduler;
 
 
@@ -47,9 +50,16 @@ public class MainActivity extends AppCompatActivity {
         ComponentName serviceName = new ComponentName(getPackageName(),
                 NotificationJobService.class.getName());
         JobInfo.Builder builder = new JobInfo.Builder(JOB_ID, serviceName)
-                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY);
+                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                .setPeriodic(refreshInterval);
         JobInfo myJobInfo = builder.build();
         mScheduler.schedule(myJobInfo);
+
+
+
+//        if (sensorAdapter.isConditionsSurpassConstraints()){
+//            mScheduler.schedule(myJobInfo);
+//        }
 
 
 

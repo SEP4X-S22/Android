@@ -36,12 +36,29 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
     private Context context;
     private OnListItemClickListener mOnListItemClickListener;
     private SensorsViewModel sensorsViewModel;
+    private static SensorAdapter instance;
+    private boolean conditionsSurpassConstraints = false;
 
+    public boolean isConditionsSurpassConstraints() {
+        return conditionsSurpassConstraints;
+    }
 
-    public SensorAdapter(Context context) {
+    public SensorAdapter() {
         this.list = new ArrayList<>();
-        this.context = context;
+        this.context = null;
         sensorsViewModel = SensorsViewModel.getInstance();
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
+    }
+
+
+    public static synchronized SensorAdapter getInstance() {
+        if (instance == null) {
+            instance = new SensorAdapter();
+        }
+        return instance;
     }
 
     public interface OnListItemClickListener {
@@ -97,8 +114,9 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
             holder.image.setBackground(context.getDrawable(R.drawable.ic_baseline_waves_24));
         }
 
-        if (list.get(position).getReadingValue() > list.get(position).getConstraintMaxValue()||list.get(position).getReadingValue() < list.get(position).getConstraintMinValue()) {
-            addNotification();
+        if (checkForCurrentConditions(position)) {
+            conditionsSurpassConstraints = true;
+            //addNotification();
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 holder.cardView.setCardBackgroundColor(context.getColor(R.color.red));
             }
@@ -111,6 +129,7 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
         } else    {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 holder.cardView.setCardBackgroundColor(context.getColor(R.color.cadet_blue));
+                conditionsSurpassConstraints = false;
             }
         }
 
@@ -198,6 +217,15 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
             }
         }
         return null;
+    }
+
+    public  boolean checkForCurrentConditions(int position){
+
+            if (list.get(position).getConstraintMinValue() > list.get(position).getReadingValue() || list.get(position).getConstraintMaxValue() < list.get(position).getReadingValue()){
+                return true;
+            }
+
+        return false;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
