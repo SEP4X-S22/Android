@@ -1,24 +1,29 @@
 package com.example.apharma.models;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.jetbrains.annotations.NotNull;
 
+@Entity(tableName = "rooms")
 public class Room {
 
     private String name;
     @SerializedName("id")
+    @PrimaryKey
+    @NotNull
     private String id;
     private int sensorsCount;
 
-    public Room(String name, String id, int size) {
+    public Room(String name, String id, int sensorsCount) {
         this.name = name;
         this.id = id;
-        this.sensorsCount = size;
+        this.sensorsCount = sensorsCount;
     }
 
-    public int getSize() {
+    public int getSensorsCount() {
         return sensorsCount;
     }
 

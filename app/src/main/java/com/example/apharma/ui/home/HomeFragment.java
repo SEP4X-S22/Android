@@ -21,6 +21,7 @@ import com.example.apharma.models.Room;
 import com.example.apharma.ui.sensors.SensorsViewModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class HomeFragment extends Fragment {
 
@@ -31,7 +32,7 @@ public class HomeFragment extends Fragment {
     private HomeViewModel homeViewModel;
     private SensorsViewModel sensorsViewModel;
     private TextView name;
-    ArrayList<Room> roomsData;
+    List<Room> roomsData;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
