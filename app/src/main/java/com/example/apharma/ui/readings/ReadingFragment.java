@@ -93,6 +93,7 @@ public class ReadingFragment extends Fragment {
             graphView = view.findViewById(R.id.idGraphView);
 
             if (readings.size() > 0) {
+                graphView.removeAllSeries();
                 LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
                 for (int i = 0; i < readings.size(); i++) {
                     DataPoint point = new DataPoint( i,readings.get(i).getReadingValue());
