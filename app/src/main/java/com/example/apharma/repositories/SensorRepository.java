@@ -49,6 +49,14 @@ public class SensorRepository {
 
                     sensors.setValue(response.body());
 
+//                    ArrayList
+//                    for (Sensor sensor: response.body()
+//                         ) {
+//
+//                    }
+                    sensors.setValue(response.body());
+
+
                 } else {
                     System.out.println("Failure ###");
                     System.out.println("########" + response.message());

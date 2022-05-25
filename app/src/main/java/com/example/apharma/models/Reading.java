@@ -1,13 +1,26 @@
 package com.example.apharma.models;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity(tableName = "reading_table")
 public class Reading {
 
+    @PrimaryKey
     private int id;
     private double readingValue;
-
     private String timeStamp;
+    private String sensorId;
 
     public Reading() {
+    }
+
+    public String getSensorId() {
+        return sensorId;
+    }
+
+    public void setSensorId(String sensorId) {
+        this.sensorId = sensorId;
     }
 
     @Override

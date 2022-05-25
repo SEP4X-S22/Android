@@ -1,5 +1,8 @@
 package com.example.apharma.ui.home;
 
+import android.app.Application;
+
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -10,25 +13,17 @@ import com.example.apharma.repositories.RoomRepository;
 
 import java.util.ArrayList;
 
-public class HomeViewModel extends ViewModel {
+public class HomeViewModel extends AndroidViewModel {
 
     private final MutableLiveData<String> mText;
-    private Room rooms;
 
     RoomRepository repository;
 
-    public HomeViewModel() {
+    public HomeViewModel(Application application) {
+        super(application);
         mText = new MutableLiveData<>();
         mText.setValue("This is home fragment");
-        repository = RoomRepository.getInstance();
-    }
-
-    public Room getRoooms() {
-        return rooms;
-    }
-
-    public void setRooms(Room rooms) {
-        this.rooms = rooms;
+        repository = RoomRepository.getInstance(application);
     }
 
     public LiveData<String> getText() {
