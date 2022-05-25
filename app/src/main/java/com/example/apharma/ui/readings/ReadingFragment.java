@@ -10,10 +10,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.anychart.charts.Cartesian;
+import com.anychart.core.cartesian.series.Line;
+import com.anychart.data.Mapping;
+import com.anychart.data.Set;
 import com.example.apharma.R;
 import com.example.apharma.models.Reading;
 
 import java.util.ArrayList;
+
+import com.anychart.AnyChart;
+import com.anychart.AnyChartView;
+import com.anychart.chart.common.dataentry.DataEntry;
+import com.anychart.chart.common.dataentry.ValueDataEntry;
+import com.anychart.charts.Cartesian;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -71,24 +83,51 @@ public class ReadingFragment extends Fragment {
                              Bundle savedInstanceState) {
         ReadingViewModel measurementDataViewModel = new ViewModelProvider(this).get(ReadingViewModel.class);
         // Inflate the layout for this fragment
-        View view= inflater.inflate(R.layout.fragment_reading, container, false);
+        View view = inflater.inflate(R.layout.fragment_reading, container, false);
 
+        AnyChartView anyChartView = view.findViewById(R.id.any_chart_view);
 
         String id = ReadingFragmentArgs.fromBundle(getArguments()).getRoomId();
         String sensorType = ReadingFragmentArgs.fromBundle(getArguments()).getSensorType();
 
-        measurementDataViewModel.getReadings().observe(getViewLifecycleOwner(),values -> {
-            readings = values;
-            System.out.println("@@@@@@@@"+values);
-            textView = view.findViewById(R.id.value);
-            textView.setText("Reading: " +readings.get(readings.size()-1).getReadingValue());
+        Cartesian line = AnyChart.line();
 
+        List<DataEntry> data = new ArrayList<>();
+
+        measurementDataViewModel.getReadings().observe(getViewLifecycleOwner(), values -> {
+         /*   readings = values;
+            System.out.println("@@@@@@@@"+values);
+            textView = view.findViewById(R.id.value);*/
+
+
+            readings = values;
+            for (Reading item : readings) {
+                data.add(new CustomDataEntry(item.getTimeStamp(),item.getReadingValue()));
+            }
+           // textView.setText("Reading: " +readings.get(readings.size()-1).getReadingValue());
+            Set set = Set.instantiate();
+            set.data(data);
+
+            Mapping seriesMapping = set.mapAs("{ x: 'x', value: 'value' }");
+
+            Line series = line.line(seriesMapping);
+
+            anyChartView.setChart(line);
         });
 
 //        measurementDataViewModel.fetchReadings(id,sensorType);
 //
-        measurementDataViewModel.fetchReadings(id,sensorType);
+        measurementDataViewModel.fetchReadings(id, sensorType);
 
         return view;
+
+    }
+
+    private class CustomDataEntry extends ValueDataEntry {
+
+        CustomDataEntry(String x, Number value) {
+            super(x, value);
+
+        }
     }
 }

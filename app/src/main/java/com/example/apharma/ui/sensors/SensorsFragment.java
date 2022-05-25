@@ -18,6 +18,9 @@ import com.example.apharma.models.Sensor;
 
 import java.util.ArrayList;
 
+
+
+
 public class SensorsFragment extends Fragment  {
 
     private RecyclerView recyclerView;
