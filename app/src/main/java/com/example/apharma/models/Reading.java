@@ -1,6 +1,7 @@
 package com.example.apharma.models;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "reading_table")
@@ -34,6 +35,7 @@ public class Reading {
                 && timeStamp.equals(reading.timeStamp);
     }
 
+    @Ignore
     public Reading(int readingValue, String timeStamp) {
         this.readingValue = readingValue;
         this.timeStamp = timeStamp;
@@ -43,6 +45,10 @@ public class Reading {
     public String toString() {
         return "Reading{" + "id=" + id + ", readingValue=" + readingValue
                 + ", timeStamp=" + timeStamp + '}';
+    }
+
+    public void setReadingValue(double readingValue) {
+        this.readingValue = readingValue;
     }
 
     public int getId() {
@@ -57,9 +63,6 @@ public class Reading {
         return readingValue;
     }
 
-    public void setReadingValue(int readingValue) {
-        this.readingValue = readingValue;
-    }
 
     public String getTimeStamp() {
         return timeStamp;

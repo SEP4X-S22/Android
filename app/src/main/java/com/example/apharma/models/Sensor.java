@@ -2,6 +2,7 @@ package com.example.apharma.models;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
@@ -28,6 +29,7 @@ public class Sensor {
     public Sensor(){
 
     }
+    @Ignore
     public Sensor(int id, SensorType sensor, int constraintMinValue, int constraintMaxValue, double readingValue) {
         this.id = id;
         this.sensor = sensor;

@@ -2,6 +2,7 @@ package com.example.apharma.models;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
@@ -13,16 +14,17 @@ import java.util.List;
 public class Room {
 
     private String name;
-    @SerializedName("id")
+
     @PrimaryKey @NonNull
+    @SerializedName("id")
     private String id;
     private int sensorsCount;
 
-    public Room(){
+    public Room() {
 
     }
 
-
+    @Ignore
     public Room(String name, String id, int size) {
         this.name = name;
         this.id = id;
@@ -56,7 +58,6 @@ public class Room {
     public void setName(String name) {
         this.name = name;
     }
-
 
 
     @Override
