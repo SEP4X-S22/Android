@@ -48,8 +48,7 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
     public SensorAdapter() {
         this.list = new ArrayList<>();
         this.context = null;
-//        conditionsSurpassConstraints.setValue(false);
-        sensorsViewModel = SensorsViewModel.getInstance();
+//        sensorsViewModel = SensorsViewModel.getInstance();
     }
 
     public void setContext(Context context) {
@@ -77,7 +76,7 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.sensor_item, parent, false);
-       return new SensorAdapter.ViewHolder(view);
+        return new SensorAdapter.ViewHolder(view);
     }
 
     @Override
@@ -95,7 +94,7 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
         EditText sensorMaxVal = dialog.findViewById(R.id.maxVal);
 
 
-        sensorIdText.setText(String.valueOf(list.get(position).getId() ));
+        sensorIdText.setText(String.valueOf(list.get(position).getId()));
         sensorMinVal.setText(String.valueOf(list.get(position).getConstraintMinValue()));
         sensorMaxVal.setText(String.valueOf(list.get(position).getConstraintMaxValue()));
 
@@ -118,21 +117,17 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
         }
 
         if (checkForCurrentConditions(position)) {
-            conditionsSurpassConstraints.setValue(true);
             //addNotification();
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 holder.cardView.setCardBackgroundColor(context.getColor(R.color.red));
             }
             holder.measurement.setText(list.get(position).getReadingValue() + " DANGER!");
-//            Toast.makeText(context, list.get(position).getSensor() + " measurement should be less than " + list.get(position).getConstraintMaxValue(), Toast.LENGTH_SHORT).show();
-//        }
 
 
 
-        } else    {
+        } else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 holder.cardView.setCardBackgroundColor(context.getColor(R.color.cadet_blue));
-                conditionsSurpassConstraints.setValue(false);
             }
         }
 
@@ -155,7 +150,7 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
                     builder.setMessage("Are you sure you want to set new constraints?").setPositiveButton("Yes", (dialogInterface, i) -> {
                         list.get(position).setConstraintMinValue(min);
                         list.get(position).setConstraintMaxValue(max);
-                        sensorsViewModel.updateConstraints(list.get(position).getId(), list.get(position).getConstraintMinValue(), list.get(position).getConstraintMaxValue());
+//                        sensorsViewModel.updateConstraints(list.get(position).getId(), list.get(position).getConstraintMinValue(), list.get(position).getConstraintMaxValue());
                         notifyItemChanged(position);
 
                     });
@@ -178,31 +173,7 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
             }
         });
     }
-    private void addNotification() {
-        if (Build.VERSION.SDK_INT >= 26) {
-            final String CHANNEL_ID = "HEADS_UP_NOTIFICATION";
-            NotificationChannel channel = new NotificationChannel(
-                    CHANNEL_ID,
-                    "Heads Up Notification",
-                    NotificationManager.IMPORTANCE_HIGH
-            );
-            context.getSystemService(NotificationManager.class).createNotificationChannel(channel);
-            Notification.Builder notification = new Notification.Builder(context, CHANNEL_ID).setContentTitle("aPharma")
-                    .setContentText("DANGER, check conditions").setSmallIcon(R.drawable.pharmacy_icon)
-                    .setAutoCancel(true);
 
-            Intent notificationIntent = new Intent(context, SensorsFragment.class);
-            PendingIntent contentIntent = PendingIntent.getActivity(context
-                    , 0, notificationIntent,
-                    PendingIntent.FLAG_IMMUTABLE);
-            notification.setContentIntent(contentIntent);
-
-            // Add as notification
-            NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            manager.notify(0, notification.build());
-//        NotificationManagerCompat.from(context).notify(1,notification.build());
-        }
-    }
     public void update(ArrayList<Sensor> sensors) {
         list = sensors;
         notifyDataSetChanged();
@@ -222,12 +193,13 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
         return null;
     }
 
-    public  boolean checkForCurrentConditions(int position){
+    public boolean checkForCurrentConditions(int position) {
 
-            if (list.get(position).getConstraintMinValue() > list.get(position).getReadingValue() || list.get(position).getConstraintMaxValue() < list.get(position).getReadingValue()){
-                return true;
-            }
-
+        if (list.get(position).getConstraintMinValue() > list.get(position).getReadingValue() || list.get(position).getConstraintMaxValue() < list.get(position).getReadingValue()) {
+            conditionsSurpassConstraints.setValue(true);
+            return true;
+        }
+        conditionsSurpassConstraints.setValue(false);
         return false;
     }
 
@@ -251,4 +223,31 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
 
 
     }
+
+
+//    private void addNotification() {
+//        if (Build.VERSION.SDK_INT >= 26) {
+//            final String CHANNEL_ID = "HEADS_UP_NOTIFICATION";
+//            NotificationChannel channel = new NotificationChannel(
+//                    CHANNEL_ID,
+//                    "Heads Up Notification",
+//                    NotificationManager.IMPORTANCE_HIGH
+//            );
+//            context.getSystemService(NotificationManager.class).createNotificationChannel(channel);
+//            Notification.Builder notification = new Notification.Builder(context, CHANNEL_ID).setContentTitle("aPharma")
+//                    .setContentText("DANGER, check conditions").setSmallIcon(R.drawable.pharmacy_icon)
+//                    .setAutoCancel(true);
+//
+//            Intent notificationIntent = new Intent(context, SensorsFragment.class);
+//            PendingIntent contentIntent = PendingIntent.getActivity(context
+//                    , 0, notificationIntent,
+//                    PendingIntent.FLAG_IMMUTABLE);
+//            notification.setContentIntent(contentIntent);
+//
+//            // Add as notification
+//            NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+//            manager.notify(0, notification.build());
+////        NotificationManagerCompat.from(context).notify(1,notification.build());
+//        }
+//    }
 }
