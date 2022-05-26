@@ -38,6 +38,7 @@ public class ReadingRepository {
     SensorDAO sensorDAO;
     ReadingDAO readingDAO;
     LiveData<List<Sensor>> sensorList;
+    MutableLiveData<List<Reading>> readingList;
     ExecutorService executorService;
     Handler mainThreadHandler;
 
@@ -57,6 +58,7 @@ public class ReadingRepository {
         executorService = Executors.newFixedThreadPool(2);
         mainThreadHandler = HandlerCompat.createAsync(Looper.getMainLooper());
         sensorList = sensorDAO.getAllSensors();
+        readingList = new MutableLiveData<>();
 
 
 
@@ -64,6 +66,9 @@ public class ReadingRepository {
 
     public LiveData<List<Sensor>> getSensors(){
         return sensorList;
+    }
+    public LiveData<List<Reading>> getReadingsFromDB(){
+        return readingList;
     }
     public LiveData<ArrayList<Reading>> getReadings() {
         return values;
@@ -105,8 +110,9 @@ public class ReadingRepository {
             public void onResponse(Call<ArrayList<Reading>>  call, Response<ArrayList<Reading>> response) {
                 if (response.isSuccessful()) {
                     System.out.println("############"+response.body().size());
-
+// checking to fetch from database
                     values.setValue(response.body());
+                    readingList = (MutableLiveData<List<Reading>>) readingDAO.getAllReadings(room,sensorType);
 
 
                     for (Reading reading:response.body()) {

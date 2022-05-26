@@ -32,6 +32,7 @@ public class ReadingFragment extends Fragment {
     private ReadingViewModel measurementDataViewModel;
     ArrayList<Reading> readings;
     List<Sensor> sensors;
+    List<Reading> readingsFromDB;
     TextView textView;
 
     // TODO: Rename and change types of parameters
@@ -81,6 +82,8 @@ public class ReadingFragment extends Fragment {
         String id = ReadingFragmentArgs.fromBundle(getArguments()).getRoomId();
         String sensorType = ReadingFragmentArgs.fromBundle(getArguments()).getSensorType();
 
+        measurementDataViewModel.fetchReadings(id,sensorType);
+
         measurementDataViewModel.getReadings().observe(getViewLifecycleOwner(),values -> {
             readings = values;
             System.out.println("@@@@@@@@"+values);
@@ -89,13 +92,17 @@ public class ReadingFragment extends Fragment {
 
         });
 
-        measurementDataViewModel.getSensors().observe(getViewLifecycleOwner(),values->{
-            sensors = values;
-        });
+//        measurementDataViewModel.getSensors().observe(getViewLifecycleOwner(),values->{
+//            sensors = values;
+//        });
+
+        // This gives an error
+//        measurementDataViewModel.getReadingsFromDB().observe(getViewLifecycleOwner(), values ->{
+//            readingsFromDB = values;
+//        });
 
 //        measurementDataViewModel.fetchReadings(id,sensorType);
 //
-        measurementDataViewModel.fetchReadings(id,sensorType);
 
         return view;
     }
