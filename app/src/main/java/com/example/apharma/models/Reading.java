@@ -14,8 +14,15 @@ public class Reading {
     private int sensorId;
     private String sensorType;
     private String roomId;
+    private int date;
 
+    public int getDate() {
+        return date;
+    }
 
+    public void setDate(int date) {
+        this.date = date;
+    }
 
     public Reading() {
     }

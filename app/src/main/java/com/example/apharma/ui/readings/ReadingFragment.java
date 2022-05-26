@@ -13,6 +13,9 @@ import android.widget.TextView;
 import com.example.apharma.R;
 import com.example.apharma.models.Reading;
 import com.example.apharma.models.Sensor;
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,6 +36,7 @@ public class ReadingFragment extends Fragment {
     ArrayList<Reading> readings;
     List<Sensor> sensors;
     TextView textView;
+    private GraphView graphView;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -80,7 +84,34 @@ public class ReadingFragment extends Fragment {
 
         String id = ReadingFragmentArgs.fromBundle(getArguments()).getRoomId();
         String sensorType = ReadingFragmentArgs.fromBundle(getArguments()).getSensorType();
+        int date = ReadingFragmentArgs.fromBundle(getArguments()).getDate();
+        int sensorId = ReadingFragmentArgs.fromBundle(getArguments()).getSensorId();
 
+        measurementDataViewModel.getReadingsPerDay().observe(getViewLifecycleOwner(),historical->{
+            readings= historical;
+            System.out.println("HISTORY"+historical);
+
+            graphView = view.findViewById(R.id.idGraphView);
+
+            if (readings.size() > 0) {
+                graphView.removeAllSeries();
+                LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
+                for (int i = 0; i < readings.size(); i++) {
+                    DataPoint point = new DataPoint( i,readings.get(i).getReadingValue());
+                    series.appendData(point, false, readings.size());
+
+                }
+                graphView.addSeries(series);
+            }
+            graphView.setTitle("Readings overview");
+
+            graphView.setTitleTextSize(50);
+
+
+
+
+        });
+//
         measurementDataViewModel.getReadings().observe(getViewLifecycleOwner(),values -> {
             readings = values;
             System.out.println("@@@@@@@@"+values);
@@ -95,7 +126,11 @@ public class ReadingFragment extends Fragment {
 
 //        measurementDataViewModel.fetchReadings(id,sensorType);
 //
-        measurementDataViewModel.fetchReadings(id,sensorType);
+//        measurementDataViewModel.fetchReadings(id,sensorType);
+
+//        int date = ReadingFragmentArgs.fromBundle(getArguments()).;
+//        String sensorType = ReadingFragmentArgs.fromBundle(getArguments()).getSensorType();
+        measurementDataViewModel.fetchReadingsPerDay(date,sensorId);
 
         return view;
     }
