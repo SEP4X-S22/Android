@@ -88,7 +88,7 @@ public class ReadingFragment extends Fragment {
             readings = values;
             System.out.println("@@@@@@@@"+values);
             textView = view.findViewById(R.id.value);
-            textView.setText("Reading: " +readings.get(readings.size()-1).getReadingValue());
+            textView.setText("Current reading: " +readings.get(readings.size()-1).getReadingValue() +"\n"+ "Received at: " + readings.get(readings.size()-1).getTimeStamp());
 
             graphView = view.findViewById(R.id.idGraphView);
 
@@ -97,13 +97,15 @@ public class ReadingFragment extends Fragment {
                 LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
                 for (int i = 0; i < readings.size(); i++) {
                     DataPoint point = new DataPoint( i,readings.get(i).getReadingValue());
-                    series.appendData(point, true, readings.size());
+                    series.appendData(point, false, readings.size());
+
                 }
                 graphView.addSeries(series);
             }
             graphView.setTitle("Readings overview");
 
             graphView.setTitleTextSize(50);
+
 
 
         });
