@@ -21,6 +21,7 @@ import com.example.apharma.network.RoomApi;
 import com.example.apharma.network.ServiceGenerator;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -40,6 +41,7 @@ public class ReadingRepository {
     ExecutorService executorService;
     Handler mainThreadHandler;
 
+
     public static ReadingRepository getInstance(Application application) {
         if (instance == null) {
             instance = new ReadingRepository(application);
@@ -57,6 +59,11 @@ public class ReadingRepository {
         sensorList = sensorDAO.getAllSensors();
 
 
+
+    }
+
+    public LiveData<List<Sensor>> getSensors(){
+        return sensorList;
     }
     public LiveData<ArrayList<Reading>> getReadings() {
         return values;
@@ -65,19 +72,29 @@ public class ReadingRepository {
         executorService.execute(() -> readingDAO.insert(reading));
     }
 
-    public int getSensorId(String room, String sensorType){
-        int sensorId = 0;
-//        executorService.execute(() -> sensorList = sensorDAO.getAllSensors().getValue());
+//    public int getSensorId(String room, String sensorType){
+//        int sensorId = 0;
+////        executorService.execute(() -> sensorList = sensorDAO.getAllSensors().getValue());
+//        Log.i("hgh", "localdb" + sensorDAO == null ? "true":"false" );
+//        sensorList = localDatabase.sensorDAO().getAllSensors();
+//        ArrayList<Sensor> tmp = new ArrayList<>(sensorList.getValue());
+//        for (int i = 0; i < tmp.size(); i++){
+//            if (tmp.get(i).getSensor().toString().equals(sensorType) && tmp.get(i).getRoomId().equals(room)){
+//                sensorId = tmp.get(i).getId();
+//                return sensorId;
+//            }
+//        }
+////        for (int i = 0; i < sensorList.size(); i++){
+////            if (sensorList.get(i).getSensor().toString().equals(sensorType) && sensorList.get(i).getRoomId().equals(room)){
+////                sensorId = sensorList.get(i).getId();
+////                return sensorId;
+////            }
+////        }
+//
+//        return sensorId;
+//    }
 
 
-        for (int i = 0; i < sensorList.getValue().size(); i++){
-            if (sensorList.getValue().get(i).getSensor().toString().equals(sensorType) && sensorList.getValue().get(i).getRoomId().equals(room)){
-                sensorId = sensorList.getValue().get(i).getId();
-                return sensorId;
-            }
-        }
-        return sensorId;
-    }
 
     public void fetchReadings(String room, String sensorType) {
         RoomApi roomApi = ServiceGenerator.getRoomApi();
@@ -93,7 +110,8 @@ public class ReadingRepository {
 
 
                     for (Reading reading:response.body()) {
-                        reading.setSensorId(getSensorId(room, sensorType));
+                        reading.setRoomId(room);
+                        reading.setSensorType(sensorType);
                         insert(reading);
                     }
 

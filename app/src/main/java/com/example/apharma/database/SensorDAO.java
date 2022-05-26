@@ -27,10 +27,11 @@ public interface SensorDAO {
     void delete(Sensor sensor);
 
     @Query("DELETE FROM sensor_table")
-    void deleteAllNotes();
+    void deleteAllSensors();
 
     @Query("SELECT * FROM sensor_table")
     LiveData<List<Sensor>> getAllSensors();
+
 
 //    @Query("SELECT readingList FROM sensor_table")
 //    LiveData<ArrayList<Reading>> getAllReadings();

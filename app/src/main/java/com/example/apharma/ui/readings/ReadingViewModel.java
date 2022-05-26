@@ -7,9 +7,11 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.apharma.models.Reading;
+import com.example.apharma.models.Sensor;
 import com.example.apharma.repositories.ReadingRepository;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ReadingViewModel extends AndroidViewModel {
     ReadingRepository repository;
@@ -17,6 +19,10 @@ public class ReadingViewModel extends AndroidViewModel {
     public ReadingViewModel(Application application) {
         super(application);
         repository = ReadingRepository.getInstance(application);
+    }
+
+    public LiveData<List<Sensor>> getSensors() {
+        return repository.getSensors();
     }
 
     public LiveData<ArrayList<Reading>> getReadings() {

@@ -18,17 +18,11 @@ public class Sensor {
     private SensorType sensor;
     private int constraintMinValue;
     private int constraintMaxValue;
-
-    public void setReadingValue(double readingValue) {
-        this.readingValue = readingValue;
-    }
-
     private double readingValue;
     private String roomId;
 
-    public Sensor(){
+    public Sensor() {}
 
-    }
     @Ignore
     public Sensor(int id, SensorType sensor, int constraintMinValue, int constraintMaxValue, double readingValue) {
         this.id = id;
@@ -37,6 +31,10 @@ public class Sensor {
         this.constraintMaxValue = constraintMaxValue;
         this.readingValue = readingValue;
         roomId = "";
+    }
+
+    public void setReadingValue(double readingValue) {
+        this.readingValue = readingValue;
     }
 
     public String getRoomId() {

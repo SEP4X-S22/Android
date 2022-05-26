@@ -25,8 +25,8 @@ public interface ReadingDAO {
     void delete(Reading reading);
 
     @Query("DELETE FROM reading_table")
-    void deleteAllNotes();
+    void deleteAllReadings();
 
     @Query("SELECT * FROM reading_table")
-    LiveData<List<Reading>> getAllReadings();
+     LiveData<List<Reading>> getAllReadings();
 }

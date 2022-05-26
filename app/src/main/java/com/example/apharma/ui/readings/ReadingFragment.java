@@ -12,8 +12,11 @@ import android.widget.TextView;
 
 import com.example.apharma.R;
 import com.example.apharma.models.Reading;
+import com.example.apharma.models.Sensor;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,6 +31,7 @@ public class ReadingFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     private ReadingViewModel measurementDataViewModel;
     ArrayList<Reading> readings;
+    List<Sensor> sensors;
     TextView textView;
 
     // TODO: Rename and change types of parameters
@@ -83,6 +87,10 @@ public class ReadingFragment extends Fragment {
             textView = view.findViewById(R.id.value);
             textView.setText("Reading: " +readings.get(readings.size()-1).getReadingValue());
 
+        });
+
+        measurementDataViewModel.getSensors().observe(getViewLifecycleOwner(),values->{
+            sensors = values;
         });
 
 //        measurementDataViewModel.fetchReadings(id,sensorType);

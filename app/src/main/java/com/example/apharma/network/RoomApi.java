@@ -16,10 +16,10 @@ public interface RoomApi {
     @GET("/rooms")
     Call<ArrayList<Room>> getRooms();
 
-    @GET("/rooms/{roomId}/sensors")
+    @GET("/sensors/{roomId}")
     Call<ArrayList<Sensor>> getSensors(@Path("roomId") String room);
 
-    @GET("/rooms/{roomId}/sensors/{sensorType}")
+    @GET("/readings/{roomId}/{sensorType}")
     Call<ArrayList<Reading>> getSensorData(@Path("roomId") String room, @Path("sensorType") String sensorType);
 
     @PATCH("/sensor/constraints")

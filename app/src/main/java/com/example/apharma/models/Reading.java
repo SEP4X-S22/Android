@@ -10,10 +10,30 @@ public class Reading {
     @PrimaryKey
     private int id;
     private double readingValue;
-    private String timeStamp;
+    private String timestamp;
     private int sensorId;
+    private String sensorType;
+    private String roomId;
+
+
 
     public Reading() {
+    }
+
+    public String getSensorType() {
+        return sensorType;
+    }
+
+    public void setSensorType(String sensorType) {
+        this.sensorType = sensorType;
+    }
+
+    public String getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(String roomId) {
+        this.roomId = roomId;
     }
 
     public int getSensorId() {
@@ -32,19 +52,19 @@ public class Reading {
             return false;
         Reading reading = (Reading) o;
         return id == reading.id && readingValue == reading.readingValue
-                && timeStamp.equals(reading.timeStamp);
+                && timestamp.equals(reading.timestamp);
     }
 
     @Ignore
     public Reading(int readingValue, String timeStamp) {
         this.readingValue = readingValue;
-        this.timeStamp = timeStamp;
+        this.timestamp = timeStamp;
     }
 
     @Override
     public String toString() {
         return "Reading{" + "id=" + id + ", readingValue=" + readingValue
-                + ", timeStamp=" + timeStamp + '}';
+                + ", timestamp=" + timestamp + '}';
     }
 
     public void setReadingValue(double readingValue) {
@@ -64,11 +84,11 @@ public class Reading {
     }
 
 
-    public String getTimeStamp() {
-        return timeStamp;
+    public String getTimestamp() {
+        return timestamp;
     }
 
-    public void setTimeStamp(String timeStamp) {
-        this.timeStamp = timeStamp;
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
     }
 }
