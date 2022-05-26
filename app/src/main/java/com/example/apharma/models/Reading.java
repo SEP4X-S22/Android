@@ -11,16 +11,16 @@ public class Reading {
     private int id;
     private double readingValue;
     private String timeStamp;
-    private String sensorId;
+    private int sensorId;
 
     public Reading() {
     }
 
-    public String getSensorId() {
+    public int getSensorId() {
         return sensorId;
     }
 
-    public void setSensorId(String sensorId) {
+    public void setSensorId(int sensorId) {
         this.sensorId = sensorId;
     }
 
