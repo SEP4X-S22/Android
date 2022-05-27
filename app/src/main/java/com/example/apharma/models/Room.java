@@ -15,20 +15,17 @@ public class Room {
 
     private String name;
 
-    @PrimaryKey @NonNull
+    @PrimaryKey
+    @NonNull
     @SerializedName("id")
     private String id;
     private int sensorsCount;
 
-    public Room() {
-
-    }
-
-    @Ignore
-    public Room(String name, String id, int size) {
+    //    @Ignore
+    public Room(String name, String id, int sensorsCount) {
         this.name = name;
         this.id = id;
-        this.sensorsCount = size;
+        this.sensorsCount = sensorsCount;
     }
 
     public int getSensorsCount() {

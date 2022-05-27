@@ -112,7 +112,7 @@ public class ReadingRepository {
                     System.out.println("############"+response.body().size());
 // checking to fetch from database
                     values.setValue(response.body());
-                    readingList = (MutableLiveData<List<Reading>>) readingDAO.getAllReadings(room,sensorType);
+//                    readingList = (MutableLiveData<List<Reading>>) readingDAO.getAllReadings(room,sensorType);
 
 
                     for (Reading reading:response.body()) {
