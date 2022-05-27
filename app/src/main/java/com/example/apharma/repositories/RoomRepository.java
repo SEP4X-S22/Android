@@ -1,19 +1,14 @@
 package com.example.apharma.repositories;
 
 import android.app.Application;
-import android.content.Context;
-import android.net.ConnectivityManager;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.os.HandlerCompat;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
 
 import com.example.apharma.database.LocalDatabase;
 import com.example.apharma.database.RoomDAO;
@@ -21,7 +16,6 @@ import com.example.apharma.models.Room;
 import com.example.apharma.network.RoomApi;
 import com.example.apharma.network.ServiceGenerator;
 
-import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -55,7 +49,7 @@ public class RoomRepository {
         localDatabase = LocalDatabase.getInstance(application);
         roomDAO = localDatabase.roomDAO();
         listOfRooms = roomDAO.getAllRooms();
-                executorService = Executors.newFixedThreadPool(2);
+        executorService = Executors.newFixedThreadPool(2);
         mainThreadHandler = HandlerCompat.createAsync(Looper.getMainLooper());
 
     }
@@ -67,11 +61,11 @@ public class RoomRepository {
     public LiveData<List<Room>> getListOfRooms() {
 
 
-            if (listOfRooms == null) {
-                listOfRooms = roomDAO.getAllRooms();
-            }
+        if (listOfRooms == null) {
+            listOfRooms = roomDAO.getAllRooms();
+        }
 
-            return listOfRooms;
+        return listOfRooms;
 
     }
 
@@ -93,10 +87,6 @@ public class RoomRepository {
                 public void onResponse(Call<ArrayList<Room>> call, Response<ArrayList<Room>> response) {
                     if (response.isSuccessful()) {
                         System.out.println("############" + response.body());
-
-
-
-
                         rooms.setValue(response.body());
                         for (Room room : response.body()) {
                             insert(room);
@@ -107,7 +97,6 @@ public class RoomRepository {
                     }
                 }
 
-
                 @Override
                 public void onFailure(@NonNull Call<ArrayList<Room>> call, Throwable t) {
                     Log.i("Retrofit", "#######Something went wrong :(");
@@ -115,9 +104,7 @@ public class RoomRepository {
             });
 
         } else {
-//            rooms.setValue(roomDAO.getAllRooms().getValue());
-
-          rooms.setValue(getListOfRooms().getValue());
+            rooms.setValue(getListOfRooms().getValue());
         }
 
 
