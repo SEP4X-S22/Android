@@ -111,6 +111,7 @@ public class ReadingFragment extends Fragment {
                     series.appendData(point, false, readings.size());
 
                 }
+                
                 graphView.addSeries(series);
             }
             graphView.setTitle("Readings overview");
@@ -126,18 +127,18 @@ public class ReadingFragment extends Fragment {
     
         datePicker.setOnDateChangedListener((view1, year, monthOfYear, dayOfMonth) ->
         {
-            //yyyyMMdd
-            String d = String.valueOf(datePicker.getYear());
-            if (String.valueOf(datePicker.getMonth()).length() != 2)
+            String d = String.valueOf(year);
+            if (String.valueOf(monthOfYear).length() != 2)
             {
-                d += "0" + datePicker.getMonth();
+                d += "0" + (datePicker.getMonth()+1);
             }
             else
             {
                 d+= datePicker.getMonth();
             }
-            d += String.valueOf(datePicker.getYear());
-            System.out.println(d);
+            d += String.valueOf(datePicker.getDayOfMonth());
+            System.out.println(Integer.parseInt(d));
+            System.out.println(sensorId);
             measurementDataViewModel.fetchReadingsPerDay(Integer.parseInt(d),sensorId);
         });
 //

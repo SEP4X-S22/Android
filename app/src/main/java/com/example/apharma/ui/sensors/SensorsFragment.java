@@ -76,6 +76,7 @@ public class SensorsFragment extends Fragment  {
             SensorsFragmentDirections.ActionSensorsToReadingFragment actionSensorsToReadingFragment = SensorsFragmentDirections.actionSensorsToReadingFragment();
             actionSensorsToReadingFragment.setRoomId(roomId);
             actionSensorsToReadingFragment.setSensorType(v.getSensor().toString());
+            actionSensorsToReadingFragment.setSensorId(v.getId());
             Navigation.findNavController(view).navigate(actionSensorsToReadingFragment);
 
 
