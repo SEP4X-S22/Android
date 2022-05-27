@@ -108,15 +108,15 @@ public class ReadingFragment extends Fragment {
             System.out.println("HISTORY"+historical);
 
             graphView = view.findViewById(R.id.idGraphView);
+            graphView.removeAllSeries();
 
             if (readings.size() > 0) {
-                graphView.removeAllSeries();
+                
                 LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
                 for (int i = 0; i < readings.size(); i++)
                 {
-                    DataPoint point = new DataPoint( i,readings.get(i).getReadingValue());
+                    DataPoint point = new DataPoint(i, readings.get(i).getReadingValue());
                     series.appendData(point, false, readings.size());
-
                 }
                 
                 graphView.addSeries(series);
@@ -135,9 +135,6 @@ public class ReadingFragment extends Fragment {
         {
             LocalDateTime ld = LocalDateTime.of(v.getYear(), v.getMonth()+1, v.getDayOfMonth(), 12, 0);
             String d = ld.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-            //System.out.println(ld);
-            //System.out.println(d);
-            //System.out.println(sensorId);
             measurementDataViewModel.fetchReadingsPerDay(Integer.parseInt(d),sensorId);
         };
         

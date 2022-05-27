@@ -17,8 +17,33 @@ public class Reading {
     private int date;
 
     public int getDate() {
+//        String timeString = "" + getHour();
+//        if (getMinute(getHour()) < 10)
+//        {
+//            timeString += "0" + getMinute(getHour());
+//        }
+//        else
+//        {
+//            timeString += getMinute(getHour());
+//        }
+//        setDate(Integer.parseInt(timeString));
         return date;
     }
+    
+//    private int getHour()
+//    {
+//        int time = Integer.parseInt(timestamp);
+//
+//        return time/3600;
+//    }
+//
+//    private int getMinute(int hour)
+//    {
+//        int time = Integer.parseInt(timestamp);
+//        int seconds = time - hour * 3600;
+//
+//        return seconds/60;
+//    }
 
     public void setDate(int date) {
         this.date = date;
