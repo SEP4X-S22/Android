@@ -1,8 +1,5 @@
 package com.example.apharma.ui.readings;
 
-import static java.lang.Integer.getInteger;
-
-import android.icu.text.SimpleDateFormat;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -15,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.apharma.R;
 import com.example.apharma.models.Reading;
@@ -25,14 +21,10 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -47,8 +39,9 @@ public class ReadingFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private ReadingViewModel measurementDataViewModel;
-    ArrayList<Reading> readings;
+    List<Reading> readings;
     List<Sensor> sensors;
+    List<Reading> readingsFromDB;
     TextView textView;
     private GraphView graphView;
     private DatePicker datePicker;
@@ -89,7 +82,8 @@ public class ReadingFragment extends Fragment {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O) @Override
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         ReadingViewModel measurementDataViewModel = new ViewModelProvider(this).get(ReadingViewModel.class);
@@ -99,10 +93,10 @@ public class ReadingFragment extends Fragment {
 
         String id = ReadingFragmentArgs.fromBundle(getArguments()).getRoomId();
         String sensorType = ReadingFragmentArgs.fromBundle(getArguments()).getSensorType();
-        int date = ReadingFragmentArgs.fromBundle(getArguments()).getDate();
         int sensorId = ReadingFragmentArgs.fromBundle(getArguments()).getSensorId();
 
-        
+        measurementDataViewModel.fetchReadings(id,sensorType);
+
         measurementDataViewModel.getReadings().observe(getViewLifecycleOwner(),historical->{
             readings= historical;
             System.out.println("HISTORY"+historical);
@@ -118,14 +112,14 @@ public class ReadingFragment extends Fragment {
                     series.appendData(point, false, readings.size());
 
                 }
-                
+
                 graphView.addSeries(series);
             }
             graphView.setTitle("Readings overview");
 
             graphView.setTitleTextSize(50);
 
-      
+
 
 
 
@@ -140,32 +134,97 @@ public class ReadingFragment extends Fragment {
             //System.out.println(sensorId);
             measurementDataViewModel.fetchReadingsPerDay(Integer.parseInt(d),sensorId);
         };
-        
+
         LocalDateTime today = LocalDateTime.now();
         datePicker.init(today.getYear(), (today.getMonthValue()-1), today.getDayOfMonth(), dateListener);
         datePicker.setMaxDate(Calendar.getInstance().getTimeInMillis()+3600);
-        
-//
-    //    measurementDataViewModel.getReadings().observe(getViewLifecycleOwner(),values -> {
-        //            readings = values;
-        //            System.out.println("@@@@@@@@"+values);
-        //            textView = view.findViewById(R.id.value);
-        //            textView.setText("Reading: " +readings.get(readings.size()-1).getReadingValue());
-        //
-        //        });
 
-        measurementDataViewModel.getSensors().observe(getViewLifecycleOwner(),values->{
-            sensors = values;
+//        measurementDataViewModel.getReadings().observe(getViewLifecycleOwner(),values -> {
+//            if (internetIsConnected()) {
+//                readings = values;
+//                System.out.println("@@@@@@@@" + values);
+//                textView = view.findViewById(R.id.value);
+//                textView.setText("Reading: " + readings.get(readings.size() - 1).getReadingValue());
+//
+//
+//                System.out.println("HISTORY"+values);
+//
+//                graphView = view.findViewById(R.id.idGraphView);
+//
+//                if (readings.size() > 0) {
+//                    graphView.removeAllSeries();
+//                    LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
+//                    for (int i = 0; i < readings.size(); i++)
+//                    {
+//                        DataPoint point = new DataPoint( i,readings.get(i).getReadingValue());
+//                        series.appendData(point, false, readings.size());
+//
+//                    }
+//
+//                    graphView.addSeries(series);
+//                }
+//                graphView.setTitle("Readings overview");
+//
+//                graphView.setTitleTextSize(50);
+//
+//
+//            }
+//
+//        });
+
+        measurementDataViewModel.getListOfSensors(id, sensorType).observe(getViewLifecycleOwner(),values -> {
+            if (!internetIsConnected()) {
+                readings = values;
+                System.out.println("@@@@@@@@" + values);
+                textView = view.findViewById(R.id.value);
+                textView.setText("Reading: " + readings.get(readings.size() - 1).getReadingValue());
+
+
+                System.out.println("HISTORY"+values);
+
+                graphView = view.findViewById(R.id.idGraphView);
+
+                if (readings.size() > 0) {
+                    graphView.removeAllSeries();
+                    LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
+                    for (int i = 0; i < readings.size(); i++)
+                    {
+                        DataPoint point = new DataPoint( i,readings.get(i).getReadingValue());
+                        series.appendData(point, false, readings.size());
+
+                    }
+
+                    graphView.addSeries(series);
+                }
+                graphView.setTitle("Readings overview");
+
+                graphView.setTitleTextSize(50);
+
+            }
+
         });
 
+//        measurementDataViewModel.getSensors().observe(getViewLifecycleOwner(),values->{
+//            sensors = values;
+//        });
+
+        // This gives an error
+//        measurementDataViewModel.getReadingsFromDB().observe(getViewLifecycleOwner(), values ->{
+//            readingsFromDB = values;
+//        });
+
 //        measurementDataViewModel.fetchReadings(id,sensorType);
 //
-//        measurementDataViewModel.fetchReadings(id,sensorType);
-
-//        int date = ReadingFragmentArgs.fromBundle(getArguments()).;
-//        String sensorType = ReadingFragmentArgs.fromBundle(getArguments()).getSensorType();
-
 
         return view;
+    }
+
+    public boolean internetIsConnected() {
+        try {
+            String command = "ping -c 1 google.com";
+            return (Runtime.getRuntime().exec(command).waitFor() == 0);
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

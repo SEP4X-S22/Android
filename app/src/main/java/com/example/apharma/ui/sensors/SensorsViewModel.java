@@ -11,6 +11,7 @@ import com.example.apharma.models.Sensor;
 import com.example.apharma.repositories.SensorRepository;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SensorsViewModel extends AndroidViewModel {
     SensorRepository sensorRepository;
@@ -28,8 +29,12 @@ public class SensorsViewModel extends AndroidViewModel {
         return instance;
     }
 
-    public LiveData<ArrayList<Sensor>> getSensors() {
+    public LiveData<List<Sensor>> getSensors() {
         return sensorRepository.getSensors();
+    }
+
+    public LiveData<List<Sensor>> getListOfSensors(String roomId) {
+        return sensorRepository.getSensorsFromRoom(roomId);
     }
 
     public void fetchSensors(String room) {

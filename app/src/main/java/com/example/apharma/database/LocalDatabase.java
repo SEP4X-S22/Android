@@ -9,7 +9,7 @@ import com.example.apharma.models.Reading;
 import com.example.apharma.models.Room;
 import com.example.apharma.models.Sensor;
 
-@Database(entities = {Room.class, Sensor.class, Reading.class}, version = 12)
+@Database(entities = {Room.class, Sensor.class, Reading.class}, version = 13)
 public abstract class LocalDatabase extends RoomDatabase {
 
     private static LocalDatabase instance;

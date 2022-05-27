@@ -12,6 +12,7 @@ import com.example.apharma.models.Sensor;
 import com.example.apharma.repositories.RoomRepository;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class HomeViewModel extends AndroidViewModel {
 
@@ -30,9 +31,14 @@ public class HomeViewModel extends AndroidViewModel {
         return mText;
     }
 
-    public LiveData<ArrayList<Room>> getRooms() {
+    public LiveData<List<Room>> getRooms() {
         return repository.getRooms();
     }
+
+    public LiveData<List<Room>> getListOfRooms() {
+        return repository.getListOfRooms();
+    }
+
 
 
     public void fetchRooms() {

@@ -28,7 +28,8 @@ import retrofit2.Response;
 
 public class RoomRepository {
     private static RoomRepository instance;
-    private MutableLiveData<ArrayList<Room>> rooms;
+    private MutableLiveData<List<Room>> rooms;
+    private LiveData<List<Room>> listOfRooms;
     LocalDatabase localDatabase;
     RoomDAO roomDAO;
     ExecutorService executorService;
@@ -44,14 +45,28 @@ public class RoomRepository {
 
     public RoomRepository(Application application) {
         rooms = new MutableLiveData<>();
+
         localDatabase = LocalDatabase.getInstance(application);
         roomDAO = localDatabase.roomDAO();
+        listOfRooms = roomDAO.getAllRooms();
         executorService = Executors.newFixedThreadPool(2);
         mainThreadHandler = HandlerCompat.createAsync(Looper.getMainLooper());
 
     }
-    public LiveData <ArrayList<Room>> getRooms() {
+
+    public LiveData<List<Room>> getRooms() {
         return rooms;
+    }
+
+    public LiveData<List<Room>> getListOfRooms() {
+
+
+        if (listOfRooms == null) {
+            listOfRooms = roomDAO.getAllRooms();
+        }
+
+        return listOfRooms;
+
     }
 
     public void insert(Room room) {
@@ -59,44 +74,50 @@ public class RoomRepository {
     }
 
 
-
-
-
-
-
-
     public void fetchRooms() {
         RoomApi roomApi = ServiceGenerator.getRoomApi();
-        Call<ArrayList<Room>>  call = roomApi.getRooms();
-        call.enqueue(new Callback<ArrayList<Room>>  () {
-            @EverythingIsNonNull
-            @Override
-            public void onResponse(Call<ArrayList<Room>>  call, Response <ArrayList<Room>>  response) {
-                if (response.isSuccessful()) {
-                    System.out.println("############"+response.body());
+        Call<ArrayList<Room>> call = roomApi.getRooms();
 
-                    rooms.setValue(response.body());
-                    for (Room room: response.body()) {
-                        insert(room);
+        Log.i("internet", internetIsConnected() + "");
+
+        if (internetIsConnected()) {
+            call.enqueue(new Callback<ArrayList<Room>>() {
+                @EverythingIsNonNull
+                @Override
+                public void onResponse(Call<ArrayList<Room>> call, Response<ArrayList<Room>> response) {
+                    if (response.isSuccessful()) {
+                        System.out.println("############" + response.body());
+                        rooms.setValue(response.body());
+                        for (Room room : response.body()) {
+                            insert(room);
+                        }
+                    } else {
+                        System.out.println("Failure ###");
+                        System.out.println("########" + response.message());
                     }
-                    }else {
-                    System.out.println("Failure ###");
-                    System.out.println("########"+response.message());
                 }
-            }
+
+                @Override
+                public void onFailure(@NonNull Call<ArrayList<Room>> call, Throwable t) {
+                    Log.i("Retrofit", "#######Something went wrong :(");
+                }
+            });
+
+        } else {
+            rooms.setValue(getListOfRooms().getValue());
+        }
 
 
-            @Override
-            public void onFailure(@NonNull Call<ArrayList<Room>>  call, Throwable t) {
-                Log.i("Retrofit", "#######Something went wrong :(");
-            }
-        });
     }
 
-
-
-
-
+    public boolean internetIsConnected() {
+        try {
+            String command = "ping -c 1 google.com";
+            return (Runtime.getRuntime().exec(command).waitFor() == 0);
+        } catch (Exception e) {
+            return false;
+        }
+    }
 
 
 }

@@ -25,13 +25,22 @@ public class ReadingViewModel extends AndroidViewModel {
         return repository.getSensors();
     }
 
-    public LiveData<ArrayList<Reading>> getReadings() {
+    public LiveData<List<Reading>> getReadingsFromDB(){
+        return repository.getReadingsFromDB();
+    }
+
+    public LiveData<List<Reading>> getReadings() {
         return repository.getReadings();
     }
 
-    public LiveData<ArrayList<Reading>> getReadingsPerDay() {
-        return repository.getReadingsPerDay();
+    public LiveData<List<Reading>> getListOfSensors(String roomId, String sensorType) {
+        return repository.getSensorsFromRoom(roomId, sensorType);
     }
+
+    public LiveData<List<Reading>> getReadingsList() {
+        return repository.getListOfReadings();
+    }
+
 
     public void fetchReadings(String room, String sensorType) {
         repository.fetchReadings(room, sensorType);

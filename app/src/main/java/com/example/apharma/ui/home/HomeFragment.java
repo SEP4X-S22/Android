@@ -49,6 +49,11 @@ public class HomeFragment extends Fragment {
             roomAdapter.update(rooms);
 
         });
+        homeViewModel.getListOfRooms().observe(getViewLifecycleOwner(), rooms -> {
+            roomAdapter.update(rooms);
+
+        });
+
 
         homeViewModel.fetchRooms();
 

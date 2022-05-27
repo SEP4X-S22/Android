@@ -69,6 +69,15 @@ public class SensorsFragment extends Fragment  {
 
         });
 
+        sensorsViewModel.getListOfSensors(roomId).observe(getViewLifecycleOwner(), sensors -> {
+            if (!internetIsConnected()) {
+                sensorAdapter.update(sensors);
+            }
+
+
+
+        });
+
         sensorsViewModel.fetchSensors(roomId);
 
 
@@ -84,7 +93,14 @@ public class SensorsFragment extends Fragment  {
 
         return view;
     }
-
+    public boolean internetIsConnected() {
+        try {
+            String command = "ping -c 1 google.com";
+            return (Runtime.getRuntime().exec(command).waitFor() == 0);
+        } catch (Exception e) {
+            return false;
+        }
+    }
     private void ConfigureRecyclerView() {
 
         sensorAdapter = SensorAdapter.getInstance();
