@@ -35,6 +35,11 @@ public class HomeViewModel extends AndroidViewModel {
         return repository.getRooms();
     }
 
+    public LiveData<List<Room>> getListOfRooms() {
+        return repository.getListOfRooms();
+    }
+
+
 
     public void fetchRooms() {
         repository.fetchRooms();
