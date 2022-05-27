@@ -1,14 +1,21 @@
 package com.example.apharma.ui.readings;
 
+import static java.lang.Integer.getInteger;
+
+import android.icu.text.SimpleDateFormat;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.apharma.R;
 import com.example.apharma.models.Reading;
@@ -19,6 +26,7 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -37,6 +45,7 @@ public class ReadingFragment extends Fragment {
     List<Sensor> sensors;
     TextView textView;
     private GraphView graphView;
+    private DatePicker datePicker;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -74,7 +83,7 @@ public class ReadingFragment extends Fragment {
         }
     }
 
-    @Override
+    @RequiresApi(api = Build.VERSION_CODES.O) @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         ReadingViewModel measurementDataViewModel = new ViewModelProvider(this).get(ReadingViewModel.class);
@@ -87,7 +96,8 @@ public class ReadingFragment extends Fragment {
         int date = ReadingFragmentArgs.fromBundle(getArguments()).getDate();
         int sensorId = ReadingFragmentArgs.fromBundle(getArguments()).getSensorId();
 
-        measurementDataViewModel.getReadingsPerDay().observe(getViewLifecycleOwner(),historical->{
+        
+        measurementDataViewModel.getReadings().observe(getViewLifecycleOwner(),historical->{
             readings= historical;
             System.out.println("HISTORY"+historical);
 
@@ -107,18 +117,37 @@ public class ReadingFragment extends Fragment {
 
             graphView.setTitleTextSize(50);
 
+      
 
 
 
+        });
+        datePicker = view.findViewById(R.id.idDatePicker);
+    
+        datePicker.setOnDateChangedListener((view1, year, monthOfYear, dayOfMonth) ->
+        {
+            //yyyyMMdd
+            String d = String.valueOf(datePicker.getYear());
+            if (String.valueOf(datePicker.getMonth()).length() != 2)
+            {
+                d += "0" + datePicker.getMonth();
+            }
+            else
+            {
+                d+= datePicker.getMonth();
+            }
+            d += String.valueOf(datePicker.getYear());
+            System.out.println(d);
+            measurementDataViewModel.fetchReadingsPerDay(Integer.parseInt(d),sensorId);
         });
 //
-        measurementDataViewModel.getReadings().observe(getViewLifecycleOwner(),values -> {
-            readings = values;
-            System.out.println("@@@@@@@@"+values);
-            textView = view.findViewById(R.id.value);
-            textView.setText("Reading: " +readings.get(readings.size()-1).getReadingValue());
-
-        });
+    //    measurementDataViewModel.getReadings().observe(getViewLifecycleOwner(),values -> {
+        //            readings = values;
+        //            System.out.println("@@@@@@@@"+values);
+        //            textView = view.findViewById(R.id.value);
+        //            textView.setText("Reading: " +readings.get(readings.size()-1).getReadingValue());
+        //
+        //        });
 
         measurementDataViewModel.getSensors().observe(getViewLifecycleOwner(),values->{
             sensors = values;
@@ -130,7 +159,7 @@ public class ReadingFragment extends Fragment {
 
 //        int date = ReadingFragmentArgs.fromBundle(getArguments()).;
 //        String sensorType = ReadingFragmentArgs.fromBundle(getArguments()).getSensorType();
-        measurementDataViewModel.fetchReadingsPerDay(date,sensorId);
+
 
         return view;
     }
