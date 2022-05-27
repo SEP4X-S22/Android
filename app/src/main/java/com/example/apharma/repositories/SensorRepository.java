@@ -19,6 +19,7 @@ import com.example.apharma.network.RoomApi;
 import com.example.apharma.network.ServiceGenerator;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -29,7 +30,8 @@ import retrofit2.Response;
 
 public class SensorRepository {
     private static SensorRepository instance;
-    private MutableLiveData<ArrayList<Sensor>> sensors;
+    private MutableLiveData<List<Sensor>> sensors;
+    private LiveData<List<Sensor>> listOfSensors;
     LocalDatabase localDatabase;
     SensorDAO sensorDAO;
     ExecutorService executorService;
@@ -51,41 +53,61 @@ public class SensorRepository {
 
     }
 
-    public LiveData<ArrayList<Sensor>> getSensors() {
+    public LiveData<List<Sensor>> getSensors() {
         return sensors;
+    }
+
+    public LiveData<List<Sensor>> getListOfSensors() {
+
+
+        if (listOfSensors == null) {
+            listOfSensors = sensorDAO.getAllSensors();
+        }
+
+        return listOfSensors;
+
+    }
+
+    public LiveData<List<Sensor>> getSensorsFromRoom(String id) {
+       return listOfSensors = sensorDAO.getAllSensorsFromRoom(id);
     }
 
     public void fetchSensors(String room) {
         RoomApi roomApi = ServiceGenerator.getRoomApi();
         Call<ArrayList<Sensor>> call = roomApi.getSensors(room);
-        call.enqueue(new Callback<ArrayList<Sensor>>() {
-            @EverythingIsNonNull
-            @Override
-            public void onResponse(Call<ArrayList<Sensor>> call, Response<ArrayList<Sensor>> response) {
-                if (response.isSuccessful()) {
-                    System.out.println("############ SIZE" + response.body().size());
+        if (internetIsConnected()) {
+            call.enqueue(new Callback<ArrayList<Sensor>>() {
+                @EverythingIsNonNull
+                @Override
+                public void onResponse(Call<ArrayList<Sensor>> call, Response<ArrayList<Sensor>> response) {
+                    if (response.isSuccessful()) {
+                        System.out.println("############ SIZE" + response.body().size());
 
-                    sensors.setValue(response.body());
+                        sensors.setValue(response.body());
 
-                    for (Sensor sensor : response.body()) {
-                        sensor.setRoomId(room);
-                        insert(sensor);
+                        for (Sensor sensor : response.body()) {
+                            sensor.setRoomId(room);
+                            insert(sensor);
 
+                        }
+
+
+                    } else {
+                        System.out.println("Failure ###");
+                        System.out.println("########" + response.message());
                     }
-
-
-                } else {
-                    System.out.println("Failure ###");
-                    System.out.println("########" + response.message());
                 }
-            }
 
 
-            @Override
-            public void onFailure(@NonNull Call<ArrayList<Sensor>> call, Throwable t) {
-                Log.i("Retrofit", "#######Something went wrong :(");
-            }
-        });
+                @Override
+                public void onFailure(@NonNull Call<ArrayList<Sensor>> call, Throwable t) {
+                    Log.i("Retrofit", "#######Something went wrong :(");
+                }
+            });
+        } else {
+            System.out.println("no internet");
+            sensors.setValue(getListOfSensors().getValue());
+        }
     }
 
     public void insert(Sensor sensor) {
@@ -114,5 +136,14 @@ public class SensorRepository {
                 t.printStackTrace();
             }
         });
+    }
+
+    public boolean internetIsConnected() {
+        try {
+            String command = "ping -c 1 google.com";
+            return (Runtime.getRuntime().exec(command).waitFor() == 0);
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
