@@ -24,7 +24,13 @@ import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -106,7 +112,8 @@ public class ReadingFragment extends Fragment {
             if (readings.size() > 0) {
                 graphView.removeAllSeries();
                 LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
-                for (int i = 0; i < readings.size(); i++) {
+                for (int i = 0; i < readings.size(); i++)
+                {
                     DataPoint point = new DataPoint( i,readings.get(i).getReadingValue());
                     series.appendData(point, false, readings.size());
 
@@ -124,23 +131,20 @@ public class ReadingFragment extends Fragment {
 
         });
         datePicker = view.findViewById(R.id.idDatePicker);
-    
-        datePicker.setOnDateChangedListener((view1, year, monthOfYear, dayOfMonth) ->
+        DatePicker.OnDateChangedListener dateListener = (v, year, monthOfYear, dayOfMonth) ->
         {
-            String d = String.valueOf(year);
-            if (String.valueOf(monthOfYear).length() != 2)
-            {
-                d += "0" + (datePicker.getMonth()+1);
-            }
-            else
-            {
-                d+= datePicker.getMonth();
-            }
-            d += String.valueOf(datePicker.getDayOfMonth());
-            System.out.println(Integer.parseInt(d));
-            System.out.println(sensorId);
+            LocalDateTime ld = LocalDateTime.of(v.getYear(), v.getMonth()+1, v.getDayOfMonth(), 12, 0);
+            String d = ld.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+            //System.out.println(ld);
+            //System.out.println(d);
+            //System.out.println(sensorId);
             measurementDataViewModel.fetchReadingsPerDay(Integer.parseInt(d),sensorId);
-        });
+        };
+        
+        LocalDateTime today = LocalDateTime.now();
+        datePicker.init(today.getYear(), (today.getMonthValue()-1), today.getDayOfMonth(), dateListener);
+        datePicker.setMaxDate(Calendar.getInstance().getTimeInMillis()+3600);
+        
 //
     //    measurementDataViewModel.getReadings().observe(getViewLifecycleOwner(),values -> {
         //            readings = values;
