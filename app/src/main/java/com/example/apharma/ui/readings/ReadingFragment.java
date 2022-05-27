@@ -30,7 +30,7 @@ public class ReadingFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private ReadingViewModel measurementDataViewModel;
-    ArrayList<Reading> readings;
+    List<Reading> readings;
     List<Sensor> sensors;
     List<Reading> readingsFromDB;
     TextView textView;
@@ -85,10 +85,22 @@ public class ReadingFragment extends Fragment {
         measurementDataViewModel.fetchReadings(id,sensorType);
 
         measurementDataViewModel.getReadings().observe(getViewLifecycleOwner(),values -> {
-            readings = values;
-            System.out.println("@@@@@@@@"+values);
-            textView = view.findViewById(R.id.value);
-            textView.setText("Reading: " +readings.get(readings.size()-1).getReadingValue());
+            if (internetIsConnected()) {
+                readings = values;
+                System.out.println("@@@@@@@@" + values);
+                textView = view.findViewById(R.id.value);
+                textView.setText("Reading: " + readings.get(readings.size() - 1).getReadingValue());
+            }
+
+        });
+
+        measurementDataViewModel.getListOfSensors(id, sensorType).observe(getViewLifecycleOwner(),values -> {
+            if (!internetIsConnected()) {
+                readings = values;
+                System.out.println("@@@@@@@@" + values);
+                textView = view.findViewById(R.id.value);
+                textView.setText("Reading: " + readings.get(readings.size() - 1).getReadingValue());
+            }
 
         });
 
@@ -105,5 +117,14 @@ public class ReadingFragment extends Fragment {
 //
 
         return view;
+    }
+
+    public boolean internetIsConnected() {
+        try {
+            String command = "ping -c 1 google.com";
+            return (Runtime.getRuntime().exec(command).waitFor() == 0);
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

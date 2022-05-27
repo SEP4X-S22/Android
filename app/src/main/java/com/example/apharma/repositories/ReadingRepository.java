@@ -33,7 +33,7 @@ import retrofit2.Response;
 
 public class ReadingRepository {
     private static ReadingRepository instance;
-    private MutableLiveData<ArrayList<Reading>> values;
+    private MutableLiveData<List<Reading>> values;
     LocalDatabase localDatabase;
     SensorDAO sensorDAO;
     ReadingDAO readingDAO;
@@ -41,6 +41,7 @@ public class ReadingRepository {
     MutableLiveData<List<Reading>> readingList;
     ExecutorService executorService;
     Handler mainThreadHandler;
+    private LiveData<List<Reading>> listOfReadings;
 
 
     public static ReadingRepository getInstance(Application application) {
@@ -59,21 +60,28 @@ public class ReadingRepository {
         mainThreadHandler = HandlerCompat.createAsync(Looper.getMainLooper());
         sensorList = sensorDAO.getAllSensors();
         readingList = new MutableLiveData<>();
-
+        listOfReadings = readingDAO.getAllReadings();
 
 
     }
 
-    public LiveData<List<Sensor>> getSensors(){
+    public LiveData<List<Sensor>> getSensors() {
         return sensorList;
     }
-    public LiveData<List<Reading>> getReadingsFromDB(){
+
+    public LiveData<List<Reading>> getReadingsFromDB() {
         return readingList;
     }
-    public LiveData<ArrayList<Reading>> getReadings() {
+
+    public LiveData<List<Reading>> getReadings() {
         return values;
     }
-    public void insert(Reading reading ) {
+
+    public LiveData<List<Reading>> getSensorsFromRoom(String id, String sensorType) {
+        return listOfReadings = readingDAO.getAllReadings(id,sensorType );
+    }
+
+    public void insert(Reading reading) {
         executorService.execute(() -> readingDAO.insert(reading));
     }
 
@@ -99,39 +107,62 @@ public class ReadingRepository {
 //        return sensorId;
 //    }
 
+    public LiveData<List<Reading>> getListOfReadings() {
 
+
+        if (listOfReadings == null) {
+            listOfReadings = readingDAO.getAllReadings();
+        }
+
+        return listOfReadings;
+
+    }
 
     public void fetchReadings(String room, String sensorType) {
         RoomApi roomApi = ServiceGenerator.getRoomApi();
-        Call<ArrayList<Reading>> call = roomApi.getSensorData(room,sensorType);
-        call.enqueue(new Callback<ArrayList<Reading>>() {
-            @EverythingIsNonNull
-            @Override
-            public void onResponse(Call<ArrayList<Reading>>  call, Response<ArrayList<Reading>> response) {
-                if (response.isSuccessful()) {
-                    System.out.println("############"+response.body().size());
+        Call<ArrayList<Reading>> call = roomApi.getSensorData(room, sensorType);
+
+        if (internetIsConnected()) {
+            call.enqueue(new Callback<ArrayList<Reading>>() {
+                @EverythingIsNonNull
+                @Override
+                public void onResponse(Call<ArrayList<Reading>> call, Response<ArrayList<Reading>> response) {
+                    if (response.isSuccessful()) {
+                        System.out.println("############" + response.body().size());
 // checking to fetch from database
-                    values.setValue(response.body());
+                        values.setValue(response.body());
 //                    readingList = (MutableLiveData<List<Reading>>) readingDAO.getAllReadings(room,sensorType);
 
 
-                    for (Reading reading:response.body()) {
-                        reading.setRoomId(room);
-                        reading.setSensorType(sensorType);
-                        insert(reading);
+                        for (Reading reading : response.body()) {
+                            reading.setRoomId(room);
+                            reading.setSensorType(sensorType);
+                            insert(reading);
+                        }
+
+                    } else {
+                        System.out.println("Failure ###");
+                        System.out.println("########" + response.message());
                     }
-
-                }else {
-                    System.out.println("Failure ###");
-                    System.out.println("########"+response.message());
                 }
-            }
 
 
-            @Override
-            public void onFailure(@NonNull Call<ArrayList<Reading>>  call, Throwable t) {
-                Log.i("Retrofit", "#######Something went wrong :(");
-            }
-        });
+                @Override
+                public void onFailure(@NonNull Call<ArrayList<Reading>> call, Throwable t) {
+                    Log.i("Retrofit", "#######Something went wrong :(");
+                }
+            });
+        } else {
+            values.setValue(getListOfReadings().getValue());
+        }
+    }
+
+    public boolean internetIsConnected() {
+        try {
+            String command = "ping -c 1 google.com";
+            return (Runtime.getRuntime().exec(command).waitFor() == 0);
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
