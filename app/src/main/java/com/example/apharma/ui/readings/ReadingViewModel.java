@@ -45,5 +45,9 @@ public class ReadingViewModel extends AndroidViewModel {
         repository.fetchReadings(room, sensorType);
     }
 
+    public void fetchReadingsPerDay(int date, int sensorId) {
+        repository.fetchReadingsPerDay(date, sensorId);
+    }
+
 
 }

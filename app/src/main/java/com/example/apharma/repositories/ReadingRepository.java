@@ -169,5 +169,38 @@ public class ReadingRepository {
         }
     }
 
+    public void fetchReadingsPerDay(int date, int sensorId) {
+        RoomApi roomApi = ServiceGenerator.getRoomApi();
+        Call<ArrayList<Reading>> call = roomApi.getReadingsPerDay(date,sensorId);
+        call.enqueue(new Callback<ArrayList<Reading>>() {
+            @EverythingIsNonNull
+            @Override
+            public void onResponse(Call<ArrayList<Reading>>  call, Response<ArrayList<Reading>> response) {
+                if (response.isSuccessful()) {
+                    System.out.println("############"+response.body().size());
+
+                    values.setValue(response.body());
+
+//
+//                    for (Reading reading:response.body()) {
+//                        reading.setRoomId(room);
+//                        reading.setSensorType(sensorType);
+//                        insert(reading);
+//                    }
+
+                }else {
+                    System.out.println("Failure ###");
+                    System.out.println("########"+response.message());
+                }
+            }
+
+
+            @Override
+            public void onFailure(@NonNull Call<ArrayList<Reading>>  call, Throwable t) {
+                Log.i("Retrofit", "#######Something went wrong :(");
+            }
+        });
+    }
+
 
 }
