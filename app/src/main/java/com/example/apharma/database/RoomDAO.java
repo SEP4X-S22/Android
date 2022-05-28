@@ -7,17 +7,17 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
-
 import com.example.apharma.models.Room;
-import com.example.apharma.models.Sensor;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @Dao
 public interface RoomDAO {
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Room room);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertAll(List<Room> roomList);
 
     @Update
     void update(Room room);
@@ -26,16 +26,8 @@ public interface RoomDAO {
     void delete(Room room);
 
     @Query("DELETE FROM room_table")
-    void deleteAllRooms();
+    void deleteAll();
 
     @Query("SELECT * FROM room_table")
-    LiveData<List<Room>> getAllRooms();
-
-//    @Query("SELECT sensorList FROM room_table")
-//    LiveData<ArrayList<Sensor>> getAllSensors();
-
-//    @Query("INSERT sensors INTO ")
-//    void insertSensors(ArrayList<Sensor> sensors);
-
-
+    LiveData<List<Room>> getAll();
 }

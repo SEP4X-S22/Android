@@ -1,95 +1,81 @@
 package com.example.apharma.repositories;
 
 import android.app.Application;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
-
 import androidx.annotation.NonNull;
-import androidx.core.os.HandlerCompat;
+import androidx.annotation.WorkerThread;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-
+import androidx.lifecycle.MediatorLiveData;
 import com.example.apharma.database.LocalDatabase;
-import com.example.apharma.database.RoomDAO;
 import com.example.apharma.database.SensorDAO;
-import com.example.apharma.models.Room;
 import com.example.apharma.models.Sensor;
 import com.example.apharma.network.RoomApi;
 import com.example.apharma.network.ServiceGenerator;
-
-import java.util.ArrayList;
-import java.util.concurrent.ExecutorService;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
-
 import okhttp3.internal.annotations.EverythingIsNonNull;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SensorRepository {
+
     private static SensorRepository instance;
-    private MutableLiveData<ArrayList<Sensor>> sensors;
-    LocalDatabase localDatabase;
-    SensorDAO sensorDAO;
-    ExecutorService executorService;
-    Handler mainThreadHandler;
+    private final SensorDAO sensorDAO;
+    private final Executor executor;
+    private final HashMap<String, Long> lastRequestTimes;
+
+    private SensorRepository(Application application) {
+        LocalDatabase localDatabase = LocalDatabase.getInstance(application);
+        sensorDAO = localDatabase.sensorDAO();
+        executor = Executors.newFixedThreadPool(2);
+        lastRequestTimes = new HashMap<>();
+    }
 
     public static SensorRepository getInstance(Application application) {
-        if (instance == null) {
-            instance = new SensorRepository(application);
-        }
+        if (instance == null) instance = new SensorRepository(application);
         return instance;
     }
 
-    public SensorRepository(Application application) {
-        sensors = new MutableLiveData<>();
-        localDatabase = LocalDatabase.getInstance(application);
-        sensorDAO = localDatabase.sensorDAO();
-        executorService = Executors.newFixedThreadPool(2);
-        mainThreadHandler = HandlerCompat.createAsync(Looper.getMainLooper());
-
+    public LiveData<List<Sensor>> getAllInRoom(String roomId) {
+        executor.execute(() -> refresh(roomId));
+        final MediatorLiveData<List<Sensor>> mediator = new MediatorLiveData<>();
+        mediator.addSource(sensorDAO.getAllInRoom(roomId), mediator::setValue);
+        return mediator;
     }
 
-    public LiveData<ArrayList<Sensor>> getSensors() {
-        return sensors;
-    }
+    @WorkerThread
+    private void refresh(String roomId) {
+        long crtTime = new Date().getTime();
+        // Limit to making one request per every 10 seconds
+        if (lastRequestTimes.containsKey(roomId) && crtTime < lastRequestTimes.get(roomId) + 10000) return;
+        lastRequestTimes.put(roomId, crtTime);
 
-    public void fetchSensors(String room) {
+        Log.d("REPO", "Fetching sensors from remote for roomId: " + roomId);
+
         RoomApi roomApi = ServiceGenerator.getRoomApi();
-        Call<ArrayList<Sensor>> call = roomApi.getSensors(room);
-        call.enqueue(new Callback<ArrayList<Sensor>>() {
+        Call<List<Sensor>> call = roomApi.getSensors(roomId);
+        call.enqueue(new Callback<List<Sensor>>() {
             @EverythingIsNonNull
             @Override
-            public void onResponse(Call<ArrayList<Sensor>> call, Response<ArrayList<Sensor>> response) {
-                if (response.isSuccessful()) {
-                    System.out.println("############ SIZE" + response.body().size());
-
-                    sensors.setValue(response.body());
-
-                    for (Sensor sensor : response.body()) {
-                        sensor.setRoomId(room);
-                        insert(sensor);
-
+            public void onResponse(Call<List<Sensor>> call, Response<List<Sensor>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<Sensor> newData = response.body();
+                    for (Sensor sensor : newData) {
+                        sensor.setRoomId(roomId);
                     }
-
-
-                } else {
-                    System.out.println("Failure ###");
-                    System.out.println("########" + response.message());
+                    executor.execute(() -> sensorDAO.insertAll(newData));
                 }
             }
 
-
             @Override
-            public void onFailure(@NonNull Call<ArrayList<Sensor>> call, Throwable t) {
-                Log.i("Retrofit", "#######Something went wrong :(");
+            public void onFailure(@NonNull Call<List<Sensor>> call, Throwable t) {
+                Log.i("Retrofit", "Something went wrong :(");
             }
         });
-    }
-
-    public void insert(Sensor sensor) {
-        executorService.execute(() -> sensorDAO.insert(sensor));
     }
 
     public void updateConstraints(int id, int minValue, int maxValue) {

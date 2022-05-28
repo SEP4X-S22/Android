@@ -1,7 +1,14 @@
 package com.example.apharma.ui.home;
 
 import android.app.Application;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
+import android.net.NetworkRequest;
+import android.os.Build;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -12,31 +19,31 @@ import com.example.apharma.models.Sensor;
 import com.example.apharma.repositories.RoomRepository;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class HomeViewModel extends AndroidViewModel {
 
-    private final MutableLiveData<String> mText;
-
     RoomRepository repository;
+
+    private final MutableLiveData<String> mText;
 
     public HomeViewModel(Application application) {
         super(application);
+        repository = RoomRepository.getInstance(application);
         mText = new MutableLiveData<>();
         mText.setValue("This is home fragment");
-        repository = RoomRepository.getInstance(application);
+    }
+
+    public LiveData<List<Room>> getRoomList() {
+        return repository.getAll();
     }
 
     public LiveData<String> getText() {
         return mText;
     }
 
-    public LiveData<ArrayList<Room>> getRooms() {
-        return repository.getRooms();
-    }
-
-
-    public void fetchRooms() {
-        repository.fetchRooms();
-    }
+//    public void fetchRooms() {
+//        repository.fetchRooms();
+//    }
 
 }

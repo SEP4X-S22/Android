@@ -31,10 +31,11 @@ import com.example.apharma.ui.sensors.SensorsFragment;
 import com.example.apharma.ui.sensors.SensorsViewModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder> {
 
-    private ArrayList<Sensor> list;
+    private List<Sensor> list;
     private Context context;
     private OnListItemClickListener mOnListItemClickListener;
     private SensorsViewModel sensorsViewModel;
@@ -54,7 +55,6 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
     public void setContext(Context context) {
         this.context = context;
     }
-
 
     public static synchronized SensorAdapter getInstance() {
         if (instance == null) {
@@ -174,7 +174,7 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
         });
     }
 
-    public void update(ArrayList<Sensor> sensors) {
+    public void update(List<Sensor> sensors) {
         list = sensors;
         notifyDataSetChanged();
     }

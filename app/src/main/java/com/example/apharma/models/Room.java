@@ -4,25 +4,18 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
-
 import com.google.gson.annotations.SerializedName;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity(tableName = "room_table")
 public class Room {
 
-    private String name;
-
     @PrimaryKey @NonNull
     @SerializedName("id")
     private String id;
+    private String name;
     private int sensorsCount;
 
-    public Room() {
-
-    }
+    public Room() {}
 
     @Ignore
     public Room(String name, String id, int size) {
@@ -58,7 +51,6 @@ public class Room {
     public void setName(String name) {
         this.name = name;
     }
-
 
     @Override
     public String toString() {

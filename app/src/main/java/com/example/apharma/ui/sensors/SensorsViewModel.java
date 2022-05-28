@@ -11,10 +11,12 @@ import com.example.apharma.models.Sensor;
 import com.example.apharma.repositories.SensorRepository;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SensorsViewModel extends AndroidViewModel {
-    SensorRepository sensorRepository;
+
     private static SensorsViewModel instance;
+    private final SensorRepository sensorRepository;
 
     public SensorsViewModel(Application application) {
         super(application);
@@ -22,20 +24,13 @@ public class SensorsViewModel extends AndroidViewModel {
     }
 
     public static synchronized SensorsViewModel getInstance(Application application) {
-        if (instance == null) {
-            instance = new SensorsViewModel(application);
-        }
+        if (instance == null) instance = new SensorsViewModel(application);
         return instance;
     }
 
-    public LiveData<ArrayList<Sensor>> getSensors() {
-        return sensorRepository.getSensors();
+    public LiveData<List<Sensor>> getAllSensorsInRoom(String roomId) {
+        return sensorRepository.getAllInRoom(roomId);
     }
-
-    public void fetchSensors(String room) {
-        sensorRepository.fetchSensors(room);
-    }
-
 
     public ArrayList<Room> getRoomsById(ArrayList<Room> rooms, String id) {
         ArrayList<Room> roomsToReturn = new ArrayList<>();

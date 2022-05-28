@@ -63,14 +63,9 @@ public class SensorsFragment extends Fragment  {
 
         ConfigureRecyclerView();
 
-        sensorsViewModel.getSensors().observe(getViewLifecycleOwner(), sensors -> {
-
+        sensorsViewModel.getAllSensorsInRoom(roomId).observe(getViewLifecycleOwner(), sensors -> {
             sensorAdapter.update(sensors);
-
         });
-
-        sensorsViewModel.fetchSensors(roomId);
-
 
         sensorAdapter.setOnClickListener(v ->{
             SensorsFragmentDirections.ActionSensorsToReadingFragment actionSensorsToReadingFragment = SensorsFragmentDirections.actionSensorsToReadingFragment();

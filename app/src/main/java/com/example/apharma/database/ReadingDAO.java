@@ -7,17 +7,19 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
-
 import com.example.apharma.models.Reading;
 import com.example.apharma.models.Sensor;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Dao
 public interface ReadingDAO {
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Reading reading);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertAll(List<Reading> readingList);
 
     @Update
     void update(Reading reading);
@@ -26,12 +28,11 @@ public interface ReadingDAO {
     void delete(Reading reading);
 
     @Query("DELETE FROM reading_table")
-    void deleteAllReadings();
+    void deleteAll();
 
     @Query("SELECT * FROM reading_table")
-     LiveData<List<Reading>> getAllReadings();
+    LiveData<List<Reading>> getAll();
 
-
-    @Query("SELECT * FROM reading_table WHERE roomId = :room AND sensorType = :sensorType")
-    LiveData<List<Reading>> getAllReadings(String room, String sensorType);
+    @Query("SELECT * FROM reading_table WHERE roomId = :roomId AND sensorType = :sensorType")
+    LiveData<List<Reading>> getAllFromRoom(String roomId, String sensorType);
 }

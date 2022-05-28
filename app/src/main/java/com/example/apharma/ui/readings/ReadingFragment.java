@@ -30,7 +30,7 @@ public class ReadingFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private ReadingViewModel measurementDataViewModel;
-    ArrayList<Reading> readings;
+    List<Reading> readings;
     List<Sensor> sensors;
     List<Reading> readingsFromDB;
     TextView textView;
@@ -72,29 +72,23 @@ public class ReadingFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ReadingViewModel measurementDataViewModel = new ViewModelProvider(this).get(ReadingViewModel.class);
         // Inflate the layout for this fragment
-        View view= inflater.inflate(R.layout.fragment_reading, container, false);
+        View view = inflater.inflate(R.layout.fragment_reading, container, false);
 
 
         String id = ReadingFragmentArgs.fromBundle(getArguments()).getRoomId();
         String sensorType = ReadingFragmentArgs.fromBundle(getArguments()).getSensorType();
 
-        measurementDataViewModel.fetchReadings(id,sensorType);
-
-        measurementDataViewModel.getReadings().observe(getViewLifecycleOwner(),values -> {
+        measurementDataViewModel.getReadings(id, sensorType).observe(getViewLifecycleOwner(), values -> {
             readings = values;
-            System.out.println("@@@@@@@@"+values);
+            System.out.println("@@@@@@@@ " + readings.size());
             textView = view.findViewById(R.id.value);
-            textView.setText("Reading: " +readings.get(readings.size()-1).getReadingValue());
-
+            for (Reading reading : readings) {
+                textView.setText("Reading: " + reading.getReadingValue());
+            }
         });
-
-//        measurementDataViewModel.getSensors().observe(getViewLifecycleOwner(),values->{
-//            sensors = values;
-//        });
 
         // This gives an error
 //        measurementDataViewModel.getReadingsFromDB().observe(getViewLifecycleOwner(), values ->{
