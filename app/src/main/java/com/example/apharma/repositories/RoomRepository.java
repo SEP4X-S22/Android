@@ -24,6 +24,7 @@ import com.example.apharma.database.RoomDAO;
 import com.example.apharma.models.Room;
 import com.example.apharma.network.RoomApi;
 import com.example.apharma.network.ServiceGenerator;
+import com.example.apharma.utils.NetworkCheck;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +44,7 @@ public class RoomRepository {
     RoomDAO roomDAO;
     ExecutorService executorService;
     Handler mainThreadHandler;
+    NetworkCheck networkCheck;
 
 
     public static RoomRepository getInstance(Application application) {
@@ -60,6 +62,7 @@ public class RoomRepository {
         listOfRooms = roomDAO.getAllRooms();
         executorService = Executors.newFixedThreadPool(2);
         mainThreadHandler = HandlerCompat.createAsync(Looper.getMainLooper());
+        networkCheck = new NetworkCheck();
 
     }
 
@@ -87,9 +90,9 @@ public class RoomRepository {
         RoomApi roomApi = ServiceGenerator.getRoomApi();
         Call<ArrayList<Room>> call = roomApi.getRooms();
 
-        Log.i("internet", isConnected() + "");
+        Log.i("internet", networkCheck.isConnected() + "");
 
-        if (isConnected()) {
+        if (networkCheck.isConnected()) {
             call.enqueue(new Callback<ArrayList<Room>>() {
                 @EverythingIsNonNull
                 @Override
@@ -117,32 +120,6 @@ public class RoomRepository {
         }
 
 
-    }
-
-    public boolean isConnected() {
-        @SuppressLint("RestrictedApi") ConnectivityManager cm = (ConnectivityManager) getApplicationContext()
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (cm == null) {
-            return false;
-        }
-        /* NetworkInfo is deprecated in API 29 so we have to check separately for higher API Levels */
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            Network network = cm.getActiveNetwork();
-            if (network == null) {
-                return false;
-            }
-            NetworkCapabilities networkCapabilities = cm.getNetworkCapabilities(network);
-            if (networkCapabilities == null) {
-                return false;
-            }
-            boolean isInternetSuspended = !networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_SUSPENDED);
-            return networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-                    && networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
-                    && !isInternetSuspended;
-        } else {
-            NetworkInfo networkInfo = cm.getActiveNetworkInfo();
-            return networkInfo != null && networkInfo.isConnected();
-        }
     }
 
 

@@ -24,18 +24,21 @@ import android.view.ViewGroup;
 import com.example.apharma.R;
 import com.example.apharma.adapters.SensorAdapter;
 import com.example.apharma.models.Sensor;
+import com.example.apharma.utils.NetworkCheck;
 
 import java.util.ArrayList;
 
-public class SensorsFragment extends Fragment  {
+public class SensorsFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private SensorAdapter sensorAdapter;
     private SensorsViewModel sensorsViewModel;
     ArrayList<Sensor> sensorsList;
+    NetworkCheck networkCheck;
 
     public SensorsFragment() {
         // Required empty public constructor
+        networkCheck = new NetworkCheck();
     }
 
 
@@ -73,16 +76,17 @@ public class SensorsFragment extends Fragment  {
         ConfigureRecyclerView();
 
         sensorsViewModel.getSensors().observe(getViewLifecycleOwner(), sensors -> {
+            if (networkCheck.isConnected()) {
 
-            sensorAdapter.update(sensors);
+                sensorAdapter.update(sensors);
+            }
 
         });
 
         sensorsViewModel.getListOfSensors(roomId).observe(getViewLifecycleOwner(), sensors -> {
-            if (!isConnected()) {
+            if (!networkCheck.isConnected()) {
                 sensorAdapter.update(sensors);
             }
-
 
 
         });
@@ -90,7 +94,7 @@ public class SensorsFragment extends Fragment  {
         sensorsViewModel.fetchSensors(roomId);
 
 
-        sensorAdapter.setOnClickListener(v ->{
+        sensorAdapter.setOnClickListener(v -> {
             SensorsFragmentDirections.ActionSensorsToReadingFragment actionSensorsToReadingFragment = SensorsFragmentDirections.actionSensorsToReadingFragment();
             actionSensorsToReadingFragment.setRoomId(roomId);
             actionSensorsToReadingFragment.setSensorType(v.getSensor().toString());
@@ -101,31 +105,7 @@ public class SensorsFragment extends Fragment  {
 
         return view;
     }
-    public boolean isConnected() {
-        @SuppressLint("RestrictedApi") ConnectivityManager cm = (ConnectivityManager) getApplicationContext()
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (cm == null) {
-            return false;
-        }
-        /* NetworkInfo is deprecated in API 29 so we have to check separately for higher API Levels */
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            Network network = cm.getActiveNetwork();
-            if (network == null) {
-                return false;
-            }
-            NetworkCapabilities networkCapabilities = cm.getNetworkCapabilities(network);
-            if (networkCapabilities == null) {
-                return false;
-            }
-            boolean isInternetSuspended = !networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_SUSPENDED);
-            return networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-                    && networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
-                    && !isInternetSuspended;
-        } else {
-            NetworkInfo networkInfo = cm.getActiveNetworkInfo();
-            return networkInfo != null && networkInfo.isConnected();
-        }
-    }
+
 
     private void ConfigureRecyclerView() {
 
@@ -138,8 +118,6 @@ public class SensorsFragment extends Fragment  {
 
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setHasFixedSize(true);
-
-
 
 
     }

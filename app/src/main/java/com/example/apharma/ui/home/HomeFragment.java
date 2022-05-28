@@ -19,6 +19,7 @@ import com.example.apharma.adapters.RoomAdapter;
 import com.example.apharma.databinding.FragmentHomeBinding;
 import com.example.apharma.models.Room;
 import com.example.apharma.ui.sensors.SensorsViewModel;
+import com.example.apharma.utils.NetworkCheck;
 
 import java.util.ArrayList;
 
@@ -32,13 +33,14 @@ public class HomeFragment extends Fragment {
     private SensorsViewModel sensorsViewModel;
     private TextView name;
     ArrayList<Room> roomsData;
+    NetworkCheck networkCheck;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         HomeViewModel homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
 
-
+networkCheck = new NetworkCheck();
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
@@ -46,11 +48,15 @@ public class HomeFragment extends Fragment {
         roomList = root.findViewById(R.id.recycleView);
         name = root.findViewById(R.id.room_title);
         homeViewModel.getRooms().observe(getViewLifecycleOwner(), rooms -> {
-            roomAdapter.update(rooms);
+            if (networkCheck.isConnected()) {
+                roomAdapter.update(rooms);
+            }
 
         });
         homeViewModel.getListOfRooms().observe(getViewLifecycleOwner(), rooms -> {
-            roomAdapter.update(rooms);
+            if (!networkCheck.isConnected()) {
+                roomAdapter.update(rooms);
+            }
 
         });
 

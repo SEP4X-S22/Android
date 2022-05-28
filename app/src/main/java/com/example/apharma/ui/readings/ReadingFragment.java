@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.example.apharma.R;
 import com.example.apharma.models.Reading;
 import com.example.apharma.models.Sensor;
+import com.example.apharma.utils.NetworkCheck;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -43,6 +44,7 @@ public class ReadingFragment extends Fragment {
     List<Sensor> sensors;
     List<Reading> readingsFromDB;
     TextView textView;
+    NetworkCheck networkCheck;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -51,6 +53,7 @@ public class ReadingFragment extends Fragment {
     public ReadingFragment() {
         // Required empty public constructor
         this.readings = new ArrayList<>();
+        networkCheck = new NetworkCheck();
     }
 
     /**
@@ -94,7 +97,7 @@ public class ReadingFragment extends Fragment {
         measurementDataViewModel.fetchReadings(id,sensorType);
 
         measurementDataViewModel.getReadings().observe(getViewLifecycleOwner(),values -> {
-            if (isConnected()) {
+            if (networkCheck.isConnected()) {
                 readings = values;
                 System.out.println("@@@@@@@@" + values);
                 textView = view.findViewById(R.id.value);
@@ -104,7 +107,7 @@ public class ReadingFragment extends Fragment {
         });
 
         measurementDataViewModel.getListOfSensors(id, sensorType).observe(getViewLifecycleOwner(),values -> {
-            if (!isConnected()) {
+            if (!networkCheck.isConnected()) {
                 readings = values;
                 System.out.println("@@@@@@@@" + values);
                 textView = view.findViewById(R.id.value);
@@ -128,30 +131,6 @@ public class ReadingFragment extends Fragment {
         return view;
     }
 
-    public boolean isConnected() {
-        @SuppressLint("RestrictedApi") ConnectivityManager cm = (ConnectivityManager) getApplicationContext()
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (cm == null) {
-            return false;
-        }
-        /* NetworkInfo is deprecated in API 29 so we have to check separately for higher API Levels */
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            Network network = cm.getActiveNetwork();
-            if (network == null) {
-                return false;
-            }
-            NetworkCapabilities networkCapabilities = cm.getNetworkCapabilities(network);
-            if (networkCapabilities == null) {
-                return false;
-            }
-            boolean isInternetSuspended = !networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_SUSPENDED);
-            return networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-                    && networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
-                    && !isInternetSuspended;
-        } else {
-            NetworkInfo networkInfo = cm.getActiveNetworkInfo();
-            return networkInfo != null && networkInfo.isConnected();
-        }
-    }
+
 
 }
