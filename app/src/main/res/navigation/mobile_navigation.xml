@@ -58,5 +58,9 @@
         android:name="sensorType"
         app:argType="string"
         android:defaultValue="unknown" />
+        <argument
+            android:name="sensorId"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
 </navigation>

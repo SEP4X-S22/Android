@@ -69,4 +69,7 @@ dependencies {
     implementation "androidx.room:room-runtime:2.4.2"
     annotationProcessor "androidx.room:room-compiler:2.4.2"
 
+    // Graph
+    implementation 'com.jjoe64:graphview:4.2.2'
+
 }

@@ -34,4 +34,7 @@ public interface ReadingDAO {
 
     @Query("SELECT * FROM reading_table WHERE roomId = :room AND sensorType = :sensorType")
     LiveData<List<Reading>> getAllReadings(String room, String sensorType);
+
+    @Query("SELECT * FROM reading_table WHERE sensorId = :sensorId")
+    LiveData<List<Reading>> getAllReadings( int sensorId);
 }

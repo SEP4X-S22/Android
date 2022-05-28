@@ -93,6 +93,10 @@ public class ReadingRepository {
         return listOfReadings = readingDAO.getAllReadings(id,sensorType );
     }
 
+    public LiveData<List<Reading>> getReadingsFromSensors( int sensorId) {
+        return listOfReadings = readingDAO.getAllReadings(sensorId);
+    }
+
     public void insert(Reading reading) {
         executorService.execute(() -> readingDAO.insert(reading));
     }
@@ -172,6 +176,7 @@ public class ReadingRepository {
     public void fetchReadingsPerDay(int date, int sensorId) {
         RoomApi roomApi = ServiceGenerator.getRoomApi();
         Call<ArrayList<Reading>> call = roomApi.getReadingsPerDay(date,sensorId);
+        if (networkCheck.isConnected()) {
         call.enqueue(new Callback<ArrayList<Reading>>() {
             @EverythingIsNonNull
             @Override
@@ -182,11 +187,12 @@ public class ReadingRepository {
                     values.setValue(response.body());
 
 //
-//                    for (Reading reading:response.body()) {
-//                        reading.setRoomId(room);
-//                        reading.setSensorType(sensorType);
-//                        insert(reading);
-//                    }
+                    for (Reading reading:response.body()) {
+
+                        reading.setSensorId(sensorId);
+                        reading.setDate(date);
+                        insert(reading);
+                    }
 
                 }else {
                     System.out.println("Failure ###");
@@ -201,6 +207,9 @@ public class ReadingRepository {
             }
         });
     }
+    else {
+            values.setValue(getListOfReadings().getValue());
+        }}
 
 
 }

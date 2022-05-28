@@ -25,7 +25,7 @@ public interface RoomApi {
     @PATCH("/sensor/constraints")
     Call<Void> setConstraints(@Query("id") int id, @Query("min") int min, @Query("max") int max);
 
-    @GET("/readings")
+    @GET("/readings/day")
     Call<ArrayList<Reading>> getReadingsPerDay(@Query("date") int date, @Query("sensorId") int sensorId);
 
 }
