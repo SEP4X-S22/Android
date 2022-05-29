@@ -13,18 +13,18 @@ import com.example.apharma.repositories.SensorRepository;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SensorsViewModel extends AndroidViewModel {
+public class SensorsViewModel extends ViewModel {
     SensorRepository sensorRepository;
     private static SensorsViewModel instance;
 
-    public SensorsViewModel(Application application) {
-        super(application);
-        sensorRepository = SensorRepository.getInstance(application);
+    public SensorsViewModel() {
+
+        sensorRepository = SensorRepository.getInstance();
     }
 
-    public static synchronized SensorsViewModel getInstance(Application application) {
+    public static synchronized SensorsViewModel getInstance() {
         if (instance == null) {
-            instance = new SensorsViewModel(application);
+            instance = new SensorsViewModel();
         }
         return instance;
     }

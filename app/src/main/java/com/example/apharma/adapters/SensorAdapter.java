@@ -46,10 +46,10 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
         return conditionsSurpassConstraints;
     }
 
-    public SensorAdapter() {
+    public SensorAdapter(Context context) {
         this.list = new ArrayList<>();
-        this.context = null;
-//        sensorsViewModel = SensorsViewModel.getInstance();
+        this.context = context;
+        sensorsViewModel = SensorsViewModel.getInstance();
     }
 
     public void setContext(Context context) {
@@ -57,12 +57,12 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
     }
 
 
-    public static synchronized SensorAdapter getInstance() {
-        if (instance == null) {
-            instance = new SensorAdapter();
-        }
-        return instance;
-    }
+//    public static synchronized SensorAdapter getInstance() {
+//        if (instance == null) {
+//            instance = new SensorAdapter();
+//        }
+//        return instance;
+//    }
 
     public interface OnListItemClickListener {
         void onClick(Sensor sensor);
@@ -118,7 +118,7 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
         }
 
         if (checkForCurrentConditions(position)) {
-            //addNotification();
+            addNotification();
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 holder.cardView.setCardBackgroundColor(context.getColor(R.color.red));
             }
@@ -151,7 +151,7 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
                     builder.setMessage("Are you sure you want to set new constraints?").setPositiveButton("Yes", (dialogInterface, i) -> {
                         list.get(position).setConstraintMinValue(min);
                         list.get(position).setConstraintMaxValue(max);
-//                        sensorsViewModel.updateConstraints(list.get(position).getId(), list.get(position).getConstraintMinValue(), list.get(position).getConstraintMaxValue());
+                        sensorsViewModel.updateConstraints(list.get(position).getId(), list.get(position).getConstraintMinValue(), list.get(position).getConstraintMaxValue());
                         notifyItemChanged(position);
 
                     });
@@ -228,29 +228,29 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
     }
 
 
-//    private void addNotification() {
-//        if (Build.VERSION.SDK_INT >= 26) {
-//            final String CHANNEL_ID = "HEADS_UP_NOTIFICATION";
-//            NotificationChannel channel = new NotificationChannel(
-//                    CHANNEL_ID,
-//                    "Heads Up Notification",
-//                    NotificationManager.IMPORTANCE_HIGH
-//            );
-//            context.getSystemService(NotificationManager.class).createNotificationChannel(channel);
-//            Notification.Builder notification = new Notification.Builder(context, CHANNEL_ID).setContentTitle("aPharma")
-//                    .setContentText("DANGER, check conditions").setSmallIcon(R.drawable.pharmacy_icon)
-//                    .setAutoCancel(true);
-//
-//            Intent notificationIntent = new Intent(context, SensorsFragment.class);
-//            PendingIntent contentIntent = PendingIntent.getActivity(context
-//                    , 0, notificationIntent,
-//                    PendingIntent.FLAG_IMMUTABLE);
-//            notification.setContentIntent(contentIntent);
-//
-//            // Add as notification
-//            NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-//            manager.notify(0, notification.build());
-////        NotificationManagerCompat.from(context).notify(1,notification.build());
-//        }
-//    }
+    private void addNotification() {
+        if (Build.VERSION.SDK_INT >= 26) {
+            final String CHANNEL_ID = "HEADS_UP_NOTIFICATION";
+            NotificationChannel channel = new NotificationChannel(
+                    CHANNEL_ID,
+                    "Heads Up Notification",
+                    NotificationManager.IMPORTANCE_HIGH
+            );
+            context.getSystemService(NotificationManager.class).createNotificationChannel(channel);
+            Notification.Builder notification = new Notification.Builder(context, CHANNEL_ID).setContentTitle("aPharma")
+                    .setContentText("DANGER, check conditions").setSmallIcon(R.drawable.pharmacy_icon)
+                    .setAutoCancel(true);
+
+            Intent notificationIntent = new Intent(context, SensorsFragment.class);
+            PendingIntent contentIntent = PendingIntent.getActivity(context
+                    , 0, notificationIntent,
+                    PendingIntent.FLAG_IMMUTABLE);
+            notification.setContentIntent(contentIntent);
+
+            // Add as notification
+            NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            manager.notify(0, notification.build());
+//        NotificationManagerCompat.from(context).notify(1,notification.build());
+        }
+    }
 }

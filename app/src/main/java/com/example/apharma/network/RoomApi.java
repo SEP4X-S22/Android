@@ -22,7 +22,7 @@ public interface RoomApi {
     @GET("/readings/{roomId}/{sensorType}")
     Call<ArrayList<Reading>> getSensorData(@Path("roomId") String room, @Path("sensorType") String sensorType);
 
-    @PATCH("/sensor/constraints")
+    @PATCH("/sensors/constraints")
     Call<Void> setConstraints(@Query("id") int id, @Query("min") int min, @Query("max") int max);
 
     @GET("/readings/day")

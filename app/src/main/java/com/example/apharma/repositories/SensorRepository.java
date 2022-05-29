@@ -47,15 +47,16 @@ public class SensorRepository {
     ExecutorService executorService;
     Handler mainThreadHandler;
     NetworkCheck networkCheck;
+    Application application = new Application();
 
-    public static SensorRepository getInstance(Application application) {
+    public static SensorRepository getInstance() {
         if (instance == null) {
-            instance = new SensorRepository(application);
+            instance = new SensorRepository();
         }
         return instance;
     }
 
-    public SensorRepository(Application application) {
+    public SensorRepository() {
         sensors = new MutableLiveData<>();
         localDatabase = LocalDatabase.getInstance(application);
         sensorDAO = localDatabase.sensorDAO();

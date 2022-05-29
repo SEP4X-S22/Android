@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.example.apharma.adapters.SensorAdapter;
-import com.example.apharma.notifications.NotificationJobService;
+//import com.example.apharma.notifications.NotificationJobService;
 import com.example.apharma.ui.signIn.SignInActivity;
 import com.example.apharma.viewmodels.MainActivityViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private MainActivityViewModel viewModel;
     NavController navController;
     AppBarConfiguration appBarConfiguration;
-    public SensorAdapter sensorAdapter = SensorAdapter.getInstance();
+//    public SensorAdapter sensorAdapter = SensorAdapter.getInstance();
     private static final int JOB_ID = 0;
     private int refreshInterval = 5 * 60 * 1000;
     private JobScheduler mScheduler;
@@ -45,21 +45,21 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        mScheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
-
-        ComponentName serviceName = new ComponentName(getPackageName(),
-                NotificationJobService.class.getName());
-        JobInfo.Builder builder = new JobInfo.Builder(JOB_ID, serviceName)
-                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY);
-        JobInfo myJobInfo = builder.build();
+//        mScheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+//
+//        ComponentName serviceName = new ComponentName(getPackageName(),
+//                NotificationJobService.class.getName());
+//        JobInfo.Builder builder = new JobInfo.Builder(JOB_ID, serviceName)
+//                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY);
+//        JobInfo myJobInfo = builder.build();
 //        mScheduler.schedule(myJobInfo);
 
 
-        sensorAdapter.isConditionsSurpassConstraints().observe(this, condition ->{
-            if (condition){
-                mScheduler.schedule(myJobInfo);
-            }
-        });
+//        sensorAdapter.isConditionsSurpassConstraints().observe(this, condition ->{
+//            if (condition){
+//                mScheduler.schedule(myJobInfo);
+//            }
+//        });
 
 
 
