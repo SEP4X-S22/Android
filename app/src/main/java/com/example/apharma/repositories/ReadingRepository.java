@@ -93,10 +93,6 @@ public class ReadingRepository {
         return listOfReadings = readingDAO.getAllReadings(id,sensorType );
     }
 
-    public LiveData<List<Reading>> getReadingsFromSensors( int sensorId) {
-        return listOfReadings = readingDAO.getAllReadings(sensorId);
-    }
-
     public void insert(Reading reading) {
         executorService.execute(() -> readingDAO.insert(reading));
     }
@@ -175,41 +171,30 @@ public class ReadingRepository {
 
     public void fetchReadingsPerDay(int date, int sensorId) {
         RoomApi roomApi = ServiceGenerator.getRoomApi();
-        Call<ArrayList<Reading>> call = roomApi.getReadingsPerDay(date,sensorId);
-        if (networkCheck.isConnected()) {
+        Call<ArrayList<Reading>> call = roomApi.getReadingsPerDay(date, sensorId);
         call.enqueue(new Callback<ArrayList<Reading>>() {
             @EverythingIsNonNull
             @Override
-            public void onResponse(Call<ArrayList<Reading>>  call, Response<ArrayList<Reading>> response) {
+            public void onResponse(Call<ArrayList<Reading>> call, Response<ArrayList<Reading>> response) {
                 if (response.isSuccessful()) {
-                    System.out.println("############"+response.body().size());
+                    System.out.println("############" + response.body().size());
 
                     values.setValue(response.body());
 
-//
-                    for (Reading reading:response.body()) {
-
-                        reading.setSensorId(sensorId);
-                        reading.setDate(date);
-                        insert(reading);
-                    }
-
-                }else {
+                } else {
                     System.out.println("Failure ###");
-                    System.out.println("########"+response.message());
+                    System.out.println("########" + response.message());
                 }
             }
 
 
             @Override
-            public void onFailure(@NonNull Call<ArrayList<Reading>>  call, Throwable t) {
+            public void onFailure(@NonNull Call<ArrayList<Reading>> call, Throwable t) {
                 Log.i("Retrofit", "#######Something went wrong :(");
             }
         });
+
     }
-    else {
-            values.setValue(getListOfReadings().getValue());
-        }}
 
 
 }

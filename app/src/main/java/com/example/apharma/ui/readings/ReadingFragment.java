@@ -148,14 +148,7 @@ public class ReadingFragment extends Fragment {
                     textView.setText("Reading: " + readings.get(readings.size() - 1).getReadingValue());
                 }
                 else {textView.setText("No readings available");}
-            }
 
-        });
-
-
-        measurementDataViewModel.getListOfReadings(sensorId).observe(getViewLifecycleOwner(), values -> {
-            if (!networkCheck.isConnected()) {
-                readings=values;
                 graphView = view.findViewById(R.id.idGraphView);
                 graphView.removeAllSeries();
 
@@ -172,10 +165,11 @@ public class ReadingFragment extends Fragment {
                 graphView.setTitle("Readings overview");
 
                 graphView.setTitleTextSize(50);
+
             }
 
-
         });
+
         if (Build.VERSION.SDK_INT >= 26) {
             datePicker = view.findViewById(R.id.idDatePicker);
             DatePicker.OnDateChangedListener dateListener = (v, year, monthOfYear, dayOfMonth) ->

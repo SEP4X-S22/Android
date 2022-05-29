@@ -37,10 +37,6 @@ public class ReadingViewModel extends AndroidViewModel {
         return repository.getSensorsFromRoom(roomId, sensorType);
     }
 
-    public LiveData<List<Reading>> getListOfReadings(int sensorId) {
-        return repository.getReadingsFromSensors(sensorId);
-    }
-
     public LiveData<List<Reading>> getReadingsList() {
         return repository.getListOfReadings();
     }
