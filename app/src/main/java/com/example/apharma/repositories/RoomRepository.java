@@ -1,15 +1,6 @@
 package com.example.apharma.repositories;
 
-import static com.firebase.ui.auth.AuthUI.getApplicationContext;
-
-import android.annotation.SuppressLint;
 import android.app.Application;
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.Network;
-import android.net.NetworkCapabilities;
-import android.net.NetworkInfo;
-import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;

@@ -35,7 +35,4 @@ public interface SensorDAO {
     @Query("SELECT * FROM sensor_table WHERE roomId=:id")
     LiveData<List<Sensor>> getAllSensorsFromRoom(String id);
 
-
-//    @Query("SELECT readingList FROM sensor_table")
-//    LiveData<ArrayList<Reading>> getAllReadings();
 }

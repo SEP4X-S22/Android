@@ -1,22 +1,12 @@
 package com.example.apharma.repositories;
 
-import static com.firebase.ui.auth.AuthUI.getApplicationContext;
-
-import android.annotation.SuppressLint;
 import android.app.Application;
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.Network;
-import android.net.NetworkCapabilities;
-import android.net.NetworkInfo;
-import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.core.os.HandlerCompat;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -24,14 +14,12 @@ import com.example.apharma.database.LocalDatabase;
 import com.example.apharma.database.ReadingDAO;
 import com.example.apharma.database.SensorDAO;
 import com.example.apharma.models.Reading;
-import com.example.apharma.models.Room;
 import com.example.apharma.models.Sensor;
 import com.example.apharma.network.RoomApi;
 import com.example.apharma.network.ServiceGenerator;
 import com.example.apharma.utils.NetworkCheck;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -90,34 +78,12 @@ public class ReadingRepository {
     }
 
     public LiveData<List<Reading>> getSensorsFromRoom(String id, String sensorType) {
-        return listOfReadings = readingDAO.getAllReadings(id,sensorType );
+        return listOfReadings = readingDAO.getAllReadings(id, sensorType);
     }
 
     public void insert(Reading reading) {
         executorService.execute(() -> readingDAO.insert(reading));
     }
-
-//    public int getSensorId(String room, String sensorType){
-//        int sensorId = 0;
-////        executorService.execute(() -> sensorList = sensorDAO.getAllSensors().getValue());
-//        Log.i("hgh", "localdb" + sensorDAO == null ? "true":"false" );
-//        sensorList = localDatabase.sensorDAO().getAllSensors();
-//        ArrayList<Sensor> tmp = new ArrayList<>(sensorList.getValue());
-//        for (int i = 0; i < tmp.size(); i++){
-//            if (tmp.get(i).getSensor().toString().equals(sensorType) && tmp.get(i).getRoomId().equals(room)){
-//                sensorId = tmp.get(i).getId();
-//                return sensorId;
-//            }
-//        }
-////        for (int i = 0; i < sensorList.size(); i++){
-////            if (sensorList.get(i).getSensor().toString().equals(sensorType) && sensorList.get(i).getRoomId().equals(room)){
-////                sensorId = sensorList.get(i).getId();
-////                return sensorId;
-////            }
-////        }
-//
-//        return sensorId;
-//    }
 
     public LiveData<List<Reading>> getListOfReadings() {
 
@@ -143,8 +109,6 @@ public class ReadingRepository {
                         System.out.println("############" + response.body().size());
 // checking to fetch from database
                         values.setValue(response.body());
-//                    readingList = (MutableLiveData<List<Reading>>) readingDAO.getAllReadings(room,sensorType);
-
 
                         for (Reading reading : response.body()) {
                             reading.setRoomId(room);

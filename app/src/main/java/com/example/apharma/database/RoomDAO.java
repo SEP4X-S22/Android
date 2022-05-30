@@ -31,11 +31,4 @@ public interface RoomDAO {
     @Query("SELECT * FROM room_table")
     LiveData<List<Room>> getAllRooms();
 
-//    @Query("SELECT sensorList FROM room_table")
-//    LiveData<ArrayList<Sensor>> getAllSensors();
-
-//    @Query("INSERT sensors INTO ")
-//    void insertSensors(ArrayList<Sensor> sensors);
-
-
 }
