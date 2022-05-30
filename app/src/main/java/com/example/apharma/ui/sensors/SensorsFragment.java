@@ -51,10 +51,8 @@ public class SensorsFragment extends Fragment {
 
         sensorsViewModel.getSensors().observe(getViewLifecycleOwner(), sensors -> {
             if (networkCheck.isConnected()) {
-
                 sensorAdapter.update(sensors);
             }
-
         });
 
         sensorsViewModel.getListOfSensors(roomId).observe(getViewLifecycleOwner(), sensors -> {

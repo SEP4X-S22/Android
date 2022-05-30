@@ -13,7 +13,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.apharma.database.LocalDatabase;
 import com.example.apharma.database.RoomDAO;
 import com.example.apharma.models.Room;
-import com.example.apharma.network.RoomApi;
+import com.example.apharma.network.PharmaApi;
 import com.example.apharma.network.ServiceGenerator;
 import com.example.apharma.utils.NetworkCheck;
 
@@ -74,26 +74,22 @@ public class RoomRepository {
 
 
     public void fetchRooms() {
-        RoomApi roomApi = ServiceGenerator.getRoomApi();
-        Call<ArrayList<Room>> call = roomApi.getRooms();
+        PharmaApi pharmaApi = ServiceGenerator.getPharmaApi();
+        Call<ArrayList<Room>> call = pharmaApi.getRooms();
 
-        Log.i("internet", networkCheck.isConnected() + "");
-
-        if (networkCheck.isConnected()) {
+        if (networkCheck.isConnected()) { // check network connection
             call.enqueue(new Callback<ArrayList<Room>>() {
                 @EverythingIsNonNull
                 @Override
                 public void onResponse(Call<ArrayList<Room>> call, Response<ArrayList<Room>> response) {
                     if (response.isSuccessful()) {
-                        System.out.println("############" + response.body());
-                        rooms.setValue(response.body());
+                        rooms.setValue(response.body()); // get rooms from the API
                         assert response.body() != null;
                         for (Room room : response.body()) {
-                            insert(room);
+                            insert(room); // add the data to the local db
                         }
                     } else {
-                        System.out.println("Failure ###");
-                        System.out.println("########" + response.message());
+                        System.out.println("Failure: " + response.message());
                     }
                 }
 
@@ -102,9 +98,8 @@ public class RoomRepository {
                     Log.i("Retrofit", "#######Something went wrong :(");
                 }
             });
-
         } else {
-            rooms.setValue(getListOfLocalRooms().getValue());
+            rooms.setValue(getListOfLocalRooms().getValue()); // get data from the local db
         }
     }
 

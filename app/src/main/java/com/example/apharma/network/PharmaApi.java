@@ -12,7 +12,7 @@ import retrofit2.http.PATCH;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
-public interface RoomApi {
+public interface PharmaApi {
     @GET("/rooms")
     Call<ArrayList<Room>> getRooms();
 

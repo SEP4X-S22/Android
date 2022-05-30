@@ -1,5 +1,6 @@
 package com.example.apharma.ui.readings;
 
+import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -45,6 +46,7 @@ public class ReadingFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    @SuppressLint("SetTextI18n")
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,9 +64,7 @@ public class ReadingFragment extends Fragment {
 
         measurementDataViewModel.getReadings().observe(getViewLifecycleOwner(), values -> {
             if (networkCheck.isConnected()) {
-
                 readings = values;
-                System.out.println("@@@@@@@@" + values);
                 textView = view.findViewById(R.id.value);
                 if (readings.size() != 0) {
                     textView.setText("Reading: " + readings.get(readings.size() - 1).getReadingValue());
@@ -75,27 +75,21 @@ public class ReadingFragment extends Fragment {
                 graphView.removeAllSeries();
 
                 if (readings.size() > 0) {
-
                     LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
                     for (int i = 0; i < readings.size(); i++) {
                         DataPoint point = new DataPoint(i, readings.get(i).getReadingValue());
                         series.appendData(point, false, readings.size());
                     }
-
                     graphView.addSeries(series);
                 }
                 graphView.setTitle("Readings overview");
-
                 graphView.setTitleTextSize(50);
             }
-
-
         });
 
         measurementDataViewModel.getListOfSensors(id, sensorType).observe(getViewLifecycleOwner(), values -> {
             if (!networkCheck.isConnected()) {
                 readings = values;
-                System.out.println("@@@@@@@@" + values);
                 textView = view.findViewById(R.id.value);
                 if (readings.size() != 0) {
                     textView.setText("Reading: " + readings.get(readings.size() - 1).getReadingValue());

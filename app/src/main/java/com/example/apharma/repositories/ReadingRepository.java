@@ -15,7 +15,7 @@ import com.example.apharma.database.ReadingDAO;
 import com.example.apharma.database.SensorDAO;
 import com.example.apharma.models.Reading;
 import com.example.apharma.models.Sensor;
-import com.example.apharma.network.RoomApi;
+import com.example.apharma.network.PharmaApi;
 import com.example.apharma.network.ServiceGenerator;
 import com.example.apharma.utils.NetworkCheck;
 
@@ -97,8 +97,8 @@ public class ReadingRepository {
     }
 
     public void fetchReadings(String room, String sensorType) {
-        RoomApi roomApi = ServiceGenerator.getRoomApi();
-        Call<ArrayList<Reading>> call = roomApi.getSensorData(room, sensorType);
+        PharmaApi pharmaApi = ServiceGenerator.getPharmaApi();
+        Call<ArrayList<Reading>> call = pharmaApi.getSensorData(room, sensorType);
 
         if (networkCheck.isConnected()) {
             call.enqueue(new Callback<ArrayList<Reading>>() {
@@ -134,8 +134,8 @@ public class ReadingRepository {
     }
 
     public void fetchReadingsPerDay(int date, int sensorId) {
-        RoomApi roomApi = ServiceGenerator.getRoomApi();
-        Call<ArrayList<Reading>> call = roomApi.getReadingsPerDay(date, sensorId);
+        PharmaApi pharmaApi = ServiceGenerator.getPharmaApi();
+        Call<ArrayList<Reading>> call = pharmaApi.getReadingsPerDay(date, sensorId);
         call.enqueue(new Callback<ArrayList<Reading>>() {
             @EverythingIsNonNull
             @Override

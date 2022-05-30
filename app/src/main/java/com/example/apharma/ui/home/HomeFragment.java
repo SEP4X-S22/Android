@@ -38,6 +38,8 @@ public class HomeFragment extends Fragment {
 
         roomList = root.findViewById(R.id.recycleView);
         name = root.findViewById(R.id.room_title);
+
+
         homeViewModel.getRooms().observe(getViewLifecycleOwner(), rooms -> {
             if (networkCheck.isConnected()) {
                 roomAdapter.update(rooms);
@@ -50,7 +52,6 @@ public class HomeFragment extends Fragment {
             }
 
         });
-
 
         homeViewModel.fetchRooms();
 

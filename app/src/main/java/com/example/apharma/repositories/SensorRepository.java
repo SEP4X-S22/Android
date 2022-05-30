@@ -13,7 +13,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.apharma.database.LocalDatabase;
 import com.example.apharma.database.SensorDAO;
 import com.example.apharma.models.Sensor;
-import com.example.apharma.network.RoomApi;
+import com.example.apharma.network.PharmaApi;
 import com.example.apharma.network.ServiceGenerator;
 import com.example.apharma.utils.NetworkCheck;
 
@@ -75,8 +75,8 @@ public class SensorRepository {
     }
 
     public void fetchSensors(String room) {
-        RoomApi roomApi = ServiceGenerator.getRoomApi();
-        Call<ArrayList<Sensor>> call = roomApi.getSensors(room);
+        PharmaApi pharmaApi = ServiceGenerator.getPharmaApi();
+        Call<ArrayList<Sensor>> call = pharmaApi.getSensors(room);
         if (networkCheck.isConnected()) {
             call.enqueue(new Callback<ArrayList<Sensor>>() {
                 @EverythingIsNonNull
@@ -86,13 +86,11 @@ public class SensorRepository {
                         System.out.println("############ SIZE" + response.body().size());
 
                         sensors.setValue(response.body());
-
                         for (Sensor sensor : response.body()) {
                             sensor.setRoomId(room);
                             insert(sensor);
 
                         }
-
 
                     } else {
                         System.out.println("Failure ###");
@@ -117,8 +115,8 @@ public class SensorRepository {
     }
 
     public void updateConstraints(int id, int minValue, int maxValue) {
-        RoomApi roomApi = ServiceGenerator.getRoomApi();
-        Call<Void> call = roomApi.setConstraints(id, minValue, maxValue);
+        PharmaApi pharmaApi = ServiceGenerator.getPharmaApi();
+        Call<Void> call = pharmaApi.setConstraints(id, minValue, maxValue);
 
 
         call.enqueue(new Callback<Void>() {
