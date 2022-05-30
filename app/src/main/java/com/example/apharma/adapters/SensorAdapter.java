@@ -29,6 +29,7 @@ import com.example.apharma.R;
 import com.example.apharma.models.Sensor;
 import com.example.apharma.ui.sensors.SensorsFragment;
 import com.example.apharma.ui.sensors.SensorsViewModel;
+import com.example.apharma.utils.NotificationService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +42,7 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
     private SensorsViewModel sensorsViewModel;
     private static SensorAdapter instance;
     private MutableLiveData<Boolean> conditionsSurpassConstraints = new MutableLiveData<>();
+    private NotificationService notificationService;
 
     public LiveData<Boolean> isConditionsSurpassConstraints() {
         return conditionsSurpassConstraints;
@@ -49,20 +51,13 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
     public SensorAdapter(Context context) {
         this.list = new ArrayList<>();
         this.context = context;
+        this.notificationService = new NotificationService(context);
         sensorsViewModel = SensorsViewModel.getInstance();
     }
 
     public void setContext(Context context) {
         this.context = context;
     }
-
-
-//    public static synchronized SensorAdapter getInstance() {
-//        if (instance == null) {
-//            instance = new SensorAdapter();
-//        }
-//        return instance;
-//    }
 
     public interface OnListItemClickListener {
         void onClick(Sensor sensor);
@@ -101,8 +96,7 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
 
 
         holder.name.setText(list.get(position).getSensor().toString());
-//        holder.measurement.setText(list.get(position).getId() + "°C");
-//        holder.measurement.setText("Current value "+list.get(position).getReadings().get(0).getReadingValue() );
+
         holder.measurement.setText(String.valueOf(list.get(position).getReadingValue()));
         if (list.get(position).getSensor().toString().equalsIgnoreCase("Temperature")) {
             holder.image.setBackground(context.getDrawable(R.drawable.ic_baseline_wb_sunny_24));
@@ -118,12 +112,11 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
         }
 
         if (checkForCurrentConditions(position)) {
-            addNotification();
+           notificationService.addNotification();
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 holder.cardView.setCardBackgroundColor(context.getColor(R.color.red));
             }
             holder.measurement.setText(list.get(position).getReadingValue() + " DANGER!");
-
 
 
         } else {
@@ -141,10 +134,6 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
                 submit.setOnClickListener(v1 -> {
                     int min = Integer.parseInt(sensorMinVal.getText().toString());
                     int max = Integer.parseInt(sensorMaxVal.getText().toString());
-
-//                        list.get(position).setConstraintMinValue(min);
-//                        list.get(position).setConstraintMaxValue(max);
-//                        sensorsViewModel.updateConstraints(list.get(position).getId(), list.get(position).getConstraintMinValue(), list.get(position).getConstraintMaxValue());
 
                     //Setting message manually and performing action on button click
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -227,30 +216,4 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
 
     }
 
-
-    private void addNotification() {
-        if (Build.VERSION.SDK_INT >= 26) {
-            final String CHANNEL_ID = "HEADS_UP_NOTIFICATION";
-            NotificationChannel channel = new NotificationChannel(
-                    CHANNEL_ID,
-                    "Heads Up Notification",
-                    NotificationManager.IMPORTANCE_HIGH
-            );
-            context.getSystemService(NotificationManager.class).createNotificationChannel(channel);
-            Notification.Builder notification = new Notification.Builder(context, CHANNEL_ID).setContentTitle("aPharma")
-                    .setContentText("DANGER, check conditions").setSmallIcon(R.drawable.pharmacy_icon)
-                    .setAutoCancel(true);
-
-            Intent notificationIntent = new Intent(context, SensorsFragment.class);
-            PendingIntent contentIntent = PendingIntent.getActivity(context
-                    , 0, notificationIntent,
-                    PendingIntent.FLAG_IMMUTABLE);
-            notification.setContentIntent(contentIntent);
-
-            // Add as notification
-            NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            manager.notify(0, notification.build());
-//        NotificationManagerCompat.from(context).notify(1,notification.build());
-        }
-    }
 }

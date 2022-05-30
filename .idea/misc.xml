@@ -8,7 +8,7 @@
         <entry key="..\:/Users/Lia Cicati/SEP4/Android/app/src/main/res/layout/activity_sensors.xml" value="0.22735507246376813" />
         <entry key="..\:/Users/Lia Cicati/SEP4/Android/app/src/main/res/layout/fragment_home.xml" value="0.115625" />
         <entry key="..\:/Users/Lia Cicati/SEP4/Android/app/src/main/res/layout/fragment_notifications.xml" value="0.115625" />
-        <entry key="..\:/Users/Lia Cicati/SEP4/Android/app/src/main/res/layout/fragment_reading.xml" value="0.10572916666666667" />
+        <entry key="..\:/Users/Lia Cicati/SEP4/Android/app/src/main/res/layout/fragment_reading.xml" value="0.1640625" />
         <entry key="..\:/Users/Lia Cicati/SEP4/Android/app/src/main/res/layout/fragment_room1.xml" value="0.22735507246376813" />
         <entry key="..\:/Users/Lia Cicati/SEP4/Android/app/src/main/res/layout/fragment_selected_room.xml" value="0.1203125" />
         <entry key="..\:/Users/Lia Cicati/SEP4/Android/app/src/main/res/layout/fragment_sensors.xml" value="0.22735507246376813" />
@@ -27,7 +27,7 @@
         <entry key="..\:/Users/sarks/AndroidStudioProjects/Android/app/src/main/res/layout/fragment_home.xml" value="0.264" />
         <entry key="..\:/Users/sarks/AndroidStudioProjects/Android/app/src/main/res/layout/fragment_notifications.xml" value="0.16875" />
         <entry key="..\:/Users/sarks/AndroidStudioProjects/Android/app/src/main/res/layout/fragment_profile.xml" value="0.1265625" />
-        <entry key="..\:/Users/sarks/AndroidStudioProjects/Android/app/src/main/res/layout/fragment_reading.xml" value="0.2" />
+        <entry key="..\:/Users/sarks/AndroidStudioProjects/Android/app/src/main/res/layout/fragment_reading.xml" value="0.1265625" />
         <entry key="..\:/Users/sarks/AndroidStudioProjects/Android/app/src/main/res/layout/fragment_sensors.xml" value="0.16875" />
         <entry key="..\:/Users/sarks/AndroidStudioProjects/Android/app/src/main/res/layout/room_item.xml" value="0.1265625" />
         <entry key="..\:/Users/sarks/AndroidStudioProjects/Android/app/src/main/res/layout/sensor_item.xml" value="0.4" />
