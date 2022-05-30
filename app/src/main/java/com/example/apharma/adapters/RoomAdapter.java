@@ -35,7 +35,6 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
         mOnListItemClickListener = listener;
     }
 
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -58,7 +57,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
             holder.name.setText("Room 2");
         }
 
-        holder.nrOfSensors.setText( rooms.get(position).getSize() + " sensors");
+        holder.nrOfSensors.setText(rooms.get(position).getSize() + " sensors");
 
 
     }

@@ -1,4 +1,4 @@
-package com.example.apharma.viewmodels;
+package com.example.apharma.ui.main;
 
 import android.app.Application;
 

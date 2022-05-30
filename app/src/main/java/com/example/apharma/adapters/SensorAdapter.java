@@ -3,13 +3,8 @@ package com.example.apharma.adapters;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,7 +22,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.apharma.R;
 import com.example.apharma.models.Sensor;
-import com.example.apharma.ui.sensors.SensorsFragment;
 import com.example.apharma.ui.sensors.SensorsViewModel;
 import com.example.apharma.utils.NotificationService;
 
@@ -112,7 +106,7 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
         }
 
         if (checkForCurrentConditions(position)) {
-           notificationService.addNotification();
+            notificationService.addNotification();
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 holder.cardView.setCardBackgroundColor(context.getColor(R.color.red));
             }

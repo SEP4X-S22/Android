@@ -1,14 +1,10 @@
 package com.example.apharma.models;
 
-import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity(tableName = "sensor_table")
 public class Sensor {
@@ -21,7 +17,8 @@ public class Sensor {
     private double readingValue;
     private String roomId;
 
-    public Sensor() {}
+    public Sensor() {
+    }
 
     @Ignore
     public Sensor(int id, SensorType sensor, int constraintMinValue, int constraintMaxValue, double readingValue) {
@@ -81,7 +78,6 @@ public class Sensor {
     public void setConstraintMaxValue(int constraintMaxValue) {
         this.constraintMaxValue = constraintMaxValue;
     }
-
 
 
     public enum SensorType {

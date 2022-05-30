@@ -1,4 +1,4 @@
-package com.example.apharma;
+package com.example.apharma.ui.main;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,9 +11,9 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.apharma.R;
 import com.example.apharma.databinding.ActivityMainBinding;
 import com.example.apharma.ui.signIn.SignInActivity;
-import com.example.apharma.viewmodels.MainActivityViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 

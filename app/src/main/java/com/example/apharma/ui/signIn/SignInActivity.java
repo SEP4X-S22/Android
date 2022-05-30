@@ -15,7 +15,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.apharma.MainActivity;
+import com.example.apharma.ui.main.MainActivity;
 import com.example.apharma.R;
 import com.example.apharma.ui.signUp.SignUpActivity;
 import com.firebase.ui.auth.AuthUI;

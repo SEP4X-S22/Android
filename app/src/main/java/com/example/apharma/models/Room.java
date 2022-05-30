@@ -2,13 +2,9 @@ package com.example.apharma.models;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity(tableName = "room_table")
 public class Room {
@@ -21,7 +17,6 @@ public class Room {
     private String id;
     private int sensorsCount;
 
-    //    @Ignore
     public Room(String name, String id, int sensorsCount) {
         this.name = name;
         this.id = id;
