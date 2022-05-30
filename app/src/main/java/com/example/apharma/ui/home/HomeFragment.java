@@ -9,7 +9,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,22 +16,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.apharma.R;
 import com.example.apharma.adapters.RoomAdapter;
 import com.example.apharma.databinding.FragmentHomeBinding;
-import com.example.apharma.models.Room;
-import com.example.apharma.ui.sensors.SensorsViewModel;
 import com.example.apharma.utils.NetworkCheck;
-
-import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
-    private NavController navController;
     private RecyclerView roomList;
     private RoomAdapter roomAdapter;
-    private HomeViewModel homeViewModel;
-    private SensorsViewModel sensorsViewModel;
     private TextView name;
-    ArrayList<Room> roomsData;
     NetworkCheck networkCheck;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -40,7 +31,7 @@ public class HomeFragment extends Fragment {
         HomeViewModel homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
 
-networkCheck = new NetworkCheck();
+        networkCheck = new NetworkCheck();
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
@@ -94,20 +85,5 @@ networkCheck = new NetworkCheck();
 
 
     }
-
-//    @Override
-//    public void onListItemClick(int clickedItemIndex) {
-////        if (rooms.get(clickedItemIndex).isEmpty()) {
-////            Toast.makeText(getActivity(), "Nothing here yet", Toast.LENGTH_SHORT).show();
-////        } else {
-////homeViewModel.setRooms(rooms.get(clickedItemIndex));
-//
-//
-//        HomeFragmentDirections.ActionNavigationHomeToSensors actionNavigationHomeToSensors = HomeFragmentDirections.actionNavigationHomeToSensors();
-//        actionNavigationHomeToSensors.setRoomId(clickedItemIndex);
-//        Navigation.findNavController(getView()).navigate(actionNavigationHomeToSensors);
-//
-//    }
-
 
 }

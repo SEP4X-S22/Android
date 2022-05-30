@@ -25,7 +25,7 @@ public class ReadingViewModel extends AndroidViewModel {
         return repository.getSensors();
     }
 
-    public LiveData<List<Reading>> getReadingsFromDB(){
+    public LiveData<List<Reading>> getReadingsFromDB() {
         return repository.getReadingsFromDB();
     }
 
