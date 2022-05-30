@@ -157,7 +157,7 @@ public class ReadingFragment extends Fragment {
                     LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
                     for (int i = 0; i < readings.size(); i++) {
                         DataPoint point = new DataPoint(i, readings.get(i).getReadingValue());
-                        series.appendData(point, false, readings.size());
+                        series.appendData(point, false,readings.size());
                     }
 
                     graphView.addSeries(series);
