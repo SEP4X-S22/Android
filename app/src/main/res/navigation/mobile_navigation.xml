@@ -9,7 +9,7 @@
         android:id="@+id/navigation_home"
         android:name="com.example.apharma.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_navigation_home_to_sensors"
             app:destination="@id/sensors"
@@ -20,11 +20,6 @@
             app:popUpTo="@id/navigation_home" />
     </fragment>
 
-    <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.example.apharma.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
 
     <fragment
         android:id="@+id/navigation_profile"
@@ -35,11 +30,11 @@
         android:id="@+id/sensors"
         android:name="com.example.apharma.ui.sensors.SensorsFragment"
         android:label="Sensors"
-        tools:layout="@layout/fragment_sensors" >
+        tools:layout="@layout/fragment_sensors">
         <argument
             android:name="RoomId"
-            app:argType="string"
-            android:defaultValue="unknown" />
+            android:defaultValue="unknown"
+            app:argType="string" />
         <action
             android:id="@+id/action_sensors_to_readingFragment"
             app:destination="@id/readingFragment"
@@ -49,18 +44,18 @@
         android:id="@+id/readingFragment"
         android:name="com.example.apharma.ui.readings.ReadingFragment"
         android:label="Readings"
-        tools:layout="@layout/fragment_reading" >
-    <argument
-        android:name="RoomId"
-        app:argType="string"
-        android:defaultValue="unknown" />
-    <argument
-        android:name="sensorType"
-        app:argType="string"
-        android:defaultValue="unknown" />
+        tools:layout="@layout/fragment_reading">
+        <argument
+            android:name="RoomId"
+            android:defaultValue="unknown"
+            app:argType="string" />
+        <argument
+            android:name="sensorType"
+            android:defaultValue="unknown"
+            app:argType="string" />
         <argument
             android:name="sensorId"
-            app:argType="integer"
-            android:defaultValue="0" />
+            android:defaultValue="0"
+            app:argType="integer" />
     </fragment>
 </navigation>
