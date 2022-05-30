@@ -22,13 +22,9 @@ public interface RoomDAO {
     @Update
     void update(Room room);
 
-    @Delete
-    void delete(Room room);
-
-    @Query("DELETE FROM room_table")
-    void deleteAllRooms();
-
     @Query("SELECT * FROM room_table")
     LiveData<List<Room>> getAllRooms();
 
+    @Query("DELETE FROM room_table")
+    void deleteAllRooms();
 }

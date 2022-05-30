@@ -61,15 +61,11 @@ public class RoomRepository {
         return rooms;
     }
 
-    public LiveData<List<Room>> getListOfRooms() {
-
-
+    public LiveData<List<Room>> getListOfLocalRooms() {
         if (listOfRooms == null) {
             listOfRooms = roomDAO.getAllRooms();
         }
-
         return listOfRooms;
-
     }
 
     public void insert(Room room) {
@@ -91,6 +87,7 @@ public class RoomRepository {
                     if (response.isSuccessful()) {
                         System.out.println("############" + response.body());
                         rooms.setValue(response.body());
+                        assert response.body() != null;
                         for (Room room : response.body()) {
                             insert(room);
                         }
@@ -107,10 +104,8 @@ public class RoomRepository {
             });
 
         } else {
-            rooms.setValue(getListOfRooms().getValue());
+            rooms.setValue(getListOfLocalRooms().getValue());
         }
-
-
     }
 
 

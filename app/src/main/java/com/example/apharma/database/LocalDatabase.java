@@ -15,9 +15,7 @@ public abstract class LocalDatabase extends RoomDatabase {
     private static LocalDatabase instance;
 
     public abstract RoomDAO roomDAO();
-
     public abstract SensorDAO sensorDAO();
-
     public abstract ReadingDAO readingDAO();
 
     public static synchronized LocalDatabase getInstance(Context context) {
@@ -29,5 +27,4 @@ public abstract class LocalDatabase extends RoomDatabase {
         }
         return instance;
     }
-
 }

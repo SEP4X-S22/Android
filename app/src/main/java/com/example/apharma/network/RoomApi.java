@@ -27,5 +27,4 @@ public interface RoomApi {
 
     @GET("/readings/day")
     Call<ArrayList<Reading>> getReadingsPerDay(@Query("date") int date, @Query("sensorId") int sensorId);
-
 }

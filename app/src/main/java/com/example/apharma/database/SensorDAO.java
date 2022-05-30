@@ -23,16 +23,12 @@ public interface SensorDAO {
     @Update
     void update(Sensor sensor);
 
-    @Delete
-    void delete(Sensor sensor);
-
-    @Query("DELETE FROM sensor_table")
-    void deleteAllSensors();
-
     @Query("SELECT * FROM sensor_table")
     LiveData<List<Sensor>> getAllSensors();
 
     @Query("SELECT * FROM sensor_table WHERE roomId=:id")
     LiveData<List<Sensor>> getAllSensorsFromRoom(String id);
 
+    @Query("DELETE FROM sensor_table")
+    void deleteAllSensors();
 }
