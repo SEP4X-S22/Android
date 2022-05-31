@@ -51,7 +51,6 @@ public class SensorsViewModel extends ViewModel {
             }
         }
         return roomsToReturn;
-
     }
 
     public void updateConstraints(int id, int min, int max) {

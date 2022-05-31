@@ -94,15 +94,23 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
         holder.measurement.setText(String.valueOf(list.get(position).getReadingValue()));
         if (list.get(position).getSensor().toString().equalsIgnoreCase("Temperature")) {
             holder.image.setBackground(context.getDrawable(R.drawable.ic_baseline_wb_sunny_24));
+            holder.measurement.setText(list.get(position).getReadingValue() + "°C");
+
         }
         if (list.get(position).getSensor().toString().equalsIgnoreCase("CO2")) {
             holder.image.setBackground(context.getDrawable(R.drawable.ic_baseline_co2_24));
+            holder.measurement.setText(list.get(position).getReadingValue() + "ppm");
+
         }
         if (list.get(position).getSensor().toString().equalsIgnoreCase("Light")) {
             holder.image.setBackground(context.getDrawable(R.drawable.ic_baseline_lightbulb_24));
+            holder.measurement.setText(list.get(position).getReadingValue() + "lux");
+
         }
         if (list.get(position).getSensor().toString().equalsIgnoreCase("Humidity")) {
             holder.image.setBackground(context.getDrawable(R.drawable.ic_baseline_waves_24));
+            holder.measurement.setText(list.get(position).getReadingValue() + "%");
+
         }
 
         if (checkForCurrentConditions(position)) {
@@ -110,7 +118,6 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 holder.cardView.setCardBackgroundColor(context.getColor(R.color.red));
             }
-            holder.measurement.setText(list.get(position).getReadingValue() + " DANGER!");
 
 
         } else {
