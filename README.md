@@ -27,5 +27,5 @@ The semester project group consisted of 12 people, listed below by subgroups:
 
 
 ### Author References
-[Ib Havn](https://github.com/ihavn)  
-[Ole Ildsgaard Hougaard](https://github.com/olehougaard)
+- [Ib Havn](https://github.com/ihavn)  
+- [Ole Ildsgaard Hougaard](https://github.com/olehougaard)
